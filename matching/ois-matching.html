@@ -1,0 +1,149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="matching.html" class="menu">Matching</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Matching</h1>
+    <ul>
+      <li><a href="matching.html" class="menu">Road Map</a></li>
+      <li><a href="ois-matching.html" class="menu">OIS Matching</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/oismatching/" class="menu">OIS Matching</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>OIS Matching</h1>
+
+    <h2>Technical Documentation</h2>
+    <h3>Format for Patient Match Script</h3>
+    <p>Matches to be tested are placed all within one file, one set of matches after the other. One match is formatted on 5 lines with the
+      following labels:</p>
+
+    <p>
+      <code>TEST:</code>
+      <br />
+      <code>EXPECT:</code>
+      <br />
+      <code>PATIENT A:</code>
+      <br />
+      <code>PATIENT B:</code>
+      <br />
+      <code>DESCRIPTION:</code>
+    </p>
+
+    <p>Each time the system reads TEST: it expects that a new test case is being described. After each colon a value is to be placed, depending on
+      which field it is. Here is a description of each field:</p>
+
+    <p>
+      <code>TEST:</code><br/>
+      A unique id that you define to identify this test. It can be any set of numbers or letters or symbols
+    </p>
+
+    <p>
+      <code>EXPECT:</code><br/>
+      The result that you expect the test to be. Valid values: Match, Not a Match, Possible Match
+    </p>
+
+    <p>
+      <code>PATIENT A: & PATIENT B:</code><br/>
+      A list of all the fields that make up the patient. A patient fields are comma separated value pairs. Make sure that none of the values have = or
+      , characters. These will cause parsing problems. Here are the fields currently supported:
+    </p>
+    <blockquote>
+      <code>nameFirst=</code>
+      <br />
+      <code>nameAlias=</code>
+      <br />
+      <code>nameMiddle=</code>
+      <br />
+      <code>nameLast=</code>
+      <br />
+      <code>nameLastHyph=</code>
+      <br />
+      <code>nameSuffix=</code>
+      <br />
+      <code>birthDate=</code>
+      <br />
+      <code>guardianNameFirst=</code>
+      <br />
+      <code>guardianNameLast=</code>
+      <br />
+      <code>guardianNameFirst=</code>
+      <br />
+      <code>guardianNameLast=</code>
+      <br />
+      <code>guardianNameMiddle=</code>
+      <br />
+      <code>guardianNameFirst=</code>
+      <br />
+      <code>guardianNameLast=</code>
+      <br />
+      <code>motherMaidenName=</code>
+      <br />
+      <code>phone=</code>
+      <br />
+      <code>race=</code>
+      <br />
+      <code>ethnicity=</code>
+      <br />
+      <code>addressStreet1=</code>
+      <br />
+      <code>addressStreet2=</code>
+      <br />
+      <code>addressCity=</code>
+      <br />
+      <code>addressState=</code>
+      <br />
+      <code>addressZip=</code>
+      <br />
+      <code>gender=</code>
+      <br />
+      <code>birthStatus=</code>
+      <br />
+      <code>birthType=</code>
+      <br />
+      <code>birthOrder=</code>
+      <br />
+      <code>shotHistory=</code>
+      <br />
+      <code>mrns=</code>
+      <br />
+      <code>ssn=</code>
+      <br />
+      <code>medicaid=</code>
+      <br />
+      <code>vacName=</code>
+      <br />
+      <code>vacDate=</code>
+      <br />
+      <code>vacCode=</code>
+      <br />
+      <code>vacMfr=</code>
+    </blockquote>
+
+    <p>
+      <code>DESCRIPTION:</code><br/>
+      A human readable description of test. This is optional.
+    </p>
+    
+    <p>Example</p>
+    <pre>TEST: S-1:ADDRESS_CHANGED:IDEAL-IDEAL
+EXPECT: Match
+PATIENT A: addressState=MI,nameSuffix=,phone=(810)433-3532,birthOrder=,nameFirst=Pablo,nameMiddle=,addressCity=Grand Rapids,nameAlias=,mrns=5-U51,ssn=494523553,medicaid=572090468,addressStreet1=48 Leslie Pl,nameLastHyph=Wise,addressStreet2=,nameLast=Todd,shotHistory=,motherMaidenName=Todd,guardianNameLast=Wise,gender=M,birthDate=20071216,birthType=,guardianNameFirst=Alkira,birthStatus=,addressZip=49555,
+PATIENT B: addressState=MI,nameSuffix=,phone=(810)433-3532,birthOrder=,nameFirst=Pablo,nameMiddle=,addressCity=Fort Gratiot,nameAlias=,mrns=7-M59,ssn=494523553,medicaid=572090468,addressStreet1=265 Boise Ave,nameLastHyph=Wise,addressStreet2=,nameLast=Todd,shotHistory=,motherMaidenName=Todd,guardianNameLast=Wise,gender=M,birthDate=20071216,birthType=,guardianNameFirst=Alkira,birthStatus=,addressZip=48059,
+</pre>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,406 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a href="dataQuality.html"
+      class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a href="../matching/matching.html"
+      class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Data Quality</h1>
+    <ul>
+      <li><a href="dataQuality.html" class="menu">Road Map</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+      <li><a href="dqaReport.html" class="menu">DQA Report User Guide</a></li>
+      <li><a href="workGroups.html" class="menu">Work Groups</a></li>
+      <li><a href="doc/index.html" class="menu">Technical Documentation</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/ois-dqa/" class="menu">OIS DQA</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>DQA Report User Guide</h1>
+    <p>The DQA report is standardized measuring and reporting tool that indicates the level of quality in a batch of messages. Messages can be
+      batch together under various criteria and conditions. The two most common batches are:</p>
+    <ul>
+      <li><b>Submission Batch</b> Messages that have been sent together, for example in a single file, are grouped together in a submission
+        batch.</li>
+      <li><b>Weekly Batch</b> Every week, all data submitted is group together into a consistent weekly batch.</li>
+    </ul>
+    <p>The DQA report measures three specific areas:</p>
+    <ul>
+      <li><b>Completeness</b> Are all required and most of the recommended fields being sent as expected?</li>
+      <li><b>Quality</b> Are there errors or warnings in the received data?</li>
+      <li><b>Timeliness</b> Are reports of vaccination administration being received on time?</li>
+    </ul>
+    <p>At each level a score is generated, and these scores are grouped together until a final overall score is obtained. At each level the score
+      can be interpreted as follows:</p>
+    <ul>
+      <li><b>90-100</b> Excellent, measured area meets and exceeds expectations.</li>
+      <li><b>80-89</b> Good, measured area meets expectations.</li>
+      <li><b>70-79</b> Okay, measured area meets expectations, improvements may be need to be made.</li>
+      <li><b>60-69</b> Poor, measured area is below expectations, improvements need to be made.</li>
+      <li><b>0-59</b> Problem, measured area does not meet minimum expectations and improvements must be made.</li>
+    </ul>
+    <p>The DQA report is built to not contain patient identifiable information, so there is not a sufficient level of detail in this report to
+      determine the exact source of many errors or see the original data that was sent in. The role of this report is to provide a summary of data
+      quality and not to support all troubleshooting needs. This allows this report to be shared more freely with all interface participants without
+      needlessly exposing patient identifiable information.</p>
+    <h2>DQA Report Step Through</h2>
+
+    <h4>Report Heading</h4>
+    <img src="img/dqa1.png" width="700" height="111" border="1" />
+    <p>The title of the report identifies the name of the facility and gives a table summary of the data being considered.</p>
+    <ul>
+      <li><b>Batch Title</b> The description for this batch.</li>
+      <li><b>Batch Type</b> The type of batch, indicates if this is a weekly report or a received file report.</li>
+      <li><b>Profile</b> Label from submitter profile.</li>
+      <li><b>File Name</b> File name this was submitter under, if data was submitted via file.</li>
+      <li><b>Received</b> The date and time of of the last received message in this batch.</li>
+    </ul>
+
+    <h4>Ready for Production</h4>
+    <img src="img/dqa2.png" width="700" height="86" border="1" />
+    <p>The first details of quality is a simple statement that indicates if the interface is ready for production on based on meeting basic
+      requirements for completeness. There are two possible descriptions shown here:</p>
+    <ul>
+      <li><b>Ready for Production</b> All, or almost all (&gt;99%) of the required fields are all populated.</li>
+      <li><b>Not Ready for Production</b> Not all required fields have values.</li>
+    </ul>
+    <p>In this example, the DQA reports that the batch is not ready for production because one of the required fields is missing. Details of this
+      are given in the report farther down.</p>
+
+    <h4>Scoring Summary</h4>
+    <img src="img/dqa3.png" width="700" height="343" border="1" />
+    <p>This section gives the overall data quality score and the contribution in the subsections towards the overall score. In this example, an
+      okay score was given because while the completeness score is high the quality score is low because every message contained a warning and the
+      data was not received in a timely manner.</p>
+
+    <h4>Data Received</h4>
+    <img src="img/dqa4.png" width="700" height="241" border="1" />
+    <p>This table lists the total number of types of records received. The data quality report was built to produce good results on large sets of
+      data of at least 100 separate immunization events. The following fields are counted:</p>
+    <ul>
+      <li><b>Patients</b> The number of patient records. Essentially this is the same count as the number of messages since one patient is sent
+        per message.</li>
+      <li><b>Next-of-Kins</b> The total number of parent/guardian/responsible-party persons that were sent. (In HL7 this is sent in the NK1
+        segment.) Note: a single message can contain 0 or more NK1 segments so the total number of NK1 can be less than or greater than the number of
+        patients.</li>
+      <li><b>Vaccinations</b> The total number of vaccination reports sent. The DQA report does not auto-merge duplicates so this number reports
+        the total unduplicated count.
+        <ul>
+          <li><b>Administered</b> The total number of reports of admnistered vaccinations received. These do not include records marked for
+            deletion or as not administered.</li>
+          <li><b>Historical</b> The total number of reports of historical vaccinations, vaccinations that were not administered by this
+            submitter.</li>
+          <li><b>Deleted</b> The total number of vaccinations reported as should be deleted in the receiving system.</li>
+          <li><b>Not Administered</b> The total number of vaccinations that were identified as not being administered.</li>
+        </ul></li>
+    </ul>
+
+
+    <h4>Processing Status</h4>
+    <img src="img/dqa5.png" width="700" height="167" border="1" />
+    <p>Summarizes the final action taken for each received message:</p>
+    <ul>
+      <li><b>Accepted</b> No warning or error issues were identified. The message was accepted with no comments.</li>
+      <li><b>Accepted with Warnings</b> No error issues were identified, but warnings were found. The message was accepted but the warnings
+        should be reviewed.</li>
+      <li><b>Rejected with Errors</b> At least one error issue was identified, and possibly additional warnings. The message was rejected and
+        will not be accepted until the error conditions are fixed.</li>
+      <li><b>Skipped</b> The message did not have errors, but was indicated for skipping. The message was not processed but is not considered an
+        error. This message represents data that the IIS does not expect to or need to receive.</li>
+    </ul>
+
+    <h4>Message Header Details</h4>
+    <img src="img/dqa6.png" width="700" height="228" border="1" />
+    <p>This table gives the field values that were found in the MSH segment of the first message in the batch. Typically the header values of all
+      the other messages are similar but this table will not indicate if these header values are typical for all messages. This information is shown
+      here for quick reference and because it should not contain any patient identifiable information.</p>
+    <ul>
+      <li><b>Sending Application</b> The contents of MSH-3.1.</li>
+      <li><b>Sending Facility</b> The contents of MSH-4.1.</li>
+      <li><b>Receiving Application</b> The contents of MSH-5.1.</li>
+      <li><b>Receiving Facility</b> The contents of MSH-6.1.</li>
+      <li><b>Message Type</b> The contents for MSH-9.1 &amp; MSH-9.2.</li>
+      <li><b>Processing Id</b> The contents of MSH-11.</li>
+      <li><b>HL7 Version</b> The contents of MSH-12.</li>
+    </ul>
+
+    <h4>Completeness</h4>
+    <img src="img/dqa7.png" width="700" height="346" border="1" />
+    <p>Provides summary and score of how complete the data is based on the requirements and expectations of the IIS. The score is calculated from
+      three areas of measurement:</p>
+    <ul>
+      <li><b>Patient</b> Measures how all often patient level fields (found in PID, PD1, PV1, &amp; NK1 segments) that are required, expected and
+        recommended are sent.</li>
+      <li><b>Vaccination</b> Measures how often vaccination level fields (found in ORC, RXA, RXR, and OBX segments) that are required, expected
+        and recommended are sent.</li>
+      <li><b>Vaccine Group</b> Measures the type of vaccinations sent to see if all regularly administered vaccinations are being sent. (For
+        example, if none of the messages contain an MMR this score will be decreased as this is a vaccination that is normally and regularly
+        administered, and when it is missing the batch is considered to be less complete. )</li>
+    </ul>
+
+    <h4>Patient Completeness</h4>
+    <img src="img/dqa8.png" width="700" height="165" border="1" />
+    <p>Provides a summary of the completeness at the patient level. Fields are categorized by the IIS into four measuring categories:</p>
+    <ul>
+      <li><b>Required</b> Fields must be sent in every message, every time. Empty or null values are not expected or allowed. For a system to go
+        into production the expectation is that all required fields will be valued at least 99% of the time.</li>
+      <li><b>Expected</b> Fields are expected to be sent normally. Empty or null values are expected only occasionally.</li>
+      <li><b>Recommended</b> Fields are recommended to be sent but some values may never be sent. The IIS requests that the submitter to work
+        towards supporting and sending the fields in this area.</li>
+      <li><b>Optional</b> This field is no listed on the score because optional fields do not change the completeness score. These fields are
+        recognized by the IIS as possible values that can be submitted but the IIS is not asking that these values be sent. These values may or may
+        not be processed or handled by IIS.</li>
+    </ul>
+
+    <h4>Patient Completeness Required</h4>
+    <img src="img/dqa9.png" width="700" height="265" border="1" />
+    <p>Lists the fields that are required by the IIS. The columns indicate:</p>
+    <ul>
+      <li><b>Required</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+      <li><b>Description</b> A human readable description indicating the status of this field. Please note that this status is for the field
+        only. A single field may indicate a "Problem" but that does not mean that the entire batch has a problem. There are big problems and little
+        problems and this label only indicates that a problem exists at this particular point. A problem in a required field is a significant issue
+        when compared with a problem in a recommended field.</li>
+      <li><b>Weight</b> The total weight that this score has towards the overall score for this batch. In this example, if Patient Id were not
+        ever valued, the score would drop by 3.5% points. This can be used to gauge the relative importance of fields to the IIS.</li>
+    </ul>
+
+    <h4>Patient Completeness Expected</h4>
+    <img src="img/dqa10.png" width="700" height="110" border="1" />
+    <p>Lists the fields that are expected by the IIS. Normally these fields should have values in them, but there are legitimate circumstances
+      where the field may have no value. For example, a phone number may be considered as expected while some patients may not have a phone number
+      recorded because they have no phone number. The columns indicate:</p>
+    <ul>
+      <li><b>Expected</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+      <li><b>Description</b> A human readable description indicating the status of this field. Please note that this status is for the field
+        only. A single field may indicate a "Problem" but that does not mean that the entire batch has a problem. There are big problems and little
+        problems and this label only indicates that a problem exists at this particular point. A problem in a required field is a significant issue
+        when compared with a problem in a recommended field.</li>
+      <li><b>Weight</b> The total weight that this score has towards the overall score for this batch. In this example, if Middle Name were not
+        ever valued, the score would drop by 1.5% points. This can be used to gauge the relative importance of fields to the IIS.</li>
+    </ul>
+
+    <h4>Patient Completeness Recommended</h4>
+    <img src="img/dqa11.png" width="700" height="174" border="1" />
+    <p>Lists the fields that are recommended by the IIS to be sent. The IIS understands that some of these may not be sent for various reasons,
+      and requests that future work focus on supporting these fields. Missing these fields would not normally prevent an interface from being put into
+      production. The columns indicate:</p>
+    <ul>
+      <li><b>Recommended</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+      <li><b>Description</b> A human readable description indicating the status of this field. Please note that this status is for the field
+        only. A single field may indicate a "Problem" but that does not mean that the entire batch has a problem. There are big problems and little
+        problems and this label only indicates that a problem exists at this particular point. A problem in a required field is a significant issue
+        when compared with a problem in a recommended field.</li>
+      <li><b>Weight</b> The total weight that this score has towards the overall score for this batch. In this example, if Ethnicity were not
+        ever valued, the score would drop by 0.7% points. This can be used to gauge the relative importance of fields to the IIS.</li>
+    </ul>
+
+    <h4>Patient Completeness Optional</h4>
+    <img src="img/dqa12.png" width="700" height="64" border="1" />
+    <p>Lists the fields that are optional. The IIS doesn't expect these values to be sent, and may choose to receive them, use them, or ignore
+      them. They are listed in the report for completeness but do not affect the final score. The columns indicate:</p>
+    <ul>
+      <li><b>Optional</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+    </ul>
+
+    <h4>Vaccination Completeness</h4>
+    <img src="img/dqa13.png" width="700" height="170" border="1" />
+    <p>Provides a summary of the completeness at the vaccination level. Fields are categorized by the IIS into four measuring categories:</p>
+    <ul>
+      <li><b>Required</b> Fields must be sent in every message, every time. Empty or null values are not expected or allowed. For a system to go
+        into production the expectation is that all required fields will be valued at least 99% of the time.</li>
+      <li><b>Expected</b> Fields are expected to be sent normally. Empty or null values are expected only occasionally.</li>
+      <li><b>Recommended</b> Fields are recommended to be sent but some values may never be sent. The IIS requests that the submitter to work
+        towards supporting and sending the fields in this area.</li>
+      <li><b>Optional</b> This field is no listed on the score because optional fields do not change the completeness score. These fields are
+        recognized by the IIS as possible values that can be submitted but the IIS is not asking that these values be sent. These values may or may
+        not be processed or handled by IIS.</li>
+    </ul>
+
+    <h4>Vaccination Completeness Required</h4>
+    <img src="img/dqa14.png" width="700" height="130" border="1" />
+    <p>Lists the fields that are required by the IIS. The columns indicate:</p>
+    <ul>
+      <li><b>Required</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+      <li><b>Description</b> A human readable description indicating the status of this field. Please note that this status is for the field
+        only. A single field may indicate a "Problem" but that does not mean that the entire batch has a problem. There are big problems and little
+        problems and this label only indicates that a problem exists at this particular point. A problem in a required field is a significant issue
+        when compared with a problem in a recommended field.</li>
+      <li><b>Weight</b> The total weight that this score has towards the overall score for this batch. In this example, if Vaccination Date were
+        not every valued, the score would drop by 4.5% points. This can be used to gauge the relative importance of fields to the IIS.</li>
+    </ul>
+
+    <h4>Vaccination Completeness Expected</h4>
+    <img src="img/dqa15.png" width="700" height="105" border="1" />
+    <p>Lists the fields that are expected by the IIS. Normally these fields should have values in them, but there are legitimate circumstances
+      where the field may have no value. The columns indicate:</p>
+    <ul>
+      <li><b>Expected</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+      <li><b>Description</b> A human readable description indicating the status of this field. Please note that this status is for the field
+        only. A single field may indicate a "Problem" but that does not mean that the entire batch has a problem. There are big problems and little
+        problems and this label only indicates that a problem exists at this particular point. A problem in a required field is a significant issue
+        when compared with a problem in a recommended field.</li>
+      <li><b>Weight</b> The total weight that this score has towards the overall score for this batch. In this example, if the CPT Code was sent
+        instead of a CVX code, the score would drop by 1.5% points. This can be used to gauge the relative importance of fields to the IIS.</li>
+    </ul>
+
+    <h4>Vaccination Completeness Recommended</h4>
+    <img src="img/dqa16.png" width="700" height="86" border="1" />
+    <p>Lists the fields that are recommended by the IIS to be sent. The IIS understands that some of these may not be sent for various reasons,
+      and requests that future work focus on supporting these fields. Missing these fields would not normally prevent an interface from being put into
+      production. The columns indicate:</p>
+    <ul>
+      <li><b>Recommended</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+      <li><b>Description</b> A human readable description indicating the status of this field. Please note that this status is for the field
+        only. A single field may indicate a "Problem" but that does not mean that the entire batch has a problem. There are big problems and little
+        problems and this label only indicates that a problem exists at this particular point. A problem in a required field is a significant issue
+        when compared with a problem in a recommended field.</li>
+      <li><b>Weight</b> The total weight that this score has towards the overall score for this batch. In this example, if Admin Amount were not
+        ever valued, the score would drop by 1.6% points. This can be used to gauge the relative importance of fields to the IIS.</li>
+    </ul>
+
+    <h4>Vaccination Completeness Optional</h4>
+    <img src="img/dqa17.png" width="700" height="109" border="1" />
+    <p>Lists the fields that are optional. The IIS doesn't expect these values to be sent, and may choose to receive them, use them, or ignore
+      them. They are listed in the report for completeness but do not affect the final score. The columns indicate:</p>
+    <ul>
+      <li><b>Optional</b> Short description for the field.</li>
+      <li><b>HL7</b> A short reference to where in an HL7 message this data should be placed. Please see official IIS HL7 for further
+        information.</li>
+      <li><b>Count</b> The number of times this field was valued.</li>
+      <li><b>Percent</b> The percent out of the total opportunities for this field to be valued.</li>
+    </ul>
+
+    <h4>Vaccine Group Expected</h4>
+    <img src="img/dqa18.png" width="700" height="322" border="1" />
+    <p>This table lists all the expected vaccine groups and the vaccinations that were found to match that group. Use this table to help identify
+      vaccinations that may be inadvertantly excluded from the submission file. For example, the table above shows that no Hep B vaccinations were
+      included. The question now is, were Hep B vaccinations given? If so why are they not reported in this batch. Please note that this section only
+      shows vaccinations that were administered and excludes historical, deleted, or non-administered vaccinations.</p>
+
+    <h4>Vaccine Group Recommended</h4>
+    <img src="img/dqa19.png" width="700" height="151" border="1" />
+    <p>This is similar to the vaccine group accepted but has a lower weight on the overall score. These vaccinations are not administered in some
+      facilities, and so are not expected on all batches. This list should still be inspected to insure that all vaccine groups are represented as
+      expected.</p>
+
+    <h4>Vaccine Group Optional</h4>
+    <img src="img/dqa20.png" width="700" height="60" border="1" />
+    <p>This is similar to the vaccine group recommended but has no affect on the overall score. These vaccinations are not normally expected to be
+      given but may sometimes be given.</p>
+
+    <h4>Vaccine Group Unexpected</h4>
+    <img src="img/dqa21.png" width="700" height="60" border="1" />
+    <p>These vaccines are not expected to be administered in the US as they are either not currently licensed, or is not routinely given in
+      general practice. (For example, Anthrax is not normally expected as it is not normally given.) Vaccinations given in this category reduce the
+      completeness score.</p>
+
+    <h4>Quality</h4>
+    <img src="img/dqa22.png" width="700" height="364" border="1" />
+    <p>Quality indicates the level of errors and warnings that were encountered while processing the submitter batch. Ideally no errors or
+      warnings should be encountered, but in reality a certain level of warnings and even errors can be expected. The score is made of two components:</p>
+    <ul>
+      <li><b>No Errors</b> A high score indicates that there were no errors. Each error encountered lowers this score.</li>
+      <li><b>No Warnings</b> A high score indicates that there were no warnings. Each warning encountered lowers this score.</li>
+    </ul>
+    <p>Please note that the DQA validation process works to identify all warnings and issues within a single message and may find more than one
+      error or warning. For this reason it is possible to have more errors or warnings than the number of messages or vaccinations.</p>
+
+    <h4>Quality Score with Errors</h4>
+    <img src="img/dqa23.png" width="700" height="386" border="1" />
+    <p>In this example, the quality score is shown when every file has an error. In this case the 'No Errors' score is zero. This DQA report is
+      configured to expect that normally less than 1% of the messages have an error. If 1% of the messages has an error the No Errors Description will
+      be listd with a the phrase 'Problem'. The table below lists the errors encountered. In this case, every fifth message was missing the patient's
+      first name.</p>
+
+    <h4>Warnings</h4>
+    <img src="img/dqa24.png" width="700" height="172" border="1" />
+    <p>Warnings are expected at a rate of no more than an average 10% warnings per message. This means that a 'Problem' score will be given if the
+      number of warnings exceeds 10% of the message count. Please remember that a single message can easily have more than one warning so the
+      percentage can be greater than 100%.</p>
+
+    <h4>Timeliness</h4>
+    <img src="img/dqa25.png" width="700" height="264" border="1" />
+    <p>Timeliness measures how quickly the DQA received a message after the vacciation was administered. The DQA examines every submitted message
+      to determine if the latest administered vaccination. If there is none, this message is skipped (it only had historical or other data in it).
+      Otherwise, the number of days since the last administered vaccination are tallied in these statistics. (This means that older administered
+      vaccinations, submitted at the same time as the current administered do not affect the final score, only the most recent administered
+      vaccination. ) Timeliness may not be accurate for initial evaluation if the amount of time between extraction and submission is longer than
+      normal. This measure is targeted for tracking during regular and normal submission processes.</p>
+
+    <h4>Timeliness Measures</h4>
+    <img src="img/dqa26.png" width="700" height="236" border="1" />
+    <p>Each IIS sets standards for how quckly administered vaccinations should be reported. They are broken in five categories for the purpose of
+      reporting:</p>
+    <ul>
+      <li><b>Early</b> The data was received much sooner than expected. The IIS appreciates and recognizes prompt and early submission.</li>
+      <li><b>On Time</b> The data was received within the time frame required by the IIS or state law.</li>
+      <li><b>Late</b> The data was received later than request by IIS or required by state law.</li>
+      <li><b>Very Late</b> The data was received much later than expected by IIS or required by state law.</li>
+      <li><b>Old Data</b> The data was not administered recently.</li>
+    </ul>
+
+    <h4>Codes Received</h4>
+    <img src="img/dqa27.png" width="700" height="258" border="1" />
+    <p>A list of codes received is listed in a set of tables. If the table is not shown here, then the either that table was ignored or no data
+      was sent.</p>
+    <ul>
+      <li><b>Value</b> The actual value received.</li>
+      <li><b>Label</b> The label sent with it (if applicable).</li>
+      <li><b>Mapped To</b> The value it was changed to. If the same value is shown then no mapping ocurred.</li>
+      <li><b>Status</b> The status of the code.
+        <ul>
+          <li><b>Valid</b> Code is recognized and accepted as is.</li>
+          <li><b>Invalid</b> Code is not a valid or accepted code. This will often trigger an error or warning issue.</li>
+          <li><b>Unrecognized</b> Code is not recognized. Please use a CDC or IIS standard value. This will often trigger an error or warning
+            issue.</li>
+          <li><b>Deprecated</b> Code is recognized but from an older deprecated list of codes. Please use the update value. This will often
+            trigger a warning issue.</li>
+          <li><b>Ignored</b> Code is recognized by will be ignored. This is a rare condition but can cause a skip issue.</li>
+        </ul></li>
+      <li><b>Count</b> The number of times this code was sent in this batch.</li>
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="matching.html" class="menu">Matching</a><a href="../aart/aart.html" class="menu">AART</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Matching</h1>
+    <ul>
+      <li><a href="matching.html" class="menu">Road Map</a></li>
+      <li><a href="ois-matching.html" class="menu">OIS Matching</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/oismatching/" class="menu">OIS Matching</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>Matching</h1>
+    <p>Patient information comes from multiple sources and needs to be matched with the additional information from a different source.</p>
+    <h2>Technical Road Map</h2>
+    <img src="Technical Diagram.png" width="700" height="474" border="0" />
+    <h3>WIR RunMatch Log Parser</h3>
+    <p>This is the code that Eric Larson is working on that summarizes and pulls information from the runmatch logs that the WIR-base states
+      create. Eric is looking to see if the Signature process that Rick Hall is putting together can be incorporated into this.</p>
+    <h3>Signature Generator</h3>
+    <p>This is code that Rick Hall is working on, it will take two potential patient matches and produce a signature that will give the
+      characteristics of the data. This can then be used to generate a similar set of matches. This code needs to be standardized so that it can be
+      used in all the Extractors to get example data out based on real data but that doesn't have patient identifiable information in it.</p>
+    <h3>MCIR Extract</h3>
+    <p>Gerry Bragg is working on a process for logging the MCIR matching process. This information can hopefully also be pulled into the project
+      using the signature functionality.</p>
+    <h3>Test Case Generator</h3>
+    <p>Generates test cases using a two methods:</p>
+    <ul>
+      <li>Generates sets of possible patient pairings and then performs iterations of "changes" to introduce typos and other conditions that
+        challenge matching. Rick Hall is working on some of this. Nathan Bunker has some code that does this now in the OIS code.</li>
+      <li>Generates new patient pairings based on signatures captured "in the wild".</li>
+    </ul>
+    <h3>User Interface</h3>
+    <p>There needs to be some kind of central user interface to allow access to the test cases. There is a lot of potential functions here and
+      some of the areas shown in this diagram may or may not be included. We are not creating a real specific line yet on what exactly would be
+      created and how it would be integrated. Some pieces might be loosely integrated at first. Some of the major functions include:</p>
+    <ul>
+      <li>Allow for entering, reviewing, and setting match status on test cases.</li>
+      <li>Support for multiple users and differences on opinion as to the match status.</li>
+      <li>Ability to manage test case sets, to merge them together, and pull parts off. Probably want the ability for a test case to exist in
+        more than one test case set at a time.</li>
+      <li>Ability to export the data in HL7 format, CSV format, and in an XML format that includes extra test case data for import into alternate
+        test case systems.</li>
+      <li>Integrate with Test Case Generator.</li>
+    </ul>
+    <h3>Verification System</h3>
+    <p>Now that we have the test cases in a UI, it would be great to be able to submit them against some known matching systems, such as the OIS
+      Matcher and the MatchWare Matcher configured to match on the CDC set. Are there other matchers we could integrate with? In addition the UI could
+      contain a process to verify a test case set against a matcher to measure the performance. Some of this has already been done in the OIS Matcher.
+      The MatchWare one must have a large range of functions that we could integrate with.</p>
+    <p>
+    <h3>Test Case Database</h3>
+    <p>All the test cases would be stored in the MySQL database. This would be the central repository of the work group test cases.</p>
+    Google Doc: <a href="https://docs.google.com/document/d/1sT3LnHkU5cIs1I6Fzbd2SbtpHLgVjpQ836mlizLNjmI/edit">JUnit Guideline Document</a>
+    <h2>MatchWare Updates</h2>
+    <p>
+      Rick Hall has put up a <a href="http://iismatching.org:8080/ois-cdc-web-0.0.1-SNAPSHOT/">demo</a> of what he has created.
+    </p>
+    <h2>OIS Matcher Project Updates</h2>
+    <h2>100 Days of Code</h2>
+    <ul>
+      <li><a href="../100days/day2012-04-04.html">Day 2 - 03 April 2012</a> Created document as a guideline for JUnit tests</li>
+    </ul>
+
+  </div>
+</body>
+</html>

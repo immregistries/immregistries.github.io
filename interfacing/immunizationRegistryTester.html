@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="interfacing.html" class="menu">Interfacing</a> <a href="../dataQuality/dataQuality.html"
+      class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a href="../matching/matching.html"
+      class="menu">Matching</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Interfacing</h1>
+    <ul>
+      <li><a href="interfacing.html" class="menu">Road Map</a></li>
+      <li><a href="immunizationRegistryTester.html" class="menu">Immunization Registry Tester</a></li>
+      <li><a href="IIS Interoperability Status Check.html" class="menu">IIS Interoperability Status Check</a></li>
+      <li><a href="IIS HL7 Tester.html" class="menu">IIS HL7 Tester</a></li>
+      <li><a href="simpleHL7Parser.html" class="menu">HL7 Parser</a></li>
+      <li><a href="smm/simpleMessageMover.html" class="menu">Simple Message Mover</a></li>
+      <li><a href="SimpleMUAttestation.html" class="menu">Simple MU Attestation</a></li>
+      <li><a href="AIRAWebServiceWorkgroup.html" class="menu">AIRA Web Service Workgroup</a></li>
+      <li><a href="training/index.html" class="menu">Chicago Training 2013</a></li>
+    </ul>
+    <h1>Applications</h1>
+    <ul>
+      <li><a href="http://ois-dqa.net/tester/index.jsp" class="menu">DQA Tester</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/iismclient/" class="menu">Immunization Registry Tester</a></li>
+      <li><a href="https://sourceforge.net/projects/iismserver/" class="menu">IIS Messaging Server Demonstration</a></li>
+      <li><a href="https://sourceforge.net/projects/ois-hl7jump/" class="menu">Simple HL7 Parser</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>Immunization Registry Tester</h1>
+    <p>
+      This project grew out of efforts to test the new CDC SOAP transport protocol that was put together this year. The <a
+        href="http://openimmunizationsoftware.us/ImmMessagingClient/">Immunization Registry Tester</a> supports three basic functions:
+    </p>
+    <ul>
+      <li>Test Transport: A submit form for testing SOAP and HTTPS POST transmissions.</li>
+      <li>Create Test Cases: A simple interface to quickly create test case scripts and messages.</li>
+      <li>Test Data Quality: Will accept test scripts and test them against a connection.</li>
+    </ul>
+    <h2>Get Test Account</h2>
+    <p>A version of the Immunization Registry Tester is hosted here: <a href="http://openimmunizationsoftware.us/ImmMessagingClient/">http://openimmunizationsoftware.us/ImmMessagingClient/</a>
+    To be given an access account, please contact Nathan Bunker.
+    </p>
+    <h2>Build and Install Locally</h2>
+    <p>The Immunization Registry Tester can be installed and run directly. Currently it is a NetBeans project and runs under GlassFish. In the future this will be converted to a project
+    that will work under Eclipse and can be run under Jetty or Tomcat. </p>
+    <ol>
+      <li>Download and install Netbeans. This should include GlassFish. If it does not you will need to download and install GlassFish too.</li>
+      <li>Check out project from Source Forge SVN. </li>
+      <li>Open and modify the init() method in the org.immunizationsoftware.messaging.client.Authenticate class to include a line that reads something like this: addUser("username", "password") 
+      and add your username and password. The tester does not use a database and this is where you set your credentials to gain access. </li>
+      <li>Deploy this project. Right click on project and choose deploy. This should deploy it under GlassFish.</li>
+      <li>Navigate to http:/locahhost:port/ImmMessagingClient/LoginServlet and login using the creditials you set in the previous </li>
+    </ol>
+    
+  </div>
+</body>
+</html>

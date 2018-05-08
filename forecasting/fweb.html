@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="forecasting.html" class="menu">Forecasting</a> <a
+      href="../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="mainBody">
+    <div class="contentsMenu">
+      <h1>Forecasting</h1>
+      <ul>
+        <li><a href="forecasting.html" class="menu">Road Map</a></li>
+        <li><a href="cds.html" class="menu">Clinical Decision Expert Panel</a></li>
+        <li><a href="cdsForecastingFramework.html" class="menu">CDS Forecasting Framework</a></li>
+        <li><a href="tch.html" class="menu">Texas Children&#39;s Hospital</a></li>
+      </ul>
+      <h1>Applications</h1>
+      <ul>
+        <li><a href="http://tchforecasttester.org/ft/" class="menu">TCH Forecast Tester</a></li>
+      </ul>
+      <h1>Open Source Projects</h1>
+      <ul>
+        <li><a href="https://sourceforge.net/projects/iiscds/" class="menu">IIS Clinical Decision Support</a></li>
+      </ul>
+    </div>
+    <h1>TCH Forecaster for Web</h1>
+    <p>This is a temporary documentation page to describe how to download and run the Tomcat version of the TCH Forecaster ready to receive
+      requests from RPMS.</p>
+    <h2>Installation Instructions</h2>
+    <ul>
+      <li>Install latest version of Java Development Kit JDK</li>
+      <li>Install Apache's Tomcat</li>
+      <li>Save <a href="http://tchforecasttester.org/fweb.war">fweb.war</a> to the Apache Tomcat webapps folder.
+      </li>
+      <li>If Tomcat is running the war should deploy and the forecaster should be operational and listening on port 6708 within the next 10
+        seconds.</li>
+    </ul>
+    <h2>Example Inputs</h2>
+    <h3>Test 1</h3>
+    <pre>20120905^R^^^^TEST123^^20120101^M^^^^^^^^^^^^^^^^^^^^^~~~TEST456^50^20120313^^^^|||</pre>
+    <h3>Test 2</h3>
+    <pre>20131118^R^IHS_6m26^0^0^FURRAST,JOHN DELBERT  Chart#: 00-00-55^55^19571122^Male^U^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^0^~~~2272^20^20080118^0^0^0|||2273^20^20080122^0^0^0|||2271^21^20080118^0^0^0|||2663^111^20081212^0^0^0|||</pre>
+    <h2>How to Test</h2>
+    <p>On a windows system run the following command:</p>
+    <pre>telnet localhost 6708 </pre>
+    <p>You will get a blank screen. Copy and past the input string and press enter.</p>
+    <p>The results will be sent back and the connection closed.</p>
+  </div>
+</body>
+</html>

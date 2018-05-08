@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../interfacing.html" class="menu">Interfacing</a> <a
+      href="../../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a>
+    <a href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Simple Message Mover</h1>
+    <ul>
+      <li><a href="simpleMessageMover.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="userGuide.html" class="menu">User Guide</a></li>
+      <li><a href="releases.html" class="menu">Releases</a></li>
+      <li><a href="testingProcess.html" class="menu">Testing Process</a></li>
+      <li><a href="releaseProcess.html" class="menu">Release Process</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>Simple Message Mover</h1>
+    <h2>Introduction</h2>
+    <p>The Simple Message Mover (SMM) is designed to move immunization messages to a state or local Immunization Information System (IIS). SMM
+      acts as an adaptor to systems that are capable of creating HL7 messages and saving them to a local folder but are unable to transmit the data
+      directly to the IIS. The SMM is simply responsible for moving the messages to the IIS and return the response back to the local system.</p>
+    <p>To accomplish this, SMM supports many different transport protocols, including:</p>
+    <ul>
+      <li>HTTPS Post: Legacy IIS transport standard, still used by many IIS.</li>
+      <li>TLEP: A SOAP or Web Services method standardized and adopted by IIS community.</li>
+      <li>Other SOAP or Web Services methods: Many states implement non-standard interfaces.</li>
+    </ul>
+    <p>Work continues to add native support in SMM for as many IIS as possible.</p>
+    <h2>System Architecture</h2>
+    <p>
+      The Simple Message Mover is designed to work within a Java Servlet container, such as <a href="http://tomcat.apache.org/">Apache Tomcat</a>. The
+      diagram below shows the system integration for the Indian Health Service (IHS) patient management system RPMS and how the SMM connects the RPMS
+      immunization module (BYIM) to the State/Local Immunization Information System. Several important concepts are described in this diagram:
+    </p>
+    <ul>
+      <li>The SMM operates from within Tomcat and depends on it.</li>
+      <li>Tomcat requires installation of Java. Tomcat and Java can be installed on all common operating systems, including Windows, AIX and Mac.</li>
+      <li>Along with SMM other helpful applications could be installed. The diagram shows other applications IHS is looking to co-deploy with
+        SMM.</li>
+      <li>The SMM can be configured to connect to a remote Central Support Center to report back connectivity status and transfer statistics.</li>
+    </ul>
+    <img width="700" height="435" src="SMM Architecture.gif">
+    <h2>Presentations</h2>
+    <ul>
+      <li><a href="SMM Training 2013-05-07.ppt">SMM Training 2013-05-07.ppt</a></li>
+    </ul>
+    <h2>Development Status</h2>
+    <p>The SMM is currently under active development and improvement. The next versions will add support for the following features:</p>
+    <ul>
+      <li>Complete support for Reciprocal Batch Update processing. </li>
+      <li>Support for connecting to additional IIS.</li>
+    </ul>
+  </div>
+</body>
+</html>

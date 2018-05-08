@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../forecasting.html" class="menu">Forecasting</a> <a
+      href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="mainBody">
+    <div class="contentsMenu">
+      <h1>Forecasting</h1>
+      <ul>
+        <li><a href="../forecasting.html" class="menu">Road Map</a></li>
+        <li><a href="../cds.html" class="menu">Clinical Decision Expert Panel</a></li>
+        <li><a href="../cdsForecastingFramework.html" class="menu">CDS Forecasting Framework</a></li>
+        <li><a href="../tch.html" class="menu">Texas Children&#39;s Hospital</a></li>
+      </ul>
+      <h1>Applications</h1>
+      <ul>
+        <li><a href="http://openimmunizationsoftware.us/cds2011/action" class="menu">CDS Demonstration System 2011</a></li>
+        <li><a href="http://openimmunizationsoftware.us:6394/fv/fv/" class="menu">TCH Forecast Validator</a></li>
+      </ul>
+      <h1>Open Source Projects</h1>
+      <ul>
+        <li><a href="https://sourceforge.net/projects/iiscds/" class="menu">IIS Clinical Decision Support</a></li>
+      </ul>
+    </div>
+    <h1>TCH Forecaster Interface</h1>
+    <p>The TCH Forecaster supports a simple HTTP REST interface.</p>
+    <h2>Request</h2>
+    <p>Evaluation and patient fields:</p>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Label</th>
+        <th>Status</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>evalDate</td>
+        <td>Evaluation Date</td>
+        <td>optional</td>
+        <td>The date the forecast should be run on. Defaults to today's date. Use YYYYMMDD format.</td>
+      </tr>
+      <tr>
+        <td>evalSchedule</td>
+        <td>Evaluation Schedule</td>
+        <td>optional</td>
+        <td>Evaluation schedule requested for evaluation.</td>
+      </tr>
+      <tr>
+        <td>resultFormat</td>
+        <td>Result Format</td>
+        <td>optional</td>
+        <td>The format of the response to this request. Valid values: text, html</td>
+      </tr>
+      <tr>
+        <td>patientDob</td>
+        <td>Patient Date of Birth</td>
+        <td>required</td>
+        <td>This is required to give accurate forecast.</td>
+      </tr>
+      <tr>
+        <td>patientSex</td>
+        <td>Patient Sex</td>
+        <td>required</td>
+        <td>Send only M or F.</td>
+      </tr>
+    </table>
+    <p>Vaccination dose fields. For every vaccination, send the field name ending with the ordinal number. Start with 1 and increase to as many
+      vaccinations as are to be sent. Do not skip an ordinal number as the TCH Forecaster will read vaccinations until it comes to a missing field and
+      will stop.</p>
+    <table>
+      <tr>
+        <th>Field</th>
+        <th>Label</th>
+        <th>Status</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>vaccineDate<i>n</i></td>
+        <td>Vaccine Date</td>
+        <td>required</td>
+        <td>Date vaccine was given. Use YYYYMMDD format.</td>
+      </tr>
+      <tr>
+        <td>vaccineCvx<i>n</i></td>
+        <td>Vaccine CVX Code</td>
+        <td>required</td>
+        <td>CVX code for the vaccine. Use standard CVX codes from CDC.</td>
+      </tr>
+      <tr>
+        <td>vaccineMvx<i>n</i></td>
+        <td>Vaccine MVX Code</td>
+        <td>optional</td>
+        <td>Manufacturer code. Normally not required for accurate forecast, but in some cases the manufacturer provides more necessary detail.</td>
+      </tr>
+    </table>
+    <p>These fields should be encoded in an URL-encoded HTTP GET request. Example:</p>
+    <pre>http://192.168.1.7:8221/web1/doForecastEpic.do?evalDate=20120501&amp;resultFormat=text&amp;patientDob=20120101&amp;patientSex=</pre>
+    <h2>Response</h2>
+    <p>The response can be displayed in at least two formats:</p>
+    <ul>
+      <li>html: Suitable for human viewing, simply posting the GET string above will result in a new page that the user can view in their own
+        browser or can be redisplayed elsewhere.</li>
+      <li>text: Human readable but in a simple text format. Formatting is consistent and may be parsed. </li>
+    </ul>
+    <h3>Text Format</h3>
+    <p>Here is an example of a text output:</p>
+<pre>Forecasting MMR dose 1 due 05/01/2066 valid 04/29/2006 overdue 04/29/2006 finished 10/05/2009
+Forecasting Hib complete</pre>
+    <table>
+      <tr>
+        <th>Position</th>
+        <th>Field</th>
+        <th>Description</th>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>Data Type</td>
+        <td>Indicates the type of data this line holds. Values sent: Forecasting.</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Forecast Label</td>
+        <td>Human readable label indicating what is being forecasted. Label will never have spaces in it.
+        Current values sent:
+        <ul>
+          <li>Hib</li>
+          <li>HepB</li>
+          <li>DTaP</li>
+          <li>Td</li>
+          <li>Tdap</li>
+          <li>HPV</li>
+          <li>IPV</li>
+          <li>HepA</li>
+          <li>MMR</li>
+          <li>Measles</li>
+          <li>Mumps</li>
+          <li>Rubella</li>
+          <li>Var</li>
+          <li>Influenza</li>
+          <li>MCV4</li>
+          <li>HPV</li>
+          <li>Rota</li>
+          <li>PCV13</li>
+        </ul></td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>Dose Indicator</td>
+        <td>Indicates if another dose is needed or not. The word 'dose' indicates another dose is needed, the word 'complete' indicates that no more doses 
+        are forecasted, series has been satisfied or patient is too old receive more doses.</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>Dose Number</td>
+        <td>The next dose indicated for.</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>Due Indicator</td>
+        <td>Always valued as 'due'.</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Due Date</td>
+        <td>The date this vaccination should be scheduled to be given.</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Valid Indicator</td>
+        <td>Always valued as 'valid'.</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Valid Date</td>
+        <td>The earliest date this vaccination could be given.</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Overdue Indicator</td>
+        <td>Always valued as 'overdue'.</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Overdue Date</td>
+        <td>The date when this vaccination should be given by. Vaccinations after this date may place patient on a late schedule.</td>
+      </tr>
+      <tr>
+        <td>11</td>
+        <td>Finished Indicator</td>
+        <td>Always valued as 'finished'.</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>Finished Date</td>
+        <td>The date when this vaccination is no longer indicated to be given. No more vaccinations forecasted after this date.</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="doc.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a>
+    <a href="../dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html"
+      class="menu">Forecasting</a> <a href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+
+  <div class="contentsMenu">
+    <h1>Admin User Manual</h1>
+    <ul>
+      <li><a href="index.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+    </ul>
+    <h1>Developer Manual</h1>
+    <ul>
+      <li><a href="developer.html" class="menu">Development Environment</a></li>
+      <li><a href="erd.html" class="menu">Database ERD</a></li>
+      <li><a href="configureDQA.html" class="menu">Configure DQA Report</a></li>
+      <li><a href="howTo.html" class="menu">How To</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>How To</h1>
+
+    <h2>Manually Remove Data From Database</h2>
+    <p>The DQA is an analysis tool and as such collects a great deal of information. Care must be taken to ensure
+      that data that is no longer needed is removed. DQA v1.08 includes new functionality to automatically delete old
+      data every week. The DQA supports several standard cleanup processes, which are documented here for those who wish
+      to run the process manually using more efficient database scripts.</p>
+    <h3>Data Fields</h3>
+    <p>
+      For every
+      <code>Message Received</code>
+      where the
+      <code>Received Date</code>
+      is older than the target date for deletion do the following:
+    </p>
+    <ul>
+      <li>Delete every associated <code>Next Of Kin</code></li>
+      <li>Delete every associated <code>Vaccinaton</code>
+        <ul>
+          <li>Delete every associated <code>Vaccination VIS</code></li>
+        </ul>
+      </li>
+      <li>Delete every associated <code>Patient</code>
+        <ul>
+          <li>Delete every associated <code>Patient Id Number</code></li>
+          <li>Delete every associated <code>Patient Phone</code></li>
+          <li>Delete every associated <code>Patient Address</code></li>
+          <li>Delete every associated <code>Patient Immunity</code></li>
+        </ul>
+      </li>
+    </ul>
+    <h3>Message Text</h3>
+    <p>
+      For every
+      <code>Message Received</code>
+      where the
+      <code>Received Date</code>
+      is older than the target date for deletion set the
+      <code>Request Text</code>
+      and
+      <code>Response Text</code>
+      to null.
+    </p>
+    <h3>Message Analysis</h3>
+    <p>
+      For every
+      <code>Message Received</code>
+      where the
+      <code>Received Date</code>
+      is older than the target date for deletion do the following:
+    </p>
+    <ul>
+      <li>Delete all associated <code>Issue Found</code></li>
+      <li>Delete all associated <code>Receive Queue</code></li>
+      <li>Delete <code>Message Received</code></li>
+    </ul>
+    <h3>Submitted Batch Reports</h3>
+    <p>
+      For all
+      <code>Message Batch</code>
+      where the
+      <code>End Date</code>
+      is before the target date and where the
+      <code>Batch Type</code>
+      is S for Submission :
+    </p>
+    <ul>
+      <li>Delete all associated <code>Receive Queue</code></li>
+      <li>Delete all associated <code>Batch Issues</code></li>
+      <li>Delete all associated <code>Batch Code Received</code></li>
+      <li>Delete all associated <code>Batch Actions</code></li>
+      <li>Delete all associated <code>Batch Vaccine CVX</code></li>
+      <li>Delete all associated <code>Batch Report</code></li>
+      <li>Delete <code>Message Batch</code></li>
+    </ul>
+    <h3>Weekly Batch Reports</h3>
+    <p>Same as Submission batch except for weekly reports.</p>
+    <h3>Submissions</h3>
+    <p>
+      Delete all
+      <code>Submission Analysis</code>
+      and
+      <code>Submission</code>
+      where the
+      <code>Submission Status Date</code>
+      is before the target date.
+    </p>
+
+    <h2>Update Template Profile</h2>
+    <p>Every application has a default Report Template that points to a base submitter profile which defines the
+      defaults that are used when automatically creating a profile. For the DQA version 1.0 this is the primary way of
+      configuring the DQA report for all the profiles. In future versions this process will become more fine-tuned to
+      support different types of submitters.</p>
+    <h3>How to Update Potential Issue Status for Template</h3>
+    <ol>
+      <li>Check out the the current <a
+        href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/ERD - Potential Issue v1.07.ods">ERD -
+          Potential Issue spreadsheet</a> from SVN and open in Open Office.
+      </li>
+      <li>If working on a new version, re-save with the version number this is targeted for. Potential issues
+        should not be added to previous versions, only to new versions yet to be finished.</li>
+      <li>Select 'Potential Issue' tab, navigate to columns G through I, and locate your systems default action
+        code column.</li>
+      <li>Update that column's issues to reflect the correct issue status.</li>
+      <li>The SQL for inserting the values is listed in columns AH through AM. There are two basic profiles for
+        each entity, one for reporting immunizations in general and one for reporting inventory data. (For the time
+        being we are only interested in the reporting immunizations settings as this is the default used by DQA.) Make
+        sure the database type is listed as 'Oracle' in cell AG2. This indicates to the formulas to make an Oracle
+        version of the scripts.</li>
+      <li>Copy out both columns for entity you are updating and place in script file.</li>
+      <li>In script file add an initial line that deletes all the values from the dqa_potential_issue_status table.
+        DELETE FROM dqa_potential_issue_status; This will remove all the potential issue status settings on all profiles
+        in the entire project. (This will erase all customized settings for each profile but this should have no impact
+        since no one is currently tweaking the potential issue status for each individual profile.) It is possible to
+        only delete the potential issue status for just the profile we are inserting but any profile that has already
+        imported data will continue to use the old settings unless you force it to refresh from the parent template by
+        deleting its statuses. Deleting the whole table forces this refresh on all profiles.</li>
+      <li>Run script.</li>
+      <li>Restart project.</li>
+    </ol>
+    <h2>Test and Verify DQA Validation</h2>
+    <p>Once the issues are set properly it's critical to verify that the DQA is working as expected. The DQA
+      supports external testing using a separate open source tool, Immunization Registry Tester.</p>
+    <ol>
+      <li><a href="../../interfacing/immunizationRegistryTester.html">Install the Immunization Registry Tester</a>
+        locally or get a test account on the centrally hosted server.</li>
+      <li>Setup connect to the system you are testing.</li>
+      <li>Setup a test message that does not fail or generate warning messages.</li>
+      <li>Run profile on test system.</li>
+    </ol>
+    <h2>Clean Submitted Data for Testing</h2>
+    <p>During testing it is sometimes necessary to remove all the data that was previously submitted and start back
+      from scratch. Depending on the database doing this is quite simple:</p>
+    <ul>
+      <li><b>Oracle</b> Run the clean.sql. This deletes all the imported data, messages received, and batches
+        received values. Do not run this in production or you will loose all of your data.</li>
+      <li><b>MySQL</b> Simply delete the datbase and run the scripts again. A handy batch file clean-db.sql will
+        run the scripts and do this. If you are not running on Windows, read the script and follow the steps manually or
+        create a shell script.</li>
+      <li><b>Hypersonic</b> Simply update the database with the latest from the repository, overwriting what you
+        have locally.</li>
+    </ul>
+  </div>
+</body>
+</html>

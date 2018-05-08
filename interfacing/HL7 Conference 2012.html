@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="interfacing.html" class="menu">Interfacing</a> <a href="../dataQuality/dataQuality.html"
+      class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a href="../matching/matching.html"
+      class="menu">Matching</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Interfacing</h1>
+    <ul>
+      <li><a href="interfacing.html" class="menu">Road Map</a></li>
+      <li><a href="immunizationRegistryTester.html" class="menu">Immunization Registry Tester</a></li>
+      <li><a href="simpleHL7Parser.html" class="menu">HL7 Parser</a></li>
+      <li><a href="smm/simpleMessageMover.html" class="menu">Simple Message Mover</a></li>
+      <li><a href="SimpleMUAttestation.html" class="menu">Simple MU Attestation</a></li>
+      <li><a href="AIRAWebServiceWorkgroup.html" class="menu">AIRA Web Service Workgroup</a></li>
+    </ul>
+    <h1>Applications</h1>
+    <ul>
+      <li><a href="http://ois-dqa.net/tester/index.jsp" class="menu">DQA Tester</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/iismclient/" class="menu">Immunization Registry Tester</a></li>
+      <li><a href="https://sourceforge.net/projects/iismserver/" class="menu">IIS Messaging Server Demonstration</a></li>
+      <li><a href="https://sourceforge.net/projects/ois-hl7jump/" class="menu">Simple HL7 Parser</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>HL7 Conference 2012</h1>
+    <p>Report on conference</p>
+    <h2>Sunday</h2>
+    <h3>FHIR Hands-on</h3>
+
+    <p>Grahame Greaves presentation on how to integrate with development of FHIR. FHIR is pronounced "FIRE". Not a class on how to implement. FHIR
+      is new and builds upon both HL7 v2 and HL7 v3. My take on this is that FHIR is the next generation after v3. HL7 v3 was built to support
+      modelers but was not good for hands one. FHIR is focused on hands on, getting connections accomplished, fast. Highly focused on IMPLEMENTATION.
+      This is a standard that might one day replace our HL7 v2 messages. Here is an opportunity for us to become involved on a domain committee to
+      represent immunizations.</p>
+
+    <p>Attended orientation meeting and listened to an introduction to the work group and standards development process.</p>
+    <h2>Monday</h2>
+
+    <h3>Open Plenary</h3>
+    <p>
+      <b>Leslie Kelly Hall from Health Wise</b><br /> Talking about patient generated data. Data that is created by and sent by patient's themselves.
+      Spoke about the need to "Liberate Patient Data". Listed the following progressive steps: (1) Inform Me (2) Engage Me (3) Empower Me (4) Partner
+      with Me.
+    </p>
+
+    <p>
+      <b>Lee Rainie from Pew Internet Project</b><br /> Pew Internet Project is a Fact Tank. Talking about new network age in healthcare. Neworked
+      Individulism. Social networks are more important than they used to be. (I'm not so sure that they are so different, rather that the networks are
+      now more online than they have ever been.) Talking about technology usage by Americans, Internet usage is high, now more smart phones than
+      regular cell phones, already 30% of those have at least one health app on their phone. Social networking use is increasing, even among 65+. Half
+      of searches for health questions are done on behalf of others. Things are changing a lot, be not afraid! Questions about how people might share
+      a lot of information online.
+    </p>
+
+    <h3>Panel Discussion</h3>
+
+    <p>
+      <b>Chuck Parker from Continua Health Alliance</b><br /> Focused on making guidelines for implementing certification program for sensors that
+      can be used to track patients and help them manage their disease with the goal of keeping the patient from going to acute care. HL7 standards
+      have been critical to smoothing adoption and integrating these systems.
+    </p>
+
+    <p>
+      <b>Chris Lehmann from Vanderbilt</b><br /> AAP has received a grant to work on developing a model EHR format. They developed a description of
+      an ideal pediatric EHR based on HL7 standards and selected home-grown EHR's that demonstrate best practice. Meetings included 11 vendors who
+      came to AAP and asked for more guidance on algorithms. Group eventually created web service to communicate and implement Bright Futures.
+    </p>
+
+    <p>
+      <b>Jim St. Clair from HIMSS</b><br /> Talking about mHiMMS process. Talked about mobile hardware penetration and the future use of health
+      applications. Right data, right time, right place.
+    </p>
+
+    <p>
+      <b>Lonnie Smith from FDA</b><br /> Talked about Structured Product Labels (SPL). These are statements that are made by manufacturers and send
+      to the FDA, which sends them to the National Library of Medicine (NLM) which operates a web site for doctors and consumers to look up drug
+      medication. The site is called Daily Med.
+    </p>
+
+    <p>
+      <b>Heather Grain from Standards Australia</b><br /> Talked about the view from consumers. Very interesting. Talked about the great variety of
+      opinions that consumers have and the need for health care professionals to listen them. Particularly important is that consumers want control
+      over their information and how it's shared. Compared changes in the last 10 years:
+    </p>
+    <ul>
+      <li>Afraid of tech --&gt; Already happened</li>
+      <li>No idea of benefit --&gt; Long list of benefits</li>
+      <li>Strong idea of risks --&gt; Understand risks, feel need to balance</li>
+    </ul>
+    <p>Spoke about how surprising it is to find that some things that you would think are NOT sensitive are considered highly sensitive to some
+      consumers, while highly sensitive issues are considered critical to share by other consumers.</p>
+
+    <p>
+      <b>Charles Jaffe</b><br /> Talked a little about board's decision to make large parts of IP open source. Meeting during lunch to talk about
+      implication for HL7 as an organization.
+    </p>
+    <h3>Lunch Meeting about Future of HL7</h3>
+    <p>CEO Charles Jaffe lead a discussion to a fairly full room of HL7 members. He explained that August 1st the HL7 board voted to make HL7 IP
+      freely available, whereas currently it is available only for HL7 members or for purchase. Charles Jaffe asked what directly should HL7 take in
+      order to continue growing the organization. He called first on a member from Kaiser Permamente who indicated that a change that is needed is for
+      membership to be offered on a multi-year basis, with yearly payments, in order to help HL7 have more steady funding. He also said that Kaiser
+      Permamente indicated a commitment to purchase a multi-year organizational membership. Charles Jaffe went on to say that since the announcement
+      and the idea from Kaiser Peramente they have nearly 20 benefactors who have come forward with similar commitments.</p>
+    <p>Discussion then turned to several questions:</p>
+    <ul>
+      <li>Should HL7 offer tooling software? This is something the board has been asking HL7 to do. Quite a big challange, HL7 is not a software
+        organization per se.</li>
+      <li>Should HL7 offer consulting services? Currently requests for consulting assistance is referred to HL7 members known to provide this.</li>
+      <li>Should HL7 become more like a professional organization with service to HL7 professionals?</li>
+      <li>Should HL7 rely more on the conferences for income? Currently conferences are break-even, but perhaps significant income could be
+        generated by opening conference to vendors.</li>
+      <li>Should HL7 charge higher memberships for government entities? Currently organizations, such as CMS, benefit directly and substantially
+        by the work of HL7, but each entity only pays the organizational membership fee of $100. Some comments were made from states and other
+        governments about current restrictions that make even paying for attendance at HL7 meetings a large barrier and that more funding is not
+        likely.</li>
+    </ul>
+    <p>The underlying fear is that current interest for membership is driven by the need of organizations to receive the specification, if it is
+      free then they will no longer pay for membership. HL7 is currently designed and built by volunteers who are willing to pay membership fees. Some
+      comments were made that the interest for HL7 will increase tremendously as this goes public and that while we may loose some members we will
+      gain many more interested in working on an open project.</p>
+    <h3>Workgroup Meeting</h3>
+    <p>
+      <b>CGIT</b><br />This is the first workgroup I have attended. The work of this group is related to the NIST certification project I worked on
+      this summer. The work of the group is critical for moving towards standardized HL7 v2 messages which have been a big issue for IIS and EHR
+      integration for the last 10 years.
+    </p>
+
+    <h2>Tuesday</h2>
+    <h3>Morning Speakers</h3>
+    <p>Listened to several small presentations. Covered topics including HL7 freely available IP, Trifolia, Fresh Look, CMI, collaboration with
+      SDO's, tooling strategies, FHIR Connectathon, HingX, HL7 Internation Council, and Privacy Pilot.</p>
+    <h3>Workgroup Meetings</h3>
+    <p>
+      <b>Orders and Observations, Joint Meeting</b><br />Attended to understand better what this work group does. Not much cross over with
+      immunizations. This is the group the Rob Savage went to ask for adding the OBX directly to the VXU after the PID segment. In this meeting there
+      was a long discussion involving something related to Structered Product Label.
+    </p>
+    <p>
+      <b></b><br />
+    </p>
+
+    <h2>Wednesday</h2>
+    <h3>Morning Presentations</h3>
+    <p>
+      <b>IHIC Conference 2012</b>: Announcement for meeting in Vienna later this month. All invited to come.
+    </p>
+    <p>
+      <b>Election Results</b>: Announced the results of recent elections.
+    </p>
+    <p>
+      <b>Treasurer's Report</b>: Gave report on HL7 organization. HL7 is currently well financed and looks to be growing in the comnig years.
+    </p>
+    <p>
+      <b>Presentation from Board</b>
+    </p>
+    <ul>
+      <li>LOINC &amp; IHTSDO (SONMED) discussed the upcoming integration of LOINC and SNOMED codes. HL7 is anxious to see this completed as it
+        will help their work.</li>
+      <li>Report on ROI on Mobile Health. Hospitals are quieter with mobile devices, no more paging going on. Doctors like adopting the
+        technology. Patients and doctors report high satisfaction</li>
+      <li>Talked about the change to allow standards and selected IP to be released to the public for free. Told to be careful of what is said
+        because not everything made by HL7 will necessarily be free. They are only talking about the standards produced and other selected IP. HL7 is
+        expecting that they will probably reserve certain IP for use by members only.</li>
+      <li>They discussed several issues around the need for more standard developers. Looking at expanding face-to-face trainings and on demand
+        education. They also want to expand the curricula to include care givers, developers and implementors. Thinking about annual renewable
+        certifications for profissionals where they have to demonstrate their current skills. Are looking to start again the Membership Advisory
+        Committee. Will be introducing multi-year memberships which already have a lot of support from current organizational members. Considering the
+        possibility of giving members early access to IP.</li>
+      <li>Talked about growth internationally and in new markets: mobile health, quality, clinical genomics, and patient derived data.</li>
+      <li>Gave update on TSC related actions. Looking at defining backwards compatibility for only so many versions back. Looking at strategic
+        initiatives and defining product lines.</li>
+      <li>On the national and regional level, HL7 has been in touch with the US congress and have been talking about the value of HL7. South
+        Africa is in contact with HL7 and HL7 is encouraging them to become an affiliate.</li>
+      <li>Looking to make things easier. Expand collaboration with IHE. Use the <a
+        href="http://www.lantanagroup.com/newsroom/press-releases/trifolia-workbench/">Trifolia</a> tool.
+      </li>
+    </ul>
+    <p>
+      <b>Recognitions</b>
+    </p>
+    <h3>Workgroup Meetings</h3>
+    <p>
+      <b>Patient Care Workgroup</b>: PHER attended as well, discussed how to model allergies and intolerance conditions. No direct connection to
+      immunizations.
+    </p>
+    <p>
+      <b>Electronic Health Record Workgroup</b>: A joint meeting with PHER, Patient Care, CIC, Patient Safety, and Pharmacy.
+    </p>
+    <p>
+      Talking about the <a href="http://www.hl7.org/implement/standards/product_brief.cfm?product_id=278">Public Health Functional Profile</a> (PHFP).
+      This project defines a set of functions that EHR's need to have in order to support public health needs. They showed a list of domains, not one
+      of them is specific to immunizations. Might be included under Other PH Domains. Immunization must not have "come to the table yet". <em>[Should
+        AIRA be involved?]</em> There are three main profiles that are already finished and published. Interesting in adding domains to their profile. <em>Perhaps
+        we should work on an Immunization profile?</em> The long term picture is that if an EHR implements this profile they are going to see their systems
+      work well with public health.
+    </p>
+    <p>
+      <b>Clinical Decision Support Workgroup</b>: Very interesting session. Heard presentations on three different subjects.
+    </p>
+    <p>Eric Larson reported on activities of the IISB in preparing the logic specification for immunizations. Report is due out October 29.</p>
+    <p>Alean Kirnack reported on progress of the Cross-Paradigm Interoperability Implementation Guide for Immunizations project. Found some very
+      interesting things. The project as turned into a process of finding the gaps between several different standards. One of the biggest holes is
+      that there is no standard for requesting and getting a forecast. Also talked about how the VIS and VFC information is US realm specific.</p>
+    <p>Daryl Chertcoff gave a presentation about the process of the Immunization Calculation Engine (ICE) that they are implementing in OpenCDS.
+      They are making good progress and expect to have the application out in open source around next April.</p>
+    <p>
+      <b>Conformance and Guidance for Implementation/Testing Work Group</b>: Report from Vocabulary Work Group. They are going through vocabulary in
+      versions of HL7. The have gone through all but 220 tables. It has been quite an amazing amount of work. Talking about Binding Syntax.
+    </p>
+
+    <h2>Thursday</h2>
+    <h3>Morning Presentations</h3>
+    <p>
+      <b></b>
+    </p>
+    <p>
+      <b></b>
+    </p>
+    <p>
+      <b></b>
+    </p>
+    <h3>Workgroup Meetings</h3>
+    <p>
+      <b></b>
+    </p>
+    <p>
+      <b></b>
+    </p>
+    <p>
+      <b></b>
+    </p>
+    <p>
+      <b></b>
+    </p>
+    <p>
+      <b></b>
+    </p>
+    <h2>Friday</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <hr/>
+    <h2>My Thoughts</h2>
+    <p>The changes to the HL7 organization are exciting and offer an opportunity for the HL7 community at large to give input about how HL7
+      organization could better help the entire community. I have a few ideas in this area. But before I give my ideas it's important to establish a
+      few things first:</p>
+    <p>
+      <b>Background</b>: HL7 users comes from one of two basic backgrounds: medical &amp; technical. Medical professionals are attracted to HL7 as they
+      work to pull systems together, technical professionals as they try to put these medical systems together. HL7 has always had a very technical,
+      geeky, background, which I think is its strength. It needs to grow by helping the medical community understand the standards better and to help
+      the technical community understand the medical aspects.
+    </p>
+    <p>
+      <b>Level of Involvement</b>: There are three basic levels of involvement in HL7. The original and most visible is that of the HL7 standards
+      development. This level is where the current active members of HL7 operate at. HL7 spends a considerable amount of effort in this area. The
+      second level is that of active implementors, and the third is active operators of HL7 interfaces. The size of the operators group is much larger
+      than the implementors group, which is itself much larger than the development group.
+    </p>
+    <p>Here is what HL7 could do to support each of these three groups:</p>
+    <ul>
+      <li><b>HL7 Standard Operator</b>: Offer online training and certification of operator level abilities. This training should not take too
+        long or cost too much, and should offer two areas of focus, medical and technical. The idea behind the training would be to familiarize the
+        student on the HL7 standard and how it can be used to help interoperability. It would also be good to require continuing education, at least
+        every 2 or 3 years, to continue to hold certification.</li>
+      <li><b>HL7 Standard Implementor</b>: Expand the current education and training so that it includes both an in-person component and a online
+        process. The online process should be built to keep implementors up-to-date on latest changes and updates and allow for keeping certification
+        current. Certification at this level could be renewed every year or two. Perhaps the initial certification expense is good, but ongoing
+        certification should not be too expensive.</li>
+      <li><b>HL7 Standard Developer</b>: A developer, who is active in HL7 and contributes, should receive the highest level of certification.
+        This person should be actively participating in HL7, mentoring implementers and operators, promoting HL7, training HL7 users, and helping to
+        develop standards. Active developers should have reduced costs to be active members as they are producing a great value to the community.</li>
+    </ul>
+    <p>
+      <b>User Group Meetings</b>: HL7 currently divides development work into a set of volunteer workgroups and is always looking for new members to
+      staff these organizations. There is a large untapped resource of Implementors and Operators who currently do not participate in these groups.
+      The reasons for this probably range from (1) they don't know about the workgroups and (2) they don't have time to contribute to the process. HL7
+      organization is missing a large potential by not engaging this group directly. What would be very useful to this group would be to form a set of
+      User Groups built around specific tops that are placed underneath the work groups, and are mentored by the work groups. These user groups could
+      simply be regular conference calls that allow users to talk about implementation problems they are encountering and get help from the larger
+      group. This type of setup would likely have a large amount of interest and would introduce people to HL7 organization and some of these would
+      likely want to eventually help with development.
+    </p>
+
+    <p>Idea for organization of User Groups underneath Work Groups</p>
+    <p>
+      <img src="HL7 Conference 2012 Idea 3.gif" />
+    </p>
+    <p>Idea for three classes of HL7 members and how they can be supported by HL7</p>
+    <p>
+      <img src="HL7 Conference 2012 Idea 2.gif" />
+    </p>
+    <p>
+      <b>Conferences</b>: These could be improved for implementors by doing the following things:
+    </p>
+    <ul>
+      <li>Have something that introduces the work of all the meetings so that we can all see what they are doing. Perhaps presentations on the
+        first day? Or maybe a set of meetings on the first day where all the groups tell a smaller audience about what they do? I would love to see a
+        30 minute presentation from each group about what they have accomplished and what they are working on for the next year.</li>
+      <li></li>
+    </ul>
+
+    <p>Original version of idea showing two of the classes of HL7 members and what could be offered</p>
+    <p>
+      <img src="HL7 Conference 2012 Idea.gif" />
+    </p>
+    <p></p>
+    <p></p>
+    <p></p>
+  </div>
+</body>
+</html>

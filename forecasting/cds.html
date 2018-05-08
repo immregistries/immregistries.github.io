@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="forecasting.html" class="menu">Forecasting</a> <a
+      href="../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="mainBody">
+    <div class="contentsMenu">
+      <h1>Forecasting</h1>
+      <ul>
+        <li><a href="forecasting.html" class="menu">Road Map</a></li>
+        <li><a href="cds.html" class="menu">Clinical Decision Expert Panel</a></li>
+        <li><a href="cdsForecastingFramework.html" class="menu">CDS Forecasting Framework</a></li>
+        <li><a href="tch.html" class="menu">Texas Children&#39;s Hospital</a></li>
+      </ul>
+      <h1>Applications</h1>
+      <ul>
+        <li><a href="http://openimmunizationsoftware.us/cds2011/action" class="menu">CDS Demonstration System 2011</a></li>
+        <li><a href="http://openimmunizationsoftware.us:6394/fv/fv/" class="menu">TCH Forecast Validator</a></li>
+      </ul>
+      <h1>Open Source Projects</h1>
+      <ul>
+        <li><a href="https://sourceforge.net/projects/iiscds/" class="menu">IIS Clinical Decision Support</a></li>
+      </ul>
+    </div>
+    <h1>Clinical Decision Expert Panel</h1>
+    <p>In 2011, the CDC convened a panel of immunization forecast experts from over a dozen immunization registry projects across the nation with
+      the stated goal to &#39;improve the clarity, accuracy and consistency of on-going childhood immunization forecasting and evaluation through the
+      development of a framework for use in automated electronic systems and elsewhere.&quot; This panel is making great progress.</p>
+    <h3>November 2011</h3>
+    <p>
+      The first face-to-face work group meeting was held in Atlanta. This meeting was focused on developing the logic for supporting the evaluation
+      piece of the clinical decision support project. The forecasting piece was put off for later. During the meeting Nathan Bunker developed a <a
+        href="http://openimmunizationsoftware.us/cds2011/action">provisional application</a> that demonstrated how this could work. This application
+      allows for viewing the internal &quot;states&quot; as the algorithm steps through the evaluation.
+    </p>
+    <h3>March 2012</h3>
+    <p>The group was reconvened with many of the same participants for a continuation meeting. A lot of progress had been made since November and
+      the basic state model had been enlarged and developed more. During the meeting the following items were discussed in several sub work groups:</p>
+    <ul>
+      <li>Reviewed the logic in many of the states to verify that all possible scenarios are covered.</li>
+      <li>Reviewed and discussed overall architecture and how such a system would be used.</li>
+      <li>Continued work to collect and organize test cases.</li>
+      <li>Discussed process for integrating this technical work with the work of ACIP.</li>
+      <li>Discussed continuing this work after this initial project is completed this year.</li>
+    </ul>
+    <p>
+      On the technical side, Nathan Bunker was able to continue making changes to the demonstration software and showed it the group just before the
+      meeting was adjourned. This version of the software was partially working but not good enough to demonstrate fully but now forms the basis of
+      the <a href="cdsForecastingFramework.html">CDS Forecasting Framework</a>.
+
+
+    </p>
+
+    <h2>Current State Diagram</h2>
+    <img src="CDC%20CDS%20States.png" width="700" height="238">
+    <p>This diagram shows the discrete program states that the CDS work group defined to perform both evaluation and forecast. The previous state
+      diagram in 2011 did not affectively address forecast and other issues. Each white rectangle indicates a state that of the process. The user can
+      step through the forecast state-by-state and verify that the process is working correctly. This ability is particularly useful as we continue to
+      refine the model and the process.</p>
+    <p>This diagram was completed on the first day of the meeting and by the third day it was apparent that there would again be more changes to
+      this diagram. Nathan Bunker will be updating this diagram in April with the latest changes made by the group. Once this diagram is updated a
+      second version of the software will be released with the basic infrastructure in place.</p>
+
+  </div>
+</body>
+</html>

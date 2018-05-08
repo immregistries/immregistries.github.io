@@ -1,0 +1,10 @@
+@charset "utf-8";
+a {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #003300;
+	text-decoration: none;
+}
+a:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	color: #006699;
+}

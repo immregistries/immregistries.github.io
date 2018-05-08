@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a href="../dataQuality/dataQuality.html"
+      class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a href="../matching/matching.html"
+      class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Data Quality</h1>
+    <ul>
+      <li><a href="../dataQuality/dataQuality.html" class="menu">Road Map</a></li>
+      <li><a href="../dataQuality/dqaReport.html" class="menu">DQA Report User Guide</a></li>
+      <li><a href="../dataQuality/workGroups.html" class="menu">Work Groups</a></li>
+      <li><a href="../dataQuality/doc/index.html" class="menu">Technical Documentation</a></li>
+    </ul>
+    <h1>Applications</h1>
+    <ul>
+      <li><a href="http://ois-dqa.net/in" class="menu">DQA in</a></li>
+      <li><a href="http://ois-dqa.net/uploadData" class="menu">DQA upload data</a></li>
+      <li><a href="http://ois-dqa.net/tester/index.jsp" class="menu">DQA Tester</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/ois-dqa/" class="menu">OIS DQA</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h2>Project Introduction</h2>
+    <p>Immunization Information Systems (IIS) receive immunization data from Electronic Health Record (EHR) systems and must ensure the data meets
+      high standards for data quality. As IIS shift from direct user data entry to receiving data from EHR systems, the importance of data quality
+      processes increases. The DQA is an open source software, created by the immunization community, to measure and ensure data quality of incoming
+      and received data.</p>
+
+    <h2>Software Use</h2>
+    <p>The DQA is a Java web application, commonly deployed with Apache Tomcat, and connected to a database such as Oracle, Postgres or MySQL. The
+      DQA accepts data via real-time POST interface or by batched files and produces a data quality report. The data quality report summarizes the
+      quality of data in a set of weekly real-time submissions or a batch of data submitted in a file. IIS use the DQA in several ways:</p>
+    <ul>
+      <li>Assist in manual review of data to be imported.</li>
+      <li>An auxiliary reporting system in the import process.</li>
+      <li>A fully integrated step in the import process.</li>
+    </ul>
+
+    <h2>Technical Details</h2>
+    <table>
+      <tr>
+        <th>Technology</th>
+        <td>Java, Hibernate, Wicket</td>
+      </tr>
+      <tr>
+        <th>Database</th>
+        <td>Oracle, Postgres, MySQL, or others</td>
+      </tr>
+      <tr>
+        <th>Interface</th>
+        <td>HL7 v2.x, real-time and batch</td>
+      </tr>
+      <tr>
+        <th>Deployment</th>
+        <td>Java Web Application on server or desktop</td>
+      </tr>
+      <tr>
+        <th>License</th>
+        <td>Apache 2, open source and business friendly</td>
+      </tr>
+      <tr>
+        <th>Repository</th>
+        <td><a href="https://sourceforge.net/projects/ois-dqa/">https://sourceforge.net/projects/ois-dqa/</a></td>
+      </tr>
+    </table>
+
+
+    <h2>Joint Development</h2>
+    <p>The DQA has been developed as an informal joint development project. Now this support process is being formalized both to support increased efforts for the DQA and to show how this model could be used on other joint development projects. The work is divided into the following volunteer groups: </p>
+    <img src="Organization Workflow Diagram.png" width="400" height="259"/>
+
+
+
+    <h2>Steering Committee</h2>
+    <p>The Steering Committee was organized in the summer of 2014 and is working to formalize the joint development effort. </p>
+
+
+
+  </div>
+</body>
+</html>

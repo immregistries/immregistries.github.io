@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <h1>Real-Time Questionnaire</h1>
+  <p></p>
+  <table>
+    <tr>
+      <th>Attribute</th>
+      <th>Description</th>
+      <th>Alabama</th>
+      <th>Connecticut</th>
+      <th>Hawaii</th>
+      <th>Minnesota</th>
+      <th>Nebraska</th>
+      <th>New Mexico</th>
+      <th>New York City</th>
+      <th>Oregon</th>
+      <th>Rhode Island</th>
+      <th>Wisconsin</th>
+    </tr>
+    <tr>
+      <td valign="top">Date</td>
+      <td valign="top">The date this questionnaire was answered and for which the anwers are accurate.</td>
+      <td valign="top">6/19/12</td>
+      <td valign="top">7/9/12</td>
+      <td valign="top">6/14/12</td>
+      <td valign="top">6/5/12</td>
+      <td valign="top">7/6/12</td>
+      <td valign="top">6/15/12</td>
+      <td valign="top">7/5/12</td>
+      <td valign="top">6/15/12</td>
+      <td valign="top">7/6/12</td>
+      <td valign="top">06/14/12</td>
+    </tr>
+    <tr>
+      <td valign="top">Name</td>
+      <td valign="top">The person associated with the organization that answered the questionnaire.</td>
+      <td valign="top">Ben McGhee</td>
+      <td valign="top">DF</td>
+      <td valign="top">Gail Ogawa</td>
+      <td valign="top">Emily Emerson</td>
+      <td valign="top">Michelle Hood</td>
+      <td valign="top">Kevin Bersell</td>
+      <td valign="top">Kristen Forney</td>
+      <td valign="top">Michelle Barber</td>
+      <td valign="top">Kim Salisbury-Keith</td>
+      <td valign="top">Kevin Samuelson<br /> Business Analyst<br /> HP
+      </td>
+    </tr>
+    <tr>
+      <td valign="top">IIS Name</td>
+      <td valign="top">Official name of immunization information system.</td>
+      <td valign="top">Alabama - ImmPRINT</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">Hawaii Immunization Registry</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">NESIIS (Nebraska State Immunization Information System)</td>
+      <td valign="top">NMSIIS</td>
+      <td valign="top">NYC Citywide Immunization Registry</td>
+      <td valign="top">ALERT IIS</td>
+      <td valign="top">KIDSNET</td>
+      <td valign="top">WIR (Wisconsin)</td>
+    </tr>
+    <tr>
+      <td colspan="2">Attributes of the Transport Layer</td>
+      <td valign="top">Alabama</td>
+      <td valign="top">Connecticut</td>
+      <td valign="top">Hawaii</td>
+      <td valign="top">Minnesota</td>
+      <td valign="top">Nebraska</td>
+      <td valign="top">New Mexico</td>
+      <td valign="top">New York City</td>
+      <td valign="top">Oregon</td>
+      <td valign="top">Rhode Island</td>
+      <td valign="top">Wisconsin</td>
+    </tr>
+    <tr>
+      <td valign="top">Manual User Upload</td>
+      <td valign="top">User must login to the IIS and manually upload data. This is a non-automated process.</td>
+      <td valign="top"><b>Yes</b>
+        <p>Alabama developed a Web Service Client that allows providers to consume our Web Service and upload a message.</p></td>
+      <td valign="top"><b>No</b>
+        <p>We do not have any function within the application to upload a file. We are working with HL7 format that can be converted to MAVEN
+          Integration format for the application to consume. At this point only external partners that are using PHIN MS or manual process of posting
+          and pulling file from a secure FTP are available for a predefined period until another better transport is in place.</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>There is manual intervention to release into IIS.</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b>
+        <p>This option is available for our flat file interface, but not for HL7</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>27 organizations upload their own data (9 of which send HL7)</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>For our Web file Repository (WFR),</p></td>
+      <td valign="top"><b>Yes</b></td>
+    </tr>
+    <tr>
+      <td valign="top">Synchronous Transport</td>
+      <td valign="top">Uses a method that supplies two-way synchronous connection such that the sender can submit a single message and implicitly
+        supports returning a response message associated with the request. Common technologies used: Web Service, HTTPS POST, PHIN-MS.</td>
+      <td valign="top"><b>Yes</b>
+        <p>Alabama uses Web Service.</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>PHIN MS is in place with both sender and receiver</p>
+        <p>Obliviously this will be the much needed requirement for providers and every provider wishes to have this functionality at the
+          earliest.</p></td>
+      <td valign="top"><b>No</b>
+        <p>After web service development is complete: Yes</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b>
+        <p>
+          Currently: No<br />Post DEIP: Yes
+        </p></td>
+      <td valign="top"><b>Yes</b>
+        <p>CIR uses a bi-directional SOAP Web Service for synchronous transport. As of today, 221 sites are reporting to us through the web
+          service.</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>132 sites (represented by 9 sending organizations) use SOAP web-services</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>Have HTTPS POST</p></td>
+      <td valign="top"><b>Yes</b></td>
+    </tr>
+    <tr>
+      <td valign="top">Asynchronous Transport</td>
+      <td valign="top">Uses a method that supplies a two-way asynchronous interface such that the sender can submit a message but the technology
+        does not supply an implicit reply. A reply may be sent, but only in newly created connection. A good example of this is secure File Transfer
+        Protocol (FTP).</td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>To start with we have to allow Asynchronous transport for those practices using a batch method.</p>
+        <p>Especially small time clinics vastly depend on this.</p></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>When updates are sent Asynchronously it isn't automated. There is manual intervention to release into IIS.</p></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>No</b>
+        <p>
+          Currently: No <br /> Post DEIP: Yes
+        </p></td>
+      <td valign="top"><b>No</b>
+        <p>This option is available only for flat files, not HL7</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>70 organizations submit files in files that we pre-process before uploading for them; 2 organizations send HL7, 2 send Flat File that
+          we load. Currently accept data via FTP and HTTPs, and sFTP by Fall we will only accept files via sFTP.</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>WFR provides secure file transfer that is Asynchronous</p></td>
+      <td valign="top"><b>No</b>
+        <p>A response/reply is always generated for the inbound messages.</p></td>
+    </tr>
+    <tr>
+      <td colspan="2">Attributes of IIS Processing</td>
+      <td valign="top">Alabama</td>
+      <td valign="top">Connecticut</td>
+      <td valign="top">Hawaii</td>
+      <td valign="top">Minnesota</td>
+      <td valign="top">Nebraska</td>
+      <td valign="top">New Mexico</td>
+      <td valign="top">New York City</td>
+      <td valign="top">Oregon</td>
+      <td valign="top">Rhode Island</td>
+      <td valign="top">Wisconsin</td>
+    </tr>
+    <tr>
+      <td valign="top">Scheduled Update Processing</td>
+      <td valign="top">Updates are queued for processing until a later time, usually overnight. The IIS may accept and acknowledge the message
+        immediately but the data is processed later.</td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>To start with we have to allow Asynchronous transport.</p></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>It's all manual, using an SFTP system</p></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>Via a manual upload a file will be processed as soon as possible (it isn't queued to run at a particular point in the day/evening).
+          However, depending upon the amount of data exchange occurring at that point, the job may not run immediately, but within minutes.</p>
+        <p>Via PHIN-MS, a file containing 10 or more messages will be statged to the batch process and processed as soon as possible.</p></td>
+    </tr>
+    <tr>
+      <td valign="top">Immediate Update Processing</td>
+      <td valign="top">Updates are immediately processed and consumed in their entirety. Once the IIS acknowledges the message the data is
+        available to regular IIS users.</td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b>
+        <p>
+          Currently: No <br /> Post DEIP: Yes
+        </p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>This is the case for messages with or without errors. WIR returns a response to the provider indicating if the message was accepted
+          and/or contains hard/soft errors.</p></td>
+    </tr>
+    <tr>
+      <td valign="top">Immediate Status Notification</td>
+      <td valign="top">After updates are processed immediately, IIS sends an acknowledgement (ACK) to indicate any errors in the data that may
+        have affected processing.</td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b>
+        <p>
+          Currently: No <br /> Post DEIP: Yes
+        </p></td>
+      <td valign="top"><b>Yes</b>
+        <p>Updates are processed in real-time, and the ACK that is returned to the sending system indicates whether the message was processed
+          successfully and contains information about any processing errors (both fatal and non-fatal); also includes the patient's CIR ID number
+          which can be stored by the sending system for future updates or queries.</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>ACK needs additional testing</p></td>
+      <td valign="top"><b>Yes</b></td>
+    </tr>
+    <tr>
+      <td valign="top">Holds for Manual Reviews</td>
+      <td valign="top">Updates that require human review, because the exact patient match was not found, are held until reviewed by IIS staff.
+        This hold means that all or some of the data submitted is unavailable for viewing until reviewed.</td>
+      <td valign="top"><b>No</b>
+        <p>If the exact patient is not found Alabama will send an ACK indicating exact match was not found. There is no holds for manual reviews.</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>This is one of the basic requirements; all of the questionable records are stored in a workflow</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>Pending files are not viewable via the user interface until the manual review process is completed.</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>This happens if 2 or more possible matches exist.</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>Pending files are held until reviewed, and are not visible in the transactional database until post-review.</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>WIR has a matching algrothim which scores potential matches. If there is the possibility of more than 1 match, the inbound message will
+          be loaded to a pending status. At this point a representative from the State reviews and merges the records or creates a new patient record
+          if appropriate.</p></td>
+    </tr>
+    <tr>
+      <td valign="top">Scheduled Query Processing</td>
+      <td valign="top">Queries can be processed in batches at a scheduled or regular time. The query process may be scheduled or manual.</td>
+      <td valign="top"><b>No</b>
+        <p>Alabama does not support queries in batch.</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>Will need to determine which systems are batch versus real time</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>No</b>
+        <p>
+          Currently: No <br /> Post DEIP: Unsure
+        </p></td>
+      <td valign="top"><b>No</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>While this functionality exists, we do not use it or advertise that it is available.</p></td>
+      <td valign="top"><b>No</b>
+        <p>No Query capacity at this time</p></td>
+      <td valign="top"><b>Yes</b></td>
+    </tr>
+    <tr>
+      <td valign="top">Immediate Query Response</td>
+      <td valign="top">Queries can be run and responses returned in a similar amount of time as that which is expected for users who query using
+        the IIS web interface.</td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b>
+        <p>This is similar to Synchronous process this will work for real time</p></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>Yes</b></td>
+      <td valign="top"><b>No</b>
+        <p>
+          Currently: No <br /> Post DEIP: Yes
+        </p></td>
+      <td valign="top"><b>Yes</b>
+        <p>99 sites have a bi-directional interface and are dong real-time queries</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>27 sites send VXQ messages via SOAP web services</p></td>
+      <td valign="top"><b>No</b>
+        <p>No Query capacity at this time</p></td>
+      <td valign="top"><b>Yes</b>
+        <p>Web Services and PHIN-MS</p></td>
+    </tr>
+  </table>
+</body>
+</html>

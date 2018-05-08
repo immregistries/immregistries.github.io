@@ -1,0 +1,208 @@
+body {
+	font-family: cursive;
+	background-color: #FFFFFF;
+}
+a {
+	text-decoration: none;
+	color: #330000;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:visited {
+	color: #330000;
+}
+pre {
+	color: #330000;
+	background-color: #FFFFCC;
+	width: auto;
+	border: thin dashed #CCCCCC;
+	padding: 3px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+
+
+}
+
+.topMenu {
+	color: #DDDDDD;
+	font-size: 9pt;
+}
+
+a.topMenuLink {
+	text-decoration: none;
+    font-weight: bold;    
+    font-size: 9pt;
+	color: #DDDDDD;
+}
+a:hover.topMenuLink {
+	text-decoration: none;
+    font-weight: bold; 
+    color: #FFFFFF;
+}
+a:visited.topMenuLink {
+	color: #DDDDDD;
+    font-weight: bold;   
+}
+
+.lightText {
+	color: #DDDDDD;
+}
+
+.darkShade {
+	background-color: #990000;
+	color: #DDDDDD;
+}
+
+.importantShade {
+	background-color: #FFFF99;
+	color: #330000;
+}
+
+.lightShade {
+	background-color: #DDDDDD;
+	color: #330000;
+	font-weight: bold;
+}
+
+.sectionHeading {
+	background-color: #FFFFFF;
+	color: #000000;
+	font-weight: bold;
+}
+
+.noShade {
+	background-color: #FFFFFF;
+	color: #000000;
+	font-weight: normal;
+}
+
+.tableTitle {
+	color: #DDDDDD;
+	text-align: left;
+	font-weight: bold;
+	font-size: 12pt;
+}
+
+.tableTitleCentered {
+	color: #DDDDDD;
+	text-align: center;
+	font-weight: bold;
+	font-size: 12pt;
+}
+
+.helpHeading2
+{
+  color: #330000;
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+.helpHeading3
+{
+  color: #990000;
+  font-size: 9pt;
+  font-weight: bold;
+}
+
+.helpText {
+  color: #990000;
+  font-size: 9pt;
+}
+
+.helpDarkShade {
+	background-color: #990000;
+	color: #DDDDDD;
+}
+
+.helpTable {
+	border-width: 1px 1px 1px 1px;
+	border-spacing: 0px;
+	border-style: solid solid solid solid;
+	border-color: rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51);
+	border-collapse: collapse;
+	background-color: rgb(255, 255, 153);
+}
+.helpTableTd {
+	border-width: 1px 1px 1px 1px;
+	padding: 1px 1px 1px 1px;
+	border-style: inset inset inset inset;
+	border-color: rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51);
+	background-color: rgb(255, 255, 153);
+	-moz-border-radius: 0px 0px 0px 0px;
+    color: #990000;
+    font-size: 9pt;
+}
+
+.mainTopSash {
+  width: 100%;
+  margin: 0;
+  border-bottom-style: solid;
+  border-bottom-width: medium;
+  border-bottom-color: #330000;
+  background-color: #990000;
+  color: #DDDDDD;
+  font-size: 9pt;
+}
+
+.mainSideMenu {
+  width: 200px;
+  vertical-align: top;
+  background-color: #FF6633;
+  border-right-style: solid;
+  border-right-width: medium;
+  border-right-color: #330000;
+  font-size: 9pt;
+}
+
+.billSelected {
+	border-style: solid;
+	border-width: thin;
+	border-color: #330000;
+	background-color: #FFFFFF;
+	color: #990000;
+	font-weight: bold;
+	font-size: 9pt;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.billNotSelected {
+	border-style: solid;
+	border-width: thin;
+	border-color: #330000;
+	background-color: #DDDDDD;
+	font-size: 9pt;
+	color: #990000;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.clientReportActionItem {
+	text-align: justify;
+	margin: 4px 0px 4px 0px;
+}
+
+.clientReportActionTable {
+	font-size: 9pt;
+	margin: 4px 0px 4px 0px;
+	width: 100%;
+}
+
+.clientReportActionTableDarkShade {
+	background-color: #990000;
+	color: #DDDDDD;
+}
+
+.clientReportActionTableNoShade {
+	background-color: #DDDDDD;
+	color: #990000;
+	font-weight: normal;
+}
+
+.clientReportActionTableBody {
+	font-size: 10pt;
+	text-align: justify;
+}

@@ -1,0 +1,468 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+
+  <div class="contentsMenu">
+    <h1>Admin User Manual</h1>
+    <ul>
+      <li><a href="index.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+    </ul>
+    <h1>Developer Manual</h1>
+    <ul>
+      <li><a href="developer.html" class="menu">Development Environment</a></li>
+      <li><a href="erd.html" class="menu">Database ERD</a></li>
+      <li><a href="configureDQA.html" class="menu">Configure DQA Report</a></li>
+      <li><a href="howTo.html" class="menu">How To</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>User Manual</h1>
+    <p></p>
+    <h2>Database</h2>
+    <p>In DQA v1.00 most of the DQA functionality is hidden unseen in the database structure. A thorough understanding of the DQA database design
+      will allow a user to make full use of the functionality. In later versions the DQA will expose the data and control available in the database
+      design.</p>
+    <p>How to read the following diagrams:</p>
+    <ul>
+      <li>Each table name beings with DQA_ and is followed by the name separated by underscores. The DQA diagram shows the tables names in an
+        easier to read format. The table titled "User Account" represents the database table DQA_USER_ACCOUNT.</li>
+      <li>The arrows point from a database foreign key to a table that it references.</li>
+      <li>Most arrows terminate on the table, but others are separated on different pages. These arrows point to the left or right indicating
+        that the object referred to lies on a different page.</li>
+      <li>The columns are listed below in their logical order.</li>
+      <li>Columns with defined discrete values have them listed in white insets. This is for simplicity in reading the diagram.</li>
+    </ul>
+    <h3>Application Level - ERD Page 1</h3>
+    <img src="ERDp1.png" width="700" height="541" />
+    <h4>
+      <a name="UserAccount"></a>User Account
+    </h4>
+    <p>Contains a list of users that can access the DQA. Currently only used to authorize the admin user who can access the configuration user
+      interface.</p>
+    <ul>
+      <li><b>username</b> The username that identifies the DQA user.</li>
+      <li><b>password</b> The password (currently in plain text) that can be used to authenticate the DQA user.</li>
+      <li><b>account_type</b> The type of user this account represents. Valid values 'Admin' or 'Submitter'.</li>
+      <li><b>org_id</b> The organization that this user is associated with.</li>
+      <li><b>email</b> The email address of the user.</li>
+    </ul>
+    <h4>
+      <a name="Organization"></a>Organization
+    </h4>
+    <p>Represents a single reporting entity. The DQA was not built to model every organizational structure that exists, but rather a simple
+      hierarchy that applies for submitting entities. As of version 1.00 this is not depended on for specific logic.</p>
+    <ul>
+      <li><b>org_id</b> Unique database id.</li>
+      <li><b>org_label</b> Short, human readable description.</li>
+      <li><b>org_parent_id</b> Reference to organization this belongs to. The base organization is the immunization registry and this
+        organization refers to itself. This field is required.</li>
+      <li><b>coded_value</b> This field is no longer used, as it has been replaced by org_local_code. It will be removed in future DQA versions.</li>
+      <li><b>primary_profile_id</b> The profile that this organization is associated to by default. The DQA supports assigning more than one
+        profile to a single submitting organization but normally an organization will have one profile.</li>
+      <li><b>org_local_code</b> The external id for this organization. This would normally be an id assigned by the IIS.</li>
+    </ul>
+    <h4>
+      <a name="SubmitterProfile"></a>Submitter Profile
+    </h4>
+    <p>A submitting organization sends data and it is classified under a profile. The profile contains settings, characteristics, status, and
+      reports associated with this imported data. Normally an submitting organization would only have one profile, but others would be defined if the
+      organization sends data from more than one system or one account is dedicated for testing.</p>
+    <ul>
+      <li><b>profile_id</b> Unique database id. When submitting realtime this is indicated using FACILITY_ID field.
+        <ul>
+          <li><b>1..100</b> Reserved for MASTER submitter profiles. Master profiles are templates that are recognized by DQA.</li>
+          <li><b>101..250</b> Reserved for TEST submitter profiles, used by DQA centrally for software quality testing.</li>
+          <li><b>251..1199</b> Reserved for pre-defined templates defined by DQA centrally.</li>
+          <li><b>1200..</b> Open for all profiles defined by local DQA instance.</li>
+        </ul></li>
+      <li><b>profile_code</b> Unique code for profile assigned by the IIS. This is an external value and is an alternate key for this profile.</li>
+      <li><b>profile_label</b> Short, human readable description.</li>
+      <li><b>profile_status</b> Indicates how this profile should be handled.
+        <ul>
+          <li><b>Setup</b> Profile has been created but not configured, currently not used by DQA. Will be used when UI is in place and user has
+            begun process to define the profile but has not yet finished.</li>
+          <li><b>Test</b> Profile has been configured and is ready to receive messages, but the data has not been approved to move towards
+            production.</li>
+          <li><b>Prod</b> Profile is approved by IIS to go to production. Data received will be sent to the IIS.</li>
+          <li><b>Hold</b> Profile has been temporarily stopped so data does not move into production.</li>
+          <li><b>Closed</b> Profile is no longer active, can not receive data, and does not participate in reporting activities.</li>
+          <li><b>Template</b> Profile is not used for regular submissions, but rather serves as a template for new submission profiles.</li>
+        </ul></li>
+      <li><b>org_id</b> Organization this submission profile is assigned under.</li>
+      <li><b>data_format</b> The format of the data being accepted. In version 1.00 the DQA only supported HL7 version 2 messages.
+        <ul>
+          <li><b>HL7v2</b> Health Level Seven version 2.x messages.</li>
+        </ul></li>
+      <li><b>transfer_priority</b> Indicates the level of quality and status for processing. Higher priority messages may be processed sooner.
+        Can be used to prioritize export batches.
+        <ul>
+          <li><b>Normal</b></li>
+          <li><b>High</b></li>
+          <li><b>Highest</b></li>
+          <li><b>Low</b></li>
+          <li><b>Lowest</b></li>
+        </ul></li>
+      <li><b>access_key</b> Auto generated code that is the "password" for this profile and should be sent in the PASSWORD field on the real time
+        interface.</li>
+      <li><b>template_id</b> References report template that should be used when generating DQA reports for this profile.</li>
+    </ul>
+    <h4>
+      <a name="PotentialIssueStatus"></a>Potential Issue Status
+    </h4>
+    <p>Indicates the specific status for a given profile and potential issue. This table allows for setting the error/warning/accept/skip status
+      for a specific issue for a specific profile. When creating a new profile the DQA populates this table based on the defaults defined by the base
+      profile associated with the report template. In version 1.00 there is no UI to change potential issue status, but changing it in the database
+      will affect the specific profile.</p>
+    <ul>
+      <li><b>potential_issue_status_id</b> Unique database id.</li>
+      <li><b>issue_id</b> References potential issue.</li>
+      <li><b>profile_id</b> References submitter profile.</li>
+      <li><b>action_code</b> Indicates the type of action that the DQA should take when an issue is encountered.</li>
+      <li><b>expect_min</b> Indicates the minimum percentage that this issue is expected to occur. Value is an integer valued from 0 to 100. The
+        DQA does not currently act on this value.</li>
+      <li><b>expect_max</b> Indicates the maximum percentage that this issue is expected to occur. Value is an integer valued from 0 to 100. The
+        DQA does not currently act on this value.</li>
+    </ul>
+    <h4>
+      <a name="Application"></a>Application
+    </h4>
+    <p>Represents different installed versions of the DQA. While only one application can run at a time, this allows for dynamically reconfiguring
+      DQA to run as any available application.</p>
+    <ul>
+      <li><b>application_id</b> Unique database id.</li>
+      <li><b>application_label</b> Short, human readable description.</li>
+      <li><b>application_type</b> A modifier of the application label to indicate a specific use for this application, such as Test or Prod.</li>
+      <li><b>run_this</b> Indicates whether this is the currently selected application.
+        <ul>
+          <li><b>Y</b> Only one record should be marked as Yes.</li>
+          <li><b>N</b> All other records should be marked as No.</li>
+        </ul></li>
+      <li><b>primary_template_id</b> Indicates the report template that should be used by default by the DQA. This is used in situations where
+        the DQA automatically creates a submitter profile, such as when reading FTP folders. In future versions of the DQA, the user will select the
+        template from a list of available templates when creating a new profile.</li>
+    </ul>
+    <h4>
+      <a name="ReportTemplate"></a>Report Template
+    </h4>
+    <p>Represents the settings for a DQA report that may be run on a submitting profile. For version 1.00 most applications will run only one type
+      of DQA report for all import profiles. In the future, when many different kinds of interfaces are developed, DQA reports may be created to
+      represent the characteristics expected for particular sets of interfaces. (For example, the DQA report template for a birthing hospital may be
+      different than one for a family practice.)</p>
+    <ul>
+      <li><b>template_id</b> Unique database id.</li>
+      <li><b>template_label</b> Short, human readable description.</li>
+      <li><b>report_type_id</b> Indicates which broad cross-application category this report belongs to.</li>
+      <li><b>report_definition</b> An XML document that describes the structure and weights of the DQA report.</li>
+      <li><b>base_profile_id</b></li>
+    </ul>
+    <h4>
+      <a name="IssueAction"></a>Issue Action
+    </h4>
+    <p>Represents the type of actions that can be taken for a given issue.</p>
+    <ul>
+      <li><b>action_code</b> Unique code for action
+        <ul>
+          <li><b>E</b> Error issue indicates that the message should be rejected. Message will be rejected if at least one error issue is
+            identified.</li>
+          <li><b>W</b> Warning issue indicates that there is a condition in the message that should be reviewed as a possible problem. Warnings
+            do not cuase messages to be rejected.</li>
+          <li><b>A</b> Accept issue indicates that the issue is expected and acceptable, they are not highlighted or mentioned.</li>
+          <li><b>S</b> Skip issue indicates that the issue should remove a message, or part of a message from processing. For example, if the
+            patient is over the age accepted by the IIS, a skip could be used to not process over-aged patients and their vaccinations and still not
+            generate an error. A skip may also be used at the vaccination level to indicate that a specific vaccination should not be processed. For
+            example, a known non-immunization even could be quietly skipped using this action.</li>
+        </ul></li>
+      <li><b>action_label</b> Short, human readable description</li>
+    </ul>
+    <h4>
+      <a name="PotentialIssue"></a>Potential Issue
+    </h4>
+    <p>Represents the total set of possible issues that the DQA is sensitive to. In version 1.00 not all issues have been implemented. The most
+      important and crucial issues are implemented, the other were not because (1) implementation requires a large amount of effort or (2) the issue
+      is a low priority issue. Eventually all issues will be implemented as improvements are made.</p>
+    <ul>
+      <li><b>issue_id</b> Unique id.</li>
+      <li><b>target_object</b> The base object that the issue is associated with. For example: Patient, Vaccination</li>
+      <li><b>target_field</b> The field within the base object. For example: Name First, Admin Code</li>
+      <li><b>issue_type</b> The type of issue given a certain field. For example: is missing, is invalid, is valued as</li>
+      <li><b>field_value</b> The value of the field, used for certain specific value checks. For example: A, D</li>
+      <li><b>default_action_code</b> The default action to take. The use of this field has effectively been replaced by the action_code indicated
+        in the potential_issue_satus field.</li>
+      <li><b>change_priority</b> Indicates the level of importance for the user to change this issue. Some issues can not be adjusted by the
+        user, for example if an HL7 message is missing the PID segment, where the patient id and demographics are, the DQA has to indicate an error as
+        it can not be processed. These issues can not be adjusted. Others are often adjusted, for example some sites may be required to always send
+        VFC information and others not. Other issues are rarely adjusted. This status indicates the likely hood that an issue will need to be
+        addressed so that the UI can put the most important configuration issues on top.
+        <ul>
+          <li><b>Must</b> This issue needs to be adjusted during the profile creation process to ensure that the issue is set correctly.</li>
+          <li><b>Should</b> This issue should be adjusted during the profile creation process, or later when reviewed.</li>
+          <li><b>Can</b> This issue may be changed, but normally would not be reviewed.</li>
+          <li><b>May</b> This issue may be changed, but would not be normally displayed in the normal process of editing a profile.</li>
+          <li><b>Blocked</b> This issue may never be changed.</li>
+        </ul></li>
+      <li><b>report_denominator</b> The virtual object that this issue is triggered for. Some issues are triggered for every message/patient,
+        others are triggered for every vaccination or every administered vaccination. This value allows the DQA report to give a realistic percentage
+        for this issue.</li>
+      <li><b>issue_description</b> The human readable description for this issue. Not currently well populated. The display text for the issue is
+        always the concatenation of target_object, target_field, issue_type, and field_value (with the appropriate spaces between). This display text
+        is both controlled and human readable. This is why this field has not been used much yet. In the future this field will probably be filled in
+        with more detail.</li>
+    </ul>
+    <h4>
+      <a name="ReportType"></a>Report Type
+    </h4>
+    <p>Represents the general category for this report. This is so reports from different applications can be grouped in similar categories. These
+      categories are expected to grow as the DQA is used to test different kinds of data sources.</p>
+    <ul>
+      <li><b>report_type_id</b> Unique id.</li>
+      <li><b>report_type_label</b> Human readable description.</li>
+    </ul>
+    <h4>
+      <a name="ReportVaccineGroup"></a>Report Vaccine Group
+    </h4>
+    <p>Represents a vaccine group that may appear on the DQA report. In version 1.0 this is not used, but in the future this will be used to
+      indicate for this template what vaccinations are expected to be administered. This will allow for creating a list of vaccinations that are
+      expected to be seen from a particular submitter. At this point the DQA report XML defines the vaccine groups globally as DQA users are currently
+      not making profile-by-profile changes.</p>
+    <ul>
+      <li><b>report_vaccine_group_id</b> Unique database generated id.</li>
+      <li><b>group_id</b> References vaccine group.</li>
+      <li><b>profile_id</b> References associated profile.</li>
+      <li><b>group_status</b> Indicates how a vaccination in this group should be classified.
+        <ul>
+          <li><b>Expected</b> The vaccination is expected to show up at once in a given batch, every time. For example: DTap</li>
+          <li><b>Recommended</b> The vaccination should show up at once in a given batch, but may not always be present.</li>
+          <li><b>Optional</b> The vaccination is sometimes given, but may or may not be submitted. For example: Zoster</li>
+          <li><b>Not Expected</b> The vaccination is specifically not expected to be sent. For example: Anthrax</li>
+        </ul></li>
+    </ul>
+    <h4>
+      <a name="KeyedSetting"></a>Keyed Setting
+    </h4>
+    <p>Represents a specific setting tied to a key and an object. This is used for cascading settings. If no value is set then the application
+      will pick a default.</p>
+    <ul>
+      <li><b>keyed_id</b> Unique database assigned id.</li>
+      <li><b>keyed_code</b> Unique that identifies the specific setting. This is unique for given object_code and object_id.</li>
+      <li><b>object_code</b> The type of object this setting is associated with. The base object is 'Application'.</li>
+      <li><b>object_id</b> The id of the object. For an 'Application' object_code the id is the application_id.</li>
+      <li><b>keyed_value</b> The value that this setting has.</li>
+    </ul>
+
+
+
+    <h3>Core Validation - ERD Page 2</h3>
+    <img src="ERDp2.png" width="700" height="541" />
+    <h4>
+      <a name="BatchIssues"></a>Batch Issues
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>batch_issues_id</b></li>
+      <li><b>batch_id</b></li>
+      <li><b>issue_id</b></li>
+      <li><b>issue_count</b></li>
+    </ul>
+    <h4>
+      <a name="BatchActions"></a>Batch Actions
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>batch_actions_id</b></li>
+      <li><b>batch_id</b></li>
+      <li><b>action_code</b></li>
+      <li><b>action_count</b></li>
+    </ul>
+    <h4>
+      <a name="BatchVaccineCVX"></a>Batch Vaccine CVX
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>batch_vaccine_cvx_id</b></li>
+      <li><b>batch_id</b></li>
+      <li><b>cvx_id</b></li>
+      <li><b>received_count</b></li>
+    </ul>
+    <h4>
+      <a name="BatchReport"></a>Batch Report
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>batch_report_id</b></li>
+      <li><b>batch_id</b></li>
+    </ul>
+    <h4>
+      <a name="ReceiveQueue"></a>Receive Queue
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>receive_queue_id</b></li>
+      <li><b>batch_id</b></li>
+      <li><b>received_id</b></li>
+      <li><b>submit_code</b></li>
+    </ul>
+    <h4>
+      <a name="MessageBatch"></a>Message Batch
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>batch_id</b></li>
+      <li><b>batch_title</b></li>
+      <li><b>type_code</b></li>
+      <li><b>start_date</b></li>
+      <li><b>end_date</b></li>
+      <li><b>submit_code</b></li>
+      <li><b>profile_id</b></li>
+    </ul>
+    <h4>
+      <a name="BatchType"></a>Batch Type
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>type_code</b>
+        <ul>
+          <li><b>S</b> Submission</li>
+          <li><b>D</b> Daily</li>
+          <li><b>W</b> Weekly</li>
+          <li><b>M</b> Monthly</li>
+          <li><b>O</b> Other</li>
+        </ul></li>
+      <li><b>type_label</b></li>
+    </ul>
+    <h4>
+      <a name="BatchCodeReceived"></a>Batch Code Received
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>batch_code_received_id</b></li>
+      <li><b>batch_id</b></li>
+      <li><b>coded_id</b></li>
+      <li><b>received_amount</b></li>
+    </ul>
+    <h4>
+      <a name="MessageReceived"></a>Message Received
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>received_id</b></li>
+      <li><b>profile_id</b></li>
+      <li><b>received_date</b></li>
+      <li><b>request_text</b></li>
+      <li><b>response_text</b></li>
+      <li><b>action_code</b></li>
+      <li><b>submit_code</b></li>
+    </ul>
+    <h4>
+      <a name="SubmitStatus"></a>Submit Status
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>submit_code</b></li>
+      <li><b>submit_label</b></li>
+    </ul>
+    <h4>
+      <a name="CodeTable"></a>Code Table
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>table_id</b></li>
+      <li><b>table_label</b></li>
+      <li><b>default_code_value</b></li>
+    </ul>
+    <h4>
+      <a name="CodeMaster"></a>Code Master
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>code_master</b></li>
+      <li><b>table_id</b></li>
+      <li><b>code_value</b></li>
+      <li><b>code_label</b></li>
+      <li><b>use_value</b></li>
+      <li><b>code_status</b></li>
+    </ul>
+    <h4>
+      <a name="IssueFound"></a>Issue Found
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>issue_found_id</b></li>
+      <li><b>received_id</b></li>
+      <li><b>issue_id</b></li>
+      <li><b>position_id</b></li>
+      <li><b>action_code</b></li>
+      <li><b>coded_id</b></li>
+    </ul>
+    <h4>
+      <a name="CodeReceived"></a>Code Received
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>coded_id</b></li>
+      <li><b>code_label</b></li>
+      <li><b>profile_id</b></li>
+      <li><b>table_id</b></li>
+      <li><b>received_value</b></li>
+      <li><b>code_value</b></li>
+      <li><b>code_status</b></li>
+      <li><b>received_count</b></li>
+    </ul>
+    <h4>
+      <a name="Code Status"></a>Code Status
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>code_status</b>
+        <ul>
+          <li><b>V</b> Valid</li>
+          <li><b>I</b> Invalid</li>
+          <li><b>U</b> Unrecognized</li>
+          <li><b>D</b> Deprecated</li>
+          <li><b>G</b> Ignored</li>
+        </ul></li>
+      <li><b>code_label</b></li>
+    </ul>
+
+
+    <h3>Data and Reports - ERD Page 3</h3>
+    <img src="ERDp3.png" width="700" height="541" />
+
+    <h3>Data and Reports - ERD Page 4</h3>
+    <img src="ERDp4.png" width="700" height="541" />
+
+    <h3>Vaccination Meta Data - ERD Page 5</h3>
+    <img src="ERDp5.png" width="700" height="541" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h2>Report Definition</h2>
+
+  </div>
+</body>
+</html>

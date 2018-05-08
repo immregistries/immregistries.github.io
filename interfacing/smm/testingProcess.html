@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../interfacing.html" class="menu">Interfacing</a> <a
+      href="../../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a>
+    <a href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Simple Message Mover</h1>
+    <ul>
+      <li><a href="simpleMessageMover.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="userGuide.html" class="menu">User Guide</a></li>
+      <li><a href="releases.html" class="menu">Releases</a></li>
+      <li><a href="testingProcess.html" class="menu">Testing Process</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>Testing Process</h1>
+    <p>Before releasing a new version of the Simple Message Mover it must be tested to ensure that it works with all IIS that it
+     is currently labeled to support. </p>
+     <p>For every IIS connection that SMM is configured to support perform the following tests:</p>
+     <ul>
+       <li>Test with message known to succeed. Verify connection can be made and data transmitted.</li>
+       <li>Test with message with a known data content error, such as missing first name. Verify message is listed as rejected and interface continues to operate normally. </li>
+       <li>Fix data error and resubmit.</li>
+       <li>Test with message with a problem in the message header that is known to cause an overall message processing exception unrelated to content. Verify message is rejected appropriately. </li>
+       <li>Fix header error and resubmit.</li>
+       <li>Change credentials on account and very that SMM registers a problem. </li>
+       <li>Repair the credentials and submit test message successfully. </li>
+     </ul>
+     
+  </div>
+</body>
+</html>

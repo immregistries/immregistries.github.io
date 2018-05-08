@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../interfacing.html" class="menu">Interfacing</a> <a
+      href="../../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a>
+    <a href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Simple Message Mover</h1>
+    <ul>
+      <li><a href="simpleMessageMover.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="userGuide.html" class="menu">User Guide</a></li>
+      <li><a href="releases.html" class="menu">Releases</a></li>
+      <li><a href="testingProcess.html" class="menu">Testing Process</a></li>
+      <li><a href="releaseProcess.html" class="menu">Release Process</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>Simple Message Mover</h1>
+    <h2>User Guide</h2>
+    <p>The user guide assumes that you have followed the instructions to install the SMM and would now like to understand how to use it.</p>
+    <h2>Folder Scanning</h2>
+    <p>
+      When SMM is started by Tomcat it starts a process to recursively scan the <em>SMM Root Folder</em> for folders that have a <em>smm.config.txt</em>
+      file in them. If it finds a folder like this it adds it to a list of connections that the SMM should start. SMM can support as many connections
+      as folders can be configured.
+    </p>
+    <p>
+      Note: In the current version of SMM, the folders are only scanned when SMM first starts. While changes to an existing <em>smm.config.txt</em>
+      are read automatically within seconds new folders with new <em>smm.config.txt</em> files are not automatically recognized. You will need to
+      restart SMM to have them recognized.
+    </p>
+    <h2>SMM Configuration File</h2>
+    <p>
+      The configuration of an SMM connection to an IIS is defined by a configuration file named
+      <code>smm.config.txt</code>
+      located in the <em>IIS Transfer Folder</em>. This file is key to SMM operation as the SMM will not send data unless this file is present.
+    </p>
+    <p>The format of this file is both human and SMM readable. Changes can be made by the SMM user, but normally this file is created in the
+      installation process and is not changed during operation. Here is a a quick explanation of some of the common configuration items:</p>
+    <ul>
+      <li><b>Label</b>: This is a short label or description for this interface that makes sense to the SMM user.</li>
+      <li><b>Type</b>: Indicates what basic type of transport is to be used.</li>
+      <li><b>URL</b>: Indicates the address of the IIS where the data should be sent.</li>
+      <li><b>User Id</b>: Value assigned by IIS.</li>
+      <li><b>Password</b>: Value assigned by IIS. Can be entered as plain text but if generated during installation the password will be hidden
+        in an encrypted string.</li>
+      <li><b>Facility Id</b>: Value assigned by IIS.</li>
+    </ul>
+    <h2>SMM Log File</h2>
+    <p>
+      When SMM discovers the
+      <code>smm.config.txt</code>
+      file it puts the folder on a processing queue and attempts to process the data every 15 seconds. When it attempts to process it writes a log
+      file with details about what it did. This log file is replaced every time it attempts and normally does not contain a lot of information unless
+      there is a problem. However, there are a few pieces of information at the top that can be helpful in administering the application:
+    </p>
+    <ul>
+      <li><b>Software Version</b>: This is the current version of SMM that is running and which created this file.</li>
+      <li><b>Login Username</b>: This username can be used to login to the SMM directly using your local browser. If Tomcat has been installed on
+        the default port 8080 then you can login by going to <a href="http:\\localhost:8080\smm\">http:\\localhost:8080\smm\</a>.</li>
+      <li><b>Login Password</b>: The password is temporary and changes every time SMM is restarted.</li>
+      <li><b>Connection Id</b>: This is a unique id that identifies this specific connection for tracking at the Central Support Center (if
+        enabled).</li>
+    </ul>
+    <h2>SMM Status file</h2>
+    <p>
+      For a quick status check, SMM also creates an empty file with the name indicating the current status of SMM. It always begins with <em>smm-</em>
+      and has no extension. The system timestamp on the file indicates when SMM set the status. Here is a list of possible status and what they
+      indicate that SMM is:
+    </p>
+    <ul>
+      <li><b>smm-is-waiting</b>: running normally but has no data to send.</li>
+      <li><b>smm-is-starting</b>: configuring folders and connection settings.</li>
+      <li><b>smm-is-looking</b>: looking in the folder to see if there is data to send.</li>
+      <li><b>smm-is-preparing</b>: reading the data to be sent and preparing it to be sent.</li>
+      <li><b>smm-is-sending</b>: actively connecting to the IIS and submitting data.</li>
+      <li><b>smm-has-problem</b>: unable to connect with external because of an unexpected problem during transmission.</li>
+    </ul>
+    <h2>SMM has a Problem: Transmission Issues</h2>
+    <p>This can happen when the IIS receiver is not available (Internet is down) or because it returns an exception. This does not however
+      indicate if there are problems with the data itself. Messages that are rejected with negative HL7 acknowledgement messages are not considered
+      problems by SMM. The SMM considers that a successful transmission and indicates a problem with the message itself using a different process.</p>
+    <p>If SMM is unable to connect to an IIS it waits for a certain period of time and then tries again. If at each try the same problem occurs
+      SMM delays retrying longer and longer. SMM will retry on the following schedule until successful:</p>
+    <ul>
+      <li>1st: wait 30 seconds.</li>
+      <li>2nd: wait 1 minute.</li>
+      <li>3rd: wait 2 minutes.</li>
+      <li>4th: wait 4 minutes.</li>
+      <li>5th: wait 8 minutes.</li>
+      <li>6th: wait 16 minutes.</li>
+      <li>7th: wait 30 minutes.</li>
+      <li>8th: wait 1 hour.</li>
+      <li>9th: wait 2 hours.</li>
+      <li>10th: wait 4 hours.</li>
+      <li>11th: wait 8 hours.</li>
+      <li>12th: wait 12 hours.</li>
+      <li>13th: wait 1 day.</li>
+      <li>14th, 15th, etc.: wait 1 day.</li>
+    </ul>
+    <p>The exact time of the retry will be indicated in the log file and if a successful transmission occurs the retry waiting will restart at the
+      1st position. To have the SMM retry sooner that the scheduled retry time you must stop and restart Tomcat. When starting SMM will again attempt
+      to send and if not successful will begin back at the first position for setting delays between retries.</p>
+    <p>This status only indicates if there are transmission problems. SMM will try to send data again if there are transmission issues but not if
+      the message is properly rejected. SMM is responsible for properly transmitting messages but is not responsible if the IIS does not like or accep
+      the message. Farther down in this user guide there is an explanation of how these errors are noted by SMM so they can be resolved.</p>
+    <h2>Request Folder</h2>
+    <p>All data to be sent must be placed in the request folder. SMM looks for files in this folder and sends them to the IIS. Do not place any
+      other files in this folder, except ones that contain data you wish to send to the IIS.</p>
+    <p>SMM supports batches of messages in a single file. SMM recommends that each file begin with a FHS segment and end with a FTS segment. This
+      allows SMM to ensure that the entire file is present before sending it. If a file begins with FHS and does not end with FTS, SMM will skip the
+      file and not process. This is an important safety mechanism. Otherwise, SMM will process files that do not have FHS segment at the top but will
+      not require a terminating FTS segment. Each HL7 message can be placed one after the other.</p>
+    <p>
+      Once a file has been identified it is read by SMM and prepared for transmission. SMM creates a new folder in the requests director called
+      <code>.work</code>
+      . The presence of this directory indicates one of the following possibilities:
+    </p>
+    <ol>
+      <li>SMM is in the process of preparing to send data.</li>
+      <li>SMM is in the process of sending data to the IIS.</li>
+      <li>SMM was stopped before it could finish sending data to the IIS and the prepared data is waiting to be sent.</li>
+    </ol>
+    <p>
+      The
+      <code>.work</code>
+      can be examined to see how many messages have yet to be sent to the state. Since every message is placed in a single file, simply counting the
+      number of files indicates how many messages there are yet to send. In addition the file name is made up of the original file name plus an
+      ordinal number and so it is very easy to see the total number of messages that were found in the file. SMM processes the file in strict
+      alpha-numerical order. This means that all the files within a single batch will be sent in the order they appeared in the file. Multiple files
+      will be sent in the order of how they sort.
+    </p>
+    <p>
+      Once SMM has transmitted a single message it deletes the corresponding message file in the
+      <code>.work</code>
+      directory. This is SMM's method of tracking whether a particular messages has been sent or not. If there is an exception or problem in
+      transmission the file will not be deleted.
+    </p>
+    <p>
+      If there is an error SMM creates a new file with a similar name to the original file but with piece reading
+      <code>.rejected</code>
+      and places it in the
+      <code>request</code>
+      folder. This is SMM's way of indicating to the user which messages were rejected by the IIS. SMM will not retransmit this information unless the
+      name of the file is change to remove the
+      <code>.rejected</code>
+      part of the name. The user should note that the SMM also writes comments and the acknowledgement message in the same rejected file. These
+      comments and the acknowledgement will be ignored and never sent to the IIS if you rename the file and attempt to retransmit.
+    </p>
+    <p>
+      Once a file has been transmitted it is deleted from the
+      <code>request</code>
+      folder. A clean and empty folder indicates that all data has been transmitted. The presence of rejected files indicates that some or all of the
+      messages were rejected. Rejected files never contain messages that were accepted positively by the IIS. The SMM does not consider a file
+      accepted positively by the IIS unless the IIS specifically acknowledges receipt of the message and indicates that it was "Accepted".
+    </p>
+    <h2>Response Folder</h2>
+    <p>
+      The response folder holds the acknowledgement or query response messages received from the IIS. The name of the files match the names of the
+      files put in the
+      <code>request</code>
+      folder. If a file with the same name is sent again, SMM automatically renames it to keep it unique.
+    </p>
+    <h2>Backup Folder</h2>
+    <p>Before SMM processes a file it puts an exact copy of the file here for backup purposes.</p>
+    <h2>Sent Folder</h2>
+    <p>This is a copy of what exactly was sent to the IIS. The SMM can be configured to make minor changes to the HL7 message before being sent,
+      and the SMM will strip out any comments or Acknowledgment messages included in the request file. The sent folder documents exactly what was
+      sent. In most common configurations this will mirror what is in backup.</p>
+    <h2>Test Folder</h2>
+    <p>The Simple Message Mover is bundled with the DQA Testing tool and the DQA Testing tool uses this folder to save test cases and test
+      messages that have been generated. Under normal SMM operation this folder is not used.</p>
+    <h2>Update Folder</h2>
+    <p>
+      The SMM has been partially configured to support Reciprocal Batch Update but this work is not yet complete. For now, if VXU updates are received
+      in response to any data sent the IIS it is placed here in this folder. Those updates back will never appear in the <em>response</em> folder. SMM
+      is not yet ready to fully support Reciprocal Batch Update and so the IIS account should not be configured for this at this time.
+    </p>
+  </div>
+</body>
+</html>

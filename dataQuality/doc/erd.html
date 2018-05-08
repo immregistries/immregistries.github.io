@@ -1,0 +1,945 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="doc.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a>
+    <a href="../dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html"
+      class="menu">Forecasting</a> <a href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Admin User Manual</h1>
+    <ul>
+      <li><a href="index.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+    </ul>
+    <h1>Developer Manual</h1>
+    <ul>
+      <li><a href="developer.html" class="menu">Development Environment</a></li>
+      <li><a href="erd.html" class="menu">Database ERD</a></li>
+      <li><a href="configureDQA.html" class="menu">Configure DQA Report</a></li>
+      <li><a href="howTo.html" class="menu">How To</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h2>Database ERD v1.08</h2>
+    <p>
+      The latest version of the database ERD can be found here: <a
+        href="https://svn.code.sf.net/p/ois-dqa/code/database/erd/ERD%20v1.08.pdf">ERD v1.08.pdf</a>
+    </p>
+    <p>Complete documentation of all fields needs to be rewritten. Until then the documentation for ERD v1.00 covers
+      nearly 90% of the current database and gives a good grounding in the basic thoughts behind the layout of the
+      database.</p>
+    <h2>Database ERD v1.00</h2>
+    <p>In DQA v1.00 most of the DQA functionality is hidden unseen in the database structure. A thorough
+      understanding of the DQA database design will allow a user to make full use of the functionality. In later
+      versions the DQA will expose the data and control available in the database design.</p>
+    <h4>Database Tables</h4>
+    <ul>
+      <li><a href="#Application">Application</a></li>
+      <li><a href="#BatchActions">Batch Actions</a></li>
+      <li><a href="#BatchCodeReceived">Batch Code Received</a></li>
+      <li><a href="#BatchIssues">Batch Issues</a></li>
+      <li><a href="#BatchReport">Batch Report</a></li>
+      <li><a href="#BatchReport">Batch Report</a></li>
+      <li><a href="#BatchType">Batch Type</a></li>
+      <li><a href="#BatchVaccineCVX">Batch Vaccine CVX</a></li>
+      <li><a href="#CodeMaster">Code Master</a></li>
+      <li><a href="#CodeReceived">Code Received</a></li>
+      <li><a href="#CodeStatus">Code Status</a></li>
+      <li><a href="#CodeTable">Code Table</a></li>
+      <li><a href="#DatabaseLog">Database Log</a></li>
+      <li><a href="#IssueAction">Issue Action</a></li>
+      <li><a href="#IssueFound">Issue Found</a></li>
+      <li><a href="#KeyedSetting">Keyed Setting</a></li>
+      <li><a href="#MessageBatch">Message Batch</a></li>
+      <li><a href="#MessageHeader">Message Header</a></li>
+      <li><a href="#MessageReceived">Message Received</a></li>
+      <li><a href="#NextofKin">Next of Kin</a></li>
+      <li><a href="#Organization">Organization</a></li>
+      <li><a href="#Patient">Patient</a></li>
+      <li><a href="#PotentialIssue">Potential Issue</a></li>
+      <li><a href="#PotentialIssueStatus">Potential Issue Status</a></li>
+      <li><a href="#ReceiveQueue">Receive Queue</a></li>
+      <li><a href="#ReportTemplate">Report Template</a></li>
+      <li><a href="#ReportType">Report Type</a></li>
+      <li><a href="#ReportVaccineGroup">Report Vaccine Group</a></li>
+      <li><a href="#SubmitStatus">Submit Status</a></li>
+      <li><a href="#SubmitterProfile">Submitter Profile</a></li>
+      <li><a href="#UserAccount">User Account</a></li>
+      <li><a href="#Vaccination">Vaccination</a></li>
+      <li><a href="#VaccineCPT">Vaccine CPT</a></li>
+      <li><a href="#VaccineCVX">Vaccine CVX</a></li>
+      <li><a href="#VaccineCVXGroup">Vaccine CVX Group</a></li>
+      <li><a href="#VaccineGroup">Vaccine Group</a></li>
+      <li><a href="#VaccineMVX">Vaccine MVX</a></li>
+      <li><a href="#VaccineProduct">Vaccine Product</a></li>
+    </ul>
+    <h3>ERD Diagrams</h3>
+    <p>How to read the following diagrams:</p>
+    <ul>
+      <li>Each table name beings with DQA_ and is followed by the name separated by underscores. The DQA diagram
+        shows the tables names in an easier to read format. The table titled "User Account" represents the database
+        table DQA_USER_ACCOUNT.</li>
+      <li>The arrows point from a database foreign key to a table that it references.</li>
+      <li>Most arrows terminate on the table, but others are separated on different pages. These arrows point to
+        the left or right indicating that the object referred to lies on a different page.</li>
+      <li>The columns are listed below in their logical order.</li>
+      <li>Columns with defined discrete values have them listed in white insets. This is for simplicity in reading
+        the diagram.</li>
+    </ul>
+    <h3>Application Level - ERD Page 1</h3>
+    <img src="ERDp1.png" width="700" height="527" border="1" />
+    <h4>
+      <a name="UserAccount"></a>User Account
+    </h4>
+    <p>Contains a list of users that can access the DQA. Currently only used to authorize the admin user who can
+      access the configuration user interface.</p>
+    <ul>
+      <li><b>username</b> The username that identifies the DQA user.</li>
+      <li><b>password</b> The password (currently in plain text) that can be used to authenticate the DQA user.</li>
+      <li><b>account_type</b> The type of user this account represents. Valid values 'Admin' or 'Submitter'.</li>
+      <li><b>org_id</b> Refers to <a href="#Organization">organization</a> this user is associated with.</li>
+      <li><b>email</b> The email address of the user.</li>
+    </ul>
+    <h4>
+      <a name="Organization"></a>Organization
+    </h4>
+    <p>Represents a single reporting entity. The DQA was not built to model every organizational structure that
+      exists, but rather a simple hierarchy that applies for submitting entities. As of version 1.00 this is not
+      depended on for specific logic.</p>
+    <ul>
+      <li><b>org_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_organization_id_sequence INCREMENT BY 1 START WITH 100</code></li>
+      <li><b>org_label</b> Short, human readable description.</li>
+      <li><b>org_parent_id</b> Reference to <a href="#Organization">organization</a> this belongs to. The base
+        organization is the immunization registry and this organization refers to itself. This field is required.</li>
+      <li><b>coded_value</b> This field is no longer used, as it has been replaced by org_local_code. It will be
+        removed in future DQA versions.</li>
+      <li><b>primary_profile_id</b> The <a href="#SubmitterProfile">submitter profile</a> that this organization is
+        associated to by default. The DQA supports assigning more than one profile to a single submitting organization
+        but normally an organization will have one profile.</li>
+      <li><b>org_local_code</b> The external id for this organization. This would normally be an id assigned by the
+        IIS.</li>
+    </ul>
+    <h4>
+      <a name="SubmitterProfile"></a>Submitter Profile
+    </h4>
+    <p>A submitting organization sends data and it is classified under a profile. The profile contains settings,
+      characteristics, status, and reports associated with this imported data. Normally an submitting organization would
+      only have one profile, but others would be defined if the organization sends data from more than one system or one
+      account is dedicated for testing.</p>
+    <ul>
+      <li><b>profile_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_profile_id_sequence INCREMENT BY 1 START WITH 1200</code> <br />When submitting realtime this is indicated using
+        FACILITY_ID field.
+        <ul>
+          <li><b>1..100</b> Reserved for MASTER submitter profiles. Master profiles are templates that are
+            recognized by DQA.</li>
+          <li><b>101..250</b> Reserved for TEST submitter profiles, used by DQA centrally for software quality
+            testing.</li>
+          <li><b>251..1199</b> Reserved for pre-defined templates defined by DQA centrally.</li>
+          <li><b>1200..</b> Open for all profiles defined by local DQA instance.</li>
+        </ul></li>
+      <li><b>profile_code</b> Unique code for profile assigned by the IIS. This is an external value and is an
+        alternate key for this profile.</li>
+      <li><b>profile_label</b> Short, human readable description.</li>
+      <li><b>profile_status</b> Indicates how this profile should be handled.
+        <ul>
+          <li><b>Setup</b> Profile has been created but not configured, currently not used by DQA. Will be used
+            when UI is in place and user has begun process to define the profile but has not yet finished.</li>
+          <li><b>Test</b> Profile has been configured and is ready to receive messages, but the data has not been
+            approved to move towards production.</li>
+          <li><b>Prod</b> Profile is approved by IIS to go to production. Data received will be sent to the IIS.</li>
+          <li><b>Hold</b> Profile has been temporarily stopped so data does not move into production.</li>
+          <li><b>Closed</b> Profile is no longer active, can not receive data, and does not participate in
+            reporting activities.</li>
+          <li><b>Template</b> Profile is not used for regular submissions, but rather serves as a template for new
+            submission profiles.</li>
+        </ul></li>
+      <li><b>org_id</b> Indicates <a href="#Organization">organization</a> that this submission profile is assigned
+        under.</li>
+      <li><b>data_format</b> The format of the data being accepted. In version 1.00 the DQA only supported HL7
+        version 2 messages.
+        <ul>
+          <li><b>HL7v2</b> Health Level Seven version 2.x messages.</li>
+        </ul></li>
+      <li><b>transfer_priority</b> Indicates the level of quality and status for processing. Higher priority
+        messages may be processed sooner. Can be used to prioritize export batches.
+        <ul>
+          <li><b>Normal</b></li>
+          <li><b>High</b></li>
+          <li><b>Highest</b></li>
+          <li><b>Low</b></li>
+          <li><b>Lowest</b></li>
+        </ul></li>
+      <li><b>access_key</b> Auto generated code that is the "password" for this profile and should be sent in the
+        PASSWORD field on the real time interface.</li>
+      <li><b>template_id</b> References report template that should be used when generating DQA reports for this
+        profile.</li>
+    </ul>
+    <h4>
+      <a name="PotentialIssueStatus"></a>Potential Issue Status
+    </h4>
+    <p>Indicates the specific status for a given profile and potential issue. This table allows for setting the
+      error/warning/accept/skip status for a specific issue for a specific profile. When creating a new profile the DQA
+      populates this table based on the defaults defined by the base profile associated with the report template. In
+      version 1.00 there is no UI to change potential issue status, but changing it in the database will affect the
+      specific profile.</p>
+    <ul>
+      <li><b>potential_issue_status_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_potential_status_id_seq INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>issue_id</b> References <a href="#PotentialIssue">potential issue</a>.</li>
+      <li><b>profile_id</b> References <a href="#SubmitterProfile">submitter profile</a>.</li>
+      <li><b>action_code</b> Indicates the type of action that the DQA should take when an issue is encountered.</li>
+      <li><b>expect_min</b> Indicates the minimum percentage that this issue is expected to occur. Value is an
+        integer valued from 0 to 100. The DQA does not currently act on this value.</li>
+      <li><b>expect_max</b> Indicates the maximum percentage that this issue is expected to occur. Value is an
+        integer valued from 0 to 100. The DQA does not currently act on this value.</li>
+    </ul>
+    <h4>
+      <a name="Application"></a>Application
+    </h4>
+    <p>Represents different installed versions of the DQA. While only one application can run at a time, this allows
+      for dynamically reconfiguring DQA to run as any available application.</p>
+    <ul>
+      <li><b>application_id</b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>application_label</b> Short, human readable description.</li>
+      <li><b>application_type</b> A modifier of the application label to indicate a specific use for this
+        application, such as Test or Prod.</li>
+      <li><b>run_this</b> Indicates whether this is the currently selected application.
+        <ul>
+          <li><b>Y</b> Only one record should be marked as Yes.</li>
+          <li><b>N</b> All other records should be marked as No.</li>
+        </ul></li>
+      <li><b>primary_template_id</b> Indicates the report template that should be used by default by the DQA. This
+        is used in situations where the DQA automatically creates a submitter profile, such as when reading FTP folders.
+        In future versions of the DQA, the user will select the template from a list of available templates when
+        creating a new profile.</li>
+    </ul>
+    <h4>
+      <a name="ReportTemplate"></a>Report Template
+    </h4>
+    <p>Represents the settings for a DQA report that may be run on a submitting profile. For version 1.00 most
+      applications will run only one type of DQA report for all import profiles. In the future, when many different
+      kinds of interfaces are developed, DQA reports may be created to represent the characteristics expected for
+      particular sets of interfaces. (For example, the DQA report template for a birthing hospital may be different than
+      one for a family practice.)</p>
+    <ul>
+      <li><b>template_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_template_id_sequence INCREMENT BY 1 START WITH 1200</code></li>
+      <li><b>template_label</b> Short, human readable description.</li>
+      <li><b>report_type_id</b> Indicates which broad cross-application category this report belongs to.</li>
+      <li><b>report_definition</b> An XML document that describes the structure and weights of the DQA report.</li>
+      <li><b>base_profile_id</b> References <a href="#SubmitterProfile">submitter profile</a>.</li>
+    </ul>
+    <h4>
+      <a name="IssueAction"></a>Issue Action
+    </h4>
+    <p>Represents the type of actions that can be taken for a given issue.</p>
+    <ul>
+      <li><b>action_code</b> Unique id, managed externally in ERD spreadsheet.
+        <ul>
+          <li><b>E</b> Error issue indicates that the message should be rejected. Message will be rejected if at
+            least one error issue is identified.</li>
+          <li><b>W</b> Warning issue indicates that there is a condition in the message that should be reviewed as
+            a possible problem. Warnings do not cuase messages to be rejected.</li>
+          <li><b>A</b> Accept issue indicates that the issue is expected and acceptable, they are not highlighted
+            or mentioned.</li>
+          <li><b>S</b> Skip issue indicates that the issue should remove a message, or part of a message from
+            processing. For example, if the patient is over the age accepted by the IIS, a skip could be used to not
+            process over-aged patients and their vaccinations and still not generate an error. A skip may also be used
+            at the vaccination level to indicate that a specific vaccination should not be processed. For example, a
+            known non-immunization even could be quietly skipped using this action.</li>
+        </ul></li>
+      <li><b>action_label</b> Short, human readable description</li>
+    </ul>
+    <h4>
+      <a name="PotentialIssue"></a>Potential Issue
+    </h4>
+    <p>Represents the total set of possible issues that the DQA is sensitive to. In version 1.00 not all issues have
+      been implemented. The most important and crucial issues are implemented, the other were not because (1)
+      implementation requires a large amount of effort or (2) the issue is a low priority issue. Eventually all issues
+      will be implemented as improvements are made.</p>
+    <ul>
+      <li><b>issue_id</b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>target_object</b> The base object that the issue is associated with. For example: Patient, Vaccination</li>
+      <li><b>target_field</b> The field within the base object. For example: Name First, Admin Code</li>
+      <li><b>issue_type</b> The type of issue given a certain field. For example: is missing, is invalid, is valued
+        as</li>
+      <li><b>field_value</b> The value of the field, used for certain specific value checks. For example: A, D</li>
+      <li><b>default_action_code</b> The default action to take. The use of this field has effectively been
+        replaced by the action_code indicated in the potential_issue_satus field. References <a href="#IssueAction">issue
+          action</a>.</li>
+      <li><b>change_priority</b> Indicates the level of importance for the user to change this issue. Some issues
+        can not be adjusted by the user, for example if an HL7 message is missing the PID segment, where the patient id
+        and demographics are, the DQA has to indicate an error as it can not be processed. These issues can not be
+        adjusted. Others are often adjusted, for example some sites may be required to always send VFC information and
+        others not. Other issues are rarely adjusted. This status indicates the likely hood that an issue will need to
+        be addressed so that the UI can put the most important configuration issues on top.
+        <ul>
+          <li><b>Must</b> This issue needs to be adjusted during the profile creation process to ensure that the
+            issue is set correctly.</li>
+          <li><b>Should</b> This issue should be adjusted during the profile creation process, or later when
+            reviewed.</li>
+          <li><b>Can</b> This issue may be changed, but normally would not be reviewed.</li>
+          <li><b>May</b> This issue may be changed, but would not be normally displayed in the normal process of
+            editing a profile.</li>
+          <li><b>Blocked</b> This issue may never be changed.</li>
+        </ul></li>
+      <li><b>report_denominator</b> The virtual object that this issue is triggered for. Some issues are triggered
+        for every message/patient, others are triggered for every vaccination or every administered vaccination. This
+        value allows the DQA report to give a realistic percentage for this issue.</li>
+      <li><b>issue_description</b> The human readable description for this issue. Not currently well populated. The
+        display text for the issue is always the concatenation of target_object, target_field, issue_type, and
+        field_value (with the appropriate spaces between). This display text is both controlled and human readable. This
+        is why this field has not been used much yet. In the future this field will probably be filled in with more
+        detail.</li>
+    </ul>
+    <h4>
+      <a name="ReportType"></a>Report Type
+    </h4>
+    <p>Represents the general category for this report. This is so reports from different applications can be
+      grouped in similar categories. These categories are expected to grow as the DQA is used to test different kinds of
+      data sources.</p>
+    <ul>
+      <li><b>report_type_id</b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>report_type_label</b> Human readable description.</li>
+    </ul>
+    <h4>
+      <a name="DatabaseLog"></a>Database Log
+    </h4>
+    <p>Represents comments that were made during upgrades to the DQA database. This can be used to track changes
+      made and also to determine the current version of the database. The latest updated row, with the largest change id
+      is the one considered to indicate the current version of the database.</p>
+    <ul>
+      <li><b>change_id</b> unique key to row</li>
+      <li><b>change_date</b> date/time change was made locally</li>
+      <li><b>change_version</b> the DQA version this change belongs to</li>
+      <li><b>change_comment</b> log of change made</li>
+    </ul>
+    <h4>
+      <a name="ReportVaccineGroup"></a>Report Vaccine Group
+    </h4>
+    <p>Represents a vaccine group that may appear on the DQA report. In version 1.0 this is not used, but in the
+      future this will be used to indicate for this template what vaccinations are expected to be administered. This
+      will allow for creating a list of vaccinations that are expected to be seen from a particular submitter. At this
+      point the DQA report XML defines the vaccine groups globally as DQA users are currently not making
+      profile-by-profile changes.</p>
+    <ul>
+      <li><b>report_vaccine_group_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_report_vac_group_id_seq INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>group_id</b> References vaccine group.</li>
+      <li><b>profile_id</b> References <a href="#SubmitterProfile">submitter profile</a>.</li>
+      <li><b>group_status</b> Indicates how a vaccination in this group should be classified.
+        <ul>
+          <li><b>Expected</b> The vaccination is expected to show up at once in a given batch, every time. For
+            example: DTap</li>
+          <li><b>Recommended</b> The vaccination should show up at once in a given batch, but may not always be
+            present.</li>
+          <li><b>Optional</b> The vaccination is sometimes given, but may or may not be submitted. For example:
+            Zoster</li>
+          <li><b>Not Expected</b> The vaccination is specifically not expected to be sent. For example: Anthrax</li>
+        </ul></li>
+    </ul>
+    <h4>
+      <a name="KeyedSetting"></a>Keyed Setting
+    </h4>
+    <p>Represents a specific setting tied to a key and an object. This is used for cascading settings. If no value
+      is set then the application will pick a default.</p>
+    <ul>
+      <li><b>keyed_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE dqa_keyed_id_sequence
+          INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>keyed_code</b> Unique that identifies the specific setting. This is unique for given object_code and
+        object_id.</li>
+      <li><b>object_code</b> The type of object this setting is associated with. The base object is 'Application'.</li>
+      <li><b>object_id</b> The id of the object. For an 'Application' object_code the id is the application_id.</li>
+      <li><b>keyed_value</b> The value that this setting has.</li>
+    </ul>
+
+
+
+
+
+
+    <h3>Core Validation - ERD Page 2</h3>
+    <img src="ERDp2.png" width="700" height="541" border="1" />
+    <h4>
+      <a name="BatchIssues"></a>Batch Issues
+    </h4>
+    <p>Represents a summary of issues found for the associated batch. This table includes all issues identified in
+      the batch of messages, even those that have A : Accept as a value.</p>
+    <ul>
+      <li><b>batch_issues_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_batch_issue_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>batch_id</b> References <a href="#MessageBatch">message batch</a>.</li>
+      <li><b>issue_id</b> References <a href="#PotentialIssue">potential issue</a>.</li>
+      <li><b>issue_count</b> Number of times issues was identified in batch of records.</li>
+    </ul>
+    <h4>
+      <a name="BatchActions"></a>Batch Actions
+    </h4>
+    <p>Represents a summary of actions taken on messages in the associated message batch.</p>
+    <ul>
+      <li><b>batch_actions_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_batch_action_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>batch_id</b> References <a href="#MessageBatch">message batch</a>.</li>
+      <li><b>action_code</b> References <a href="#IssueAction">issue action</a>.</li>
+      <li><b>action_count</b> Number of times action was taken in the associated message batch.</li>
+    </ul>
+    <h4>
+      <a name="BatchVaccineCVX"></a>Batch Vaccine CVX
+    </h4>
+    <p>
+      Represents a summary of vaccinations identified and resolved to a known CVX code. This differs from Batch Code
+      Received in that a submission that includes CPT and not CVX will still be reprsented here in this table. The DQA
+      validation process resolves the codes sent to a single CVX code which is the source of counts here. In this way
+      this table may be used to tally the concepts received without regard to the actual code set used. To see counts of
+      what was actually received see the <a href="#BatchCodeReceived">Batch Code Received</a> table.
+    </p>
+    <ul>
+      <li><b>batch_vaccine_cvx_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_batch_vaccine_cvx_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>batch_id</b> References <a href="#MessageBatch">message batch</a>.</li>
+      <li><b>cvx_id</b> References <a href="#VaccineCvx">vaccine cvx</a>.</li>
+      <li><b>received_count</b> The number of vaccinations received that either used this CVX code or were mapped
+        to this CVX code.</li>
+    </ul>
+    <h4>
+      <a name="BatchReport"></a>Batch Report
+    </h4>
+    <p>
+      This is shown on Page 2 of the ERD in order to show how it relates. The full <a href="#BatchReport"> batch
+        report</a> table is shown on page 3.
+    </p>
+    <h4>
+      <a name="ReceiveQueue"></a>Receive Queue
+    </h4>
+    <p>Links the received message into a particular batch. Each received message may be associated with one or more
+      batches. Typically a message is first associated with a 'Submission' batch and then at the end of the week to a
+      'Weekly' batch. At this point the message is considered to be both part of a 'Submission' batch and the 'Weekly'
+      batch. This table makes this possible.</p>
+    <ul>
+      <li><b>receive_queue_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_receive_queue_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>batch_id</b> References <a href="#MessageBatch">message batch</a>.</li>
+      <li><b>received_id</b> References <a href="#MessageReceived">message received</a>.</li>
+      <li><b>submit_code</b> References <a href="#SubmitStatus">submit status</a>.</li>
+    </ul>
+    <h4>
+      <a name="MessageBatch"></a>Message Batch
+    </h4>
+    <p>Represents a set of messages that have been grouped together under a particular critiera. For example, all
+      messages that were submitted together in a single file, or all messages that were submitted within a week and are
+      not ready for import into the IIS. Each message batch has associated tables that support the DQA report.</p>
+    <ul>
+      <li><b>batch_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE dqa_batch_id_sequence
+          INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>batch_title</b> Title assigned to batch. Currently this is automatically assigned. In the future the
+        user may be able to specify the title for one-off batches.</li>
+      <li><b>type_code</b> References <a href="#BatchType">batch type</a>.</li>
+      <li><b>start_date</b> The start date/time when the batch starts. Other selection criteria may also apply and
+        so this date range does not imply that all messages submitted within the range are necessarily included.</li>
+      <li><b>end_date</b> The end date/time when the batch ends. Other selection criteria may also apply and so
+        this date range does not imply that all messages submitted within the range are necessarily included.</li>
+      <li><b>submit_code</b> References <a href="#SubmitStatus">submit status</a>.</li>
+      <li><b>profile_id</b>References <a href="#SubmitterProfile">submitter profile</a></li>
+    </ul>
+    <h4>
+      <a name="BatchType"></a>Batch Type
+    </h4>
+    <p>Indicates the type of batch.</p>
+    <ul>
+      <li><b>type_code</b>
+        <ul>
+          <li><b>S</b> Submission - Batch file is a collection of records that were submitted together, for example
+            as a file.</li>
+          <li><b>D</b> Daily - Batch file is a collection of records that were submitted on the same day.</li>
+          <li><b>W</b> Weekly - Batch file is a collection of records that were submitted in the same week.</li>
+          <li><b>M</b> Monthly - Batch file is a collection of records that were submitted in the same month.</li>
+          <li><b>O</b> Other- Other criteria was used to</li>
+        </ul></li>
+      <li><b>type_label</b></li>
+    </ul>
+    <h4>
+      <a name="BatchCodeReceived"></a>Batch Code Received
+    </h4>
+    <p>Represents a summary of the codes received in this batch. Every coded value that is received is represented
+      in this table. If the code value is not received it is not listed here.</p>
+    <ul>
+      <li><b>batch_code_received_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_batch_code_rec_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>batch_id</b> References <a href="#MessageBatch">message batch</a>.</li>
+      <li><b>coded_id</b> References <a href="#CodeReceived">code received</a>.</li>
+      <li><b>received_count</b> The number of times that this coded value was received.</li>
+    </ul>
+    <h4>
+      <a name="MessageReceived"></a>Message Received
+    </h4>
+    <p>Represents a single message that has been submitted. Every submitted message that is from an authorized
+      submitter will be recorded here, even if the message has errors. (Unauthorized users are rejected from sending
+      data into DQA and that data is never stored.)</p>
+    <ul>
+      <li><b>received_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_message_received_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>profile_id</b>References <a href="#SubmitterProfile">submitter profile</a></li>
+      <li><b>received_date</b> The date the message was received.</li>
+      <li><b>request_text</b> The originally submitted text of the message.</li>
+      <li><b>response_text</b> The acknowledgement generated and made immediately avaialable to the sender.</li>
+      <li><b>action_code</b> References <a href="#IssueAction">issue action</a>.</li>
+      <li><b>submit_code</b> References <a href="#SubmitStatus">submit status</a>.</li>
+    </ul>
+    <h4>
+      <a name="SubmitStatus"></a>Submit Status
+    </h4>
+    <p>Represents the status of a message or batch in being exported and submitted to the IIS. This table only
+      applies when the DQA is setup to export data out.</p>
+    <ul>
+      <li><b>submit_code</b> Unique id, managed externally in ERD spreadsheet.
+        <ul>
+          <li><b>E</b> Excluded - The message or batch has been excluded because of an error or other issue. This
+            data will not be exported to the IIS.</li>
+          <li><b>Q</b> Queued - The message or batch are ready to be included in a batch that could be exported to
+            the IIS.</li>
+          <li><b>H</b> Hold - The message or batch has been flagged for holding for future review. Could eventually
+            be imported if indicated as such.</li>
+          <li><b>P</b> Prepared - The message or batch have been pulled off the queue, placed in a submission
+            batch, and are ready for export to the IIS.</li>
+          <li><b>S</b> Submitted - The message or batch has been exported for import into the IIS.</li>
+        </ul></li>
+      <li><b>submit_label</b></li>
+    </ul>
+    <h4>
+      <a name="CodeTable"></a>Code Table
+    </h4>
+    <p>Represents all the tables that are supported for mapping.</p>
+    <ul>
+      <li><b>table_id</b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>table_label</b> Short, human readable description of table.</li>
+      <li><b>default_code_value</b> The default value that is used when an invalid value is submitted for a table.</li>
+    </ul>
+    <h4>
+      <a name="CodeMaster"></a>Code Master
+    </h4>
+    <p>An authoritative list of all the known valid values for the Code Tables. These are the values defined by
+      state and local standards.</p>
+    <ul>
+      <li><b>code_master_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_code_master_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>table_id</b> References <a href="#CodeTable">code table</a>.</li>
+      <li><b>code_value</b> The value that is expected to be received.</li>
+      <li><b>code_label</b> Short, human readable description.</li>
+      <li><b>use_value</b> The value that should actually be used. This is good for supporting deprecated values.</li>
+      <li><b>code_status</b> References <a href="#CodeReceived">code received</a>.</li>
+    </ul>
+    <h4>
+      <a name="IssueFound"></a>Issue Found
+    </h4>
+    <p>Represents and identifies that an issue was found when looking at a message received. Every message received
+      normally has a hundred or so issue. Not all issues are errors, and many are expected during normal operation.</p>
+    <ul>
+      <li><b>issue_found_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_issue_found_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>received_id</b> References <a href="#MessageReceived">message received</a>.</li>
+      <li><b>issue_id</b> References <a href="#PotentialIssue">potential issue</a>.</li>
+      <li><b>position_id</b> Indicates the position within a repeating element. For example, if the issue is
+        'Vaccination Date is invalid', this number represents which RXA to look at to find the issue.</li>
+      <li><b>action_code</b> References <a href="#IssueAction">issue action</a>.</li>
+      <li><b>code_id</b> References <a href="#CodeReceived">code received</a>.</li>
+    </ul>
+    <h4>
+      <a name="CodeReceived"></a>Code Received
+    </h4>
+    <p>Represents an actual code value received for a particular submitter profile. The DQA records all code values
+      received, valid or not, recognized or not recognized in this table. In this way it is easy to see exactly what
+      codes are being send and which are not for a particular submitting profile.</p>
+    <ul>
+      <li><b>coded_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE dqa_code_id_sequence
+          INCREMENT BY 1 START WITH 1000</code></li>
+      <li><b>code_label</b> Short, human readable description of code. This is the description supplied in the
+        message, if available. For example, if this is the vaccination admin code then the label would be the value in
+        RXA-5.2.</li>
+      <li><b>profile_id</b> References <a href="#SubmitterProfile">submitter profile</a>.</li>
+      <li><b>table_id</b> References <a href="#CodeTable">code table</a>.</li>
+      <li><b>received_value</b> Indicates the value that was sent, as it was.</li>
+      <li><b>code_value</b> Indicates the value this was mapped to.</li>
+      <li><b>code_status</b> References <a href="#CodeReceived">code received</a>.</li>
+      <li><b>received_count</b> Indicates the number of times this code value has been received. This value can be
+        reset and so is only used to help troubleshoot issues and for general tracking.</li>
+    </ul>
+    <h4>
+      <a name="CodeStatus"></a>Code Status
+    </h4>
+    <p>Represents the current state of a code received or code master value.</p>
+    <ul>
+      <li><b>code_status</b>
+        <ul>
+          <li><b>V</b> Valid - The code is a known value and is valid for use.</li>
+          <li><b>I</b> Invalid - The code is recognized and known to be unacceptable value.</li>
+          <li><b>U</b> Unrecognized - The code is not recognized, may or may not be valid if mapped correctly.</li>
+          <li><b>D</b> Deprecated - The code is recognized, but has been replaced by a more correct value that
+            should be used instead.</li>
+          <li><b>G</b> Ignored - The code indicates that the parent object should be skipped. To actually skip the
+            issue associated with this condition has to indicate skip. By default most profiles are setup this way, but
+            they can be changed on an issue by issue basis.</li>
+        </ul></li>
+      <li><b>code_label</b></li>
+    </ul>
+
+
+    <h3>Data and Reports - ERD Page 3</h3>
+    <img src="ERDp3.png" width="700" height="541" border="1" />
+    <h4>
+      <a name="BatchReport"></a>Batch Report
+    </h4>
+    <p>Represents the summary data that makes the bulk of the official DQA report. This information is stored here
+      in detailed level in order to support aggregate analysis of all DQA reports generated. For details on how each of
+      these fields are calculated, please see the instructions on how to read a DQA report.</p>
+    <ul>
+      <li><b>batch_report_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_batch_report_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>batch_id</b> References <a href="#MessageBatch">message batch</a>.</li>
+      <li><b>comp_patient_score</b> Completion patient score: score for completion level of patient data fields.</li>
+      <li><b>comp_score</b> Completion score: score for completion level of all message data fields.</li>
+      <li><b>comp_vaccination_score</b> Completion vaccination score: score fo the completion level of vaccination
+        data fields.</li>
+      <li><b>message_count</b> Message count: the number of messages received in this batch.</li>
+      <li><b>message_with_admin_count</b> Message with administrations count: the number of messages with at least
+        one administered vaccination.</li>
+      <li><b>next_of_kin_count</b> Next-of-kin count: the total number of next-of-kins identified.</li>
+      <li><b>overall_score</b> Overall score: the overall DQA score given to this batch.</li>
+      <li><b>patient_count</b> Patient count: the number of patients found in the batch. Normally this should match
+        the message_count value.</li>
+      <li><b>patient_under_age_count</b> Patient under-age count: the number of patients who are considered minors
+        by the DQA and therefore should contain guardian or responsible party information.</li>
+      <li><b>qual_error_score</b> Quality error score: the score given indicating if the level of errors is within
+        the expected range or not.</li>
+      <li><b>qual_score</b> Quality score: the score given to indicate the general level of quality, considering
+        both errors and warnings.</li>
+      <li><b>qual_warn_score Quality warning score: the score given to indicate the leve of warnings is within
+          the expected range or not. </b></li>
+      <li><b>time_average</b> Timeliness average days: The average number of days it took for messages with
+        administrated vaccinations to be submitted. Measuring from the latest administered vaccination date to the date
+        of receiving the message.</li>
+      <li><b>time_count_early</b> Timeliness count of early reports: The number of messages that arrived earlier
+        than the configured on-time window.</li>
+      <li><b>time_count_on_time</b> Timeliness count of on-time reports: The number of messages that arrived within
+        the configured on-time window.</li>
+      <li><b>time_count_late</b> Timeliness count of late reports: the number of messages that arrived after the
+        configured on-time window but before being considered very late.</li>
+      <li><b>time_count_very_late</b> Timeliness count of very late reports: the number of messages that arrived
+        after the configured late window.</li>
+      <li><b>time_count_old_data</b> Timeliness count of old data: the number of messages that have vaccinations
+        that are much later than expected and represent vaccination reports of events that happened quite a while ago.
+        (Indicates stale or old data.)</li>
+      <li><b>time_date_first</b> Timeliness date first: the date and time of the first administered vaccination.
+        (Only considering the latest administered vaccination in each message. Earlier vaccinations in the same message
+        are ignored.)</li>
+      <li><b>time_date_last</b> Timeliness date last: the date and time of the last administered vaccination. (Only
+        considering the latest administered vaccination in each message. Earlier vaccinations in the same message are
+        ignored.)</li>
+      <li><b>time_score</b> Timeliess score: the overall score indicating how timely this batch was.</li>
+      <li><b>time_score_early</b> Timelines score of early reports: score given for records submitted early. (extra
+        credit)</li>
+      <li><b>time_score_on_time</b> Timeliness score for on-time reports.</li>
+      <li><b>time_score_late</b> Timeliness score of late reports.</li>
+      <li><b>time_score_very_late</b> Timeliness score for very late reports.</li>
+      <li><b>time_score_old_data</b> Timeliness score for old data.</li>
+      <li><b>vacc_admin_count</b> Vaccination administration count: the number of vaccinations indicated as being
+        administered.</li>
+      <li><b>vacc_delete_count</b> Vaccination deleted count: the number of reported deletions. (If one vaccination
+        is deleted twice, this counts in this measure both times.)</li>
+      <li><b>vacc_historical_count</b> Vaccination historical count: the number of vaccinations indicated as
+        historical.</li>
+      <li><b>vacc_not_admin_count</b> Vaccination not administered count: the number of vaccinations indicated as
+        not administered for whatever reason. (Could indicate a refusal, contraindication or other special condition. )</li>
+    </ul>
+    <h4>
+      <a name="Patient"></a>Patient
+    </h4>
+    <p>Represents the patient data received. Special notice should be given that this table is similar to a Patient
+      table that may be found within an IIS, but should not be thought of as serving the same purpose. The key
+      difference is that this table can have null or empty values where normally the IIS would not and that there is no
+      attempt to merge duplicate patient information. For example a patient record may have no name and still be listed
+      here, and if the patient is submitted more than once that information will be entered in different rows of this
+      table. This is because this table does not represent a consolidated patient record but rather the record that was
+      received by the DQA at one time. For this reason this table puts very little constraint about what data is
+      populated and allows for a wide range of valid and no-valid values.</p>
+
+    <ul>
+      <li><b>patient_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_patient_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>received_id</b> References <a href="#MessageReceived">message received</a>.</li>
+      <li><b>skipped</b> Indicates if this message should be skipped because an issue at the patient level
+        indicated a skip.</li>
+      <li><b>address_city</b></li>
+      <li><b>address_country</b></li>
+      <li><b>address_county_parish</b></li>
+      <li><b>address_state</b></li>
+      <li><b>address_street</b></li>
+      <li><b>address_street2</b></li>
+      <li><b>address_type</b></li>
+      <li><b>address_zip</b></li>
+      <li><b>alias_first</b></li>
+      <li><b>alias_last</b></li>
+      <li><b>alias_middle</b></li>
+      <li><b>alias_prefix</b></li>
+      <li><b>alias_suffix</b></li>
+      <li><b>alias_type_code</b></li>
+      <li><b>birth_date</b></li>
+      <li><b>birth_multiple</b></li>
+      <li><b>birth_order</b></li>
+      <li><b>birth_place</b></li>
+      <li><b>death_date</b></li>
+      <li><b>death_indicator</b></li>
+      <li><b>ethnicity_code</b></li>
+      <li><b>facility_id</b></li>
+      <li><b>facility_name</b></li>
+      <li><b>financial_elgibility</b></li>
+      <li><b>financial_elgibility_date</b></li>
+      <li><b>id_medicaid</b></li>
+      <li><b>id_ssn</b></li>
+      <li><b>id_submitter_assign_auth</b></li>
+      <li><b>id_submitter_number</b></li>
+      <li><b>id_submitter_type_code</b></li>
+      <li><b>mother_maiden_name</b></li>
+      <li><b>name_first</b></li>
+      <li><b>name_last</b></li>
+      <li><b>name_middle</b></li>
+      <li><b>name_prefix</b></li>
+      <li><b>name_type_code</b></li>
+      <li><b>phone_number</b></li>
+      <li><b>physician_name_first</b></li>
+      <li><b>physician_name_last</b></li>
+      <li><b>physician_number</b></li>
+      <li><b>primary_language_code</b></li>
+      <li><b>protection_code</b></li>
+      <li><b>publicity_code</b></li>
+      <li><b>race_code</b></li>
+      <li><b>registry_status</b></li>
+      <li><b>sex_code</b></li>
+    </ul>
+    <h4>
+      <a name="NextOfKin">Next of Kin</a>
+    </h4>
+    <p>Represents a parent, associated party, next of kin, responsible party, or guardian that has been included
+      with the patient data.</p>
+    <ul>
+      <li><b>next_of_kin_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_next_of_kin_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>received_id</b> References <a href="#MessageReceived">message received</a>.</li>
+      <li><b>position_id</b> Indicates the position within the original message this next-of-kin appeared, starting
+        at position 1.</li>
+      <li><b>skipped</b> Indicates if this next-of-kin should be skipped and not processed. This occurs if at least
+        one of the issues encountered signals a skip.</li>
+      <li><b>address_city</b></li>
+      <li><b>address_country</b></li>
+      <li><b>address_county_parish</b></li>
+      <li><b>address_state</b></li>
+      <li><b>address_street</b></li>
+      <li><b>address_street2</b></li>
+      <li><b>address_type</b></li>
+      <li><b>address_zip</b></li>
+      <li><b>name_first</b></li>
+      <li><b>name_last</b></li>
+      <li><b>name_middle</b></li>
+      <li><b>name_prefix</b></li>
+      <li><b>name_suffix</b></li>
+      <li><b>name_type_code</b></li>
+      <li><b>phone_number</b></li>
+      <li><b>relationship_code</b></li>
+    </ul>
+    <h4>
+      <a name="Vaccination"></a>Vaccination
+    </h4>
+    <p>Represents a submitted vaccination. Please note that this table is a corollary with similar tables in most
+      IIS, but is has important differences. This table contains all data received and may be missing required fields.
+      Also, data is not deduplicated and represents a copy of every report received without any merging The DQA can
+      merge data before exporting but does not do that at this point.</p>
+    <ul>
+      <li><b>vaccination_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_vaccination_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>received_id</b> References <a href="#MessageReceived">message received</a>.</li>
+      <li><b>position_id</b> Indicates the position with the original message as this vaccinatino appeared,
+        starting at position 1.</li>
+      <li><b>skipped</b> Indicates if this vaccination should be skipped and not processed. This occurs if at least
+        one of the issues encountered signals a skip.</li>
+      <li><b>admin_code_cpt</b></li>
+      <li><b>admin_code_cvx</b></li>
+      <li><b>admin_date</b></li>
+      <li><b>amount</b></li>
+      <li><b>amount_unit_code</b></li>
+      <li><b>body_route_code</b></li>
+      <li><b>body_site_code</b></li>
+      <li><b>completion_status_code</b></li>
+      <li><b>confidentiality_code</b></li>
+      <li><b>entered_by_number</b></li>
+      <li><b>entered_by_name_first</b></li>
+      <li><b>entered_by_name_last</b></li>
+      <li><b>expiration_date</b></li>
+      <li><b>facility_id</b></li>
+      <li><b>facility_name</b></li>
+      <li><b>financial_eligibility_code</b></li>
+      <li><b>given_by_number</b></li>
+      <li><b>given_by_name_last</b></li>
+      <li><b>given_by_name_first</b></li>
+      <li><b>id_submitter</b></li>
+      <li><b>information_source_code</b></li>
+      <li><b>lot_number</b></li>
+      <li><b>manufacturer_code</b></li>
+      <li><b>order_control_code</b></li>
+      <li><b>ordered_by_number</b></li>
+      <li><b>refusal_code</b></li>
+      <li><b>system_entry_date</b></li>
+      <li><b>vis_publication_date</b></li>
+    </ul>
+
+    <h3>Data and Reports - ERD Page 4</h3>
+    <img src="ERDp4.png" width="700" height="541" border="1" />
+    <h4>
+      <a name="MessageHeader"></a>Message Header
+    </h4>
+    <p>Represents the message header information received. If the message was not in HL7 format many of these fields
+      will not have values.</p>
+    <ul>
+      <li><b>header_id</b> Unique id, managed by database. Oracle uses <code>SEQUENCE dqa_header_id_sequence
+          INCREMENT BY 1 START WITH 1200</code></li>
+      <li><b>received_id</b> References <a href="#MessageReceived">message received</a>.</li>
+      <li><b>ack_type_accept</b></li>
+      <li><b>ack_type_application</b></li>
+      <li><b>character_set</b></li>
+      <li><b>country_code</b></li>
+      <li><b>message_control</b></li>
+      <li><b>message_date</b></li>
+      <li><b>message_profile</b></li>
+      <li><b>message_structure</b></li>
+      <li><b>message_trigger</b></li>
+      <li><b>message_type</b></li>
+      <li><b>message_version</b></li>
+      <li><b>processing_status</b></li>
+      <li><b>receiving_application</b></li>
+      <li><b>receiving_facility</b></li>
+      <li><b>sending_application</b></li>
+      <li><b>sending_facility</b></li>
+    </ul>
+
+    <h3>Vaccination Meta Data - ERD Page 5</h3>
+    <img src="ERDp5.png" width="700" height="541" border="1" />
+    <h4>
+      <a name="VaccineGroup"></a>Vaccine Group
+    </h4>
+    <p>Represents a grouping of vaccinations that contain a common component that targets a specific disease. This
+      is used to group vaccines together that are similar for reporting purposes and to determine if reports of expected
+      vaccinations are being received.</p>
+    <ul>
+      <li><b>group_id </b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>group_code </b> Unique, human readable code, managed externally by CDC.</li>
+      <li><b>group_label </b> Short, human readable description.</li>
+      <li><b>group_status </b> Default status of vaccine group for DQA report. Not used at this point, for general
+        reference only.
+        <ul>
+          <li><b>Expected</b> The vaccination is expected to show up at once in a given batch, every time. For
+            example: DTap</li>
+          <li><b>Recommended</b> The vaccination should show up at once in a given batch, but may not always be
+            present.</li>
+          <li><b>Optional</b> The vaccination is sometimes given, but may or may not be submitted. For example:
+            Zoster</li>
+          <li><b>Not Expected</b> The vaccination is specifically not expected to be sent. For example: Anthrax</li>
+        </ul></li>
+    </ul>
+    <h4>
+      <a name="VaccineCVXGroup"></a>Vaccine CVX Group
+    </h4>
+    <p>Joins the Vaccine Group to a Vaccine CVX concept. A CVX code can belong to more than one group.</p>
+    <ul>
+      <li><b> cvx_group_id </b> Unique id, managed by database. Oracle uses <code>SEQUENCE
+          dqa_cvx_group_id_sequence INCREMENT BY 1 START WITH 1</code></li>
+      <li><b>group_id </b> References <a href="#VaccineGroup">vaccine group</a>.</li>
+      <li><b>cvx_id </b> References <a href="#VaccineCvx">vaccine cvx</a>.</li>
+    </ul>
+    <h4>
+      <a name="VaccineCVX"></a>Vaccine CVX
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>cvx_id</b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>cvx_code</b> Unique code, managed externally by CDC.</li>
+      <li><b>cvx_label</b> Short, human readable description, defined by CDC.</li>
+      <li><b>valid_start_date</b> Date when this vaccination began to be administered anywhere.</li>
+      <li><b>use_start_date</b> Date when this vaccination began to be administered routinely. (Licensed in the
+        US.)</li>
+      <li><b>use_end_date</b> Date when this vaccination stopped being routinely administered.</li>
+      <li><b>valid_end_date</b> Date when this vaccination was no longer administered anywhere.</li>
+      <li><b>use_month_start</b> The first month of the patients life that this vaccination can be administered.</li>
+      <li><b>use_month_end</b> The month of the patients life where it is too late to administer a vaccination.
+        (Note: this month indicates that administering a vaccination after this date is unexpected and invalid and most
+        likely repesents a data quality issue. Do not use the ACIP recommendations for healthy children as the sole
+        criteria as their are cases with some vaccinations were high-risk children are given vaccinations beyond the
+        normal time envelope. These dates are to catch uses that are most positively not correct. Finer validation,
+        using a vaccination forecaster will ocurr at a later point. )</li>
+      <li><b>concept_type</b>
+        <ul>
+          <li><b>vaccine</b> Indicates that this CVX code represents a real vaccination given to patients.</li>
+          <li><b>unspecified</b> Indicats that this CVX code is generic and does not indicate enough information to
+            report an administered vaccination. This code is retained for reporting historical vaccinations.</li>
+          <li><b>non vaccine</b> Indicates that this CVX code represents a non-vaccination event, either a
+            non-vaccination pharmaceutical or a non-administration code such as 999 or 998. /li>
+        </ul></li>
+    </ul>
+    <h4>
+      <a name="VaccineProduct"></a>Vaccine Product
+    </h4>
+    <p>Represents a specific vaccine product with its generic name. This table joins the manufacturer and a specific
+      vaccine.</p>
+    <ul>
+      <li><b>product_id</b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>product_name</b> Short, human readable name for product.</li>
+      <li><b>product_label</b> Short, human readable label for product.</li>
+      <li><b>cvx_id</b> References <a href="#VaccineCvx">vaccine cvx</a>.</li>
+      <li><b>mvx_code</b> References <a href="#VaccineMvx">vaccine mvx</a>.</li>
+      <li><b>valid_start_date</b> Date when this vaccine product began to be administered anywhere.</li>
+      <li><b>use_start_date</b> Date when this vaccine product began to be administered routinely. (Licensed in the
+        US.)</li>
+      <li><b>use_end_date</b> Date when this vaccine product stopped being routinely administered.</li>
+      <li><b>valid_end_date</b> Date when this vaccine product was no longer administered anywhere.</li>
+    </ul>
+    <h4>
+      <a name="VaccineCPT"></a>Vaccine CPT
+    </h4>
+    <p></p>
+    <ul>
+      <li><b>cpt_id</b> Unique id, managed externally in ERD spreadsheet.</li>
+      <li><b>cpt_code</b> Unique code, assigned by industry, obtained from CDC website, stored in ERD spreadsheet.</li>
+      <li><b>cpt_label</b> Short, human readable label.</li>
+      <li><b>valid_start_date</b> Date when this vaccine product began to be administered anywhere.</li>
+      <li><b>use_start_date</b> Date when this vaccine product began to be administered routinely. (Licensed in the
+        US.)</li>
+      <li><b>use_end_date</b> Date when this vaccine product stopped being routinely administered.</li>
+      <li><b>valid_end_date</b> Date when this vaccine product was no longer administered anywhere.</li>
+      <li><b>cvx_id</b> References <a href="#VaccineCvx">vaccine cvx</a>.</li>
+    </ul>
+    <h4>
+      <a name="VaccineMVX"></a>Vaccine MVX
+    </h4>
+    <p>Represents a vaccination manufacturer. There is a lot of changes in this area as manufacturers merge and
+      names change. The codes shown here represent their use across time.</p>
+    <ul>
+      <li><b>mvx_code</b></li>
+      <li><b>mvx_label</b></li>
+      <li><b>valid_start_date</b> Date when this manufacturer concept first started to be used (company started).</li>
+      <li><b>use_start_date</b> Date when this manufacturer's products first started to be routinely used.</li>
+      <li><b>use_end_date</b> Date when this manufacturer's products stopped being regularly used. (The company
+        went out of business, bought by another company, or rebranded and new MVX code assigned.)</li>
+      <li><b>valid_end_date</b> Date when this manufacturer's products were stopped from being used anywhere. (All
+        of the old vaccinations are now used out of current inventories.)</li>
+    </ul>
+  </div>
+</body>
+</html>

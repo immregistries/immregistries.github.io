@@ -1,0 +1,483 @@
+<%@ page language="java"%>
+<% String downloadDirectory = "c:/temp/"; %>
+<!--
+Original Author: Nathan Bunker
+
+This simple JSP page has been written to support initial meaningful use requirements stage 1
+for submitting to an immunization registry. This is not a replacement for a proper HL7 
+interface but allows the following program objectives:
+
+  1. Providers can submit their HL7 messages and comply with the intentention of
+     meaningful use requirements.
+  2. The immunization registry will get initial files from providers who have 
+     implemented a certified EHR. This will aid when determining which providers
+     may be ready for pilot interfaces.\
+
+This page was written to work in a Java Servlet engine, such as Tomcat. To deploy this
+please do the following:
+
+  1. Edit the top line that indicates the download directory to indicate a directory
+     on the java servlet server where you want the HL7 files to be saved. If the file
+     you specifiy does not exist it will be automatically created.
+  2. Edit the JSP langage below so that it reflects your program objects and name.
+     Whevere you see *** indicates a place where you need to type the appropriate 
+     language. 
+  3. Copy web page to a current web application deployment, or make your own deployment.
+  4. Navigate to jsp page, fill in page and submit and it should be operational.
+  
+The code below should be compatible with any Java from version 1.4 forward. 
+
+Feel free to modify any part of this code as needed by your progam and to use it as you
+see fit. This code initial code has been developed as a demonstration of what is 
+possible but is not guaranteed to work for you. Your miliage may vary and no warranty of
+fitness is given. If you have any questions I'm happy to answer. Hope this helps!
+
+Nathan Bunker 03-31-2011
+
+ -->
+<%@page import="java.io.PrintWriter"%>
+<%@page import="java.io.FileWriter"%>
+<%@page import="java.io.File"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Iterator"%><html>
+  <head>
+    <title>Meaningful Use</title>
+  </head>
+  <body>
+    <h1>*** State Registry Name ***</h1>
+    <h2>Meaningful Use Attestation</h2>
+    <%
+      /* 
+        These are the variables that are collected for attestation. You can add
+        your own here as needed. */
+      String orgName = "";
+      String contactName = "";
+      String contactPhone = "";
+      String contactEmail = "";
+      String softwareName = "";
+      String softwareVersion = "";
+      String messageData = "";
+      String action = request.getParameter("action");
+      if (action == null)
+      {
+        action = "";
+      }
+      ArrayList rxaSegmentFields = new ArrayList();
+      if (action.equals("Submit")) 
+      {
+        /* This code is only run if the report is being
+           submitted. */
+        orgName = request.getParameter("orgName").trim();
+        contactName = request.getParameter("contactName").trim();
+        contactPhone = request.getParameter("contactPhone").trim();
+        contactEmail = request.getParameter("contactEmail").trim();
+        softwareName = request.getParameter("softwareName").trim();
+        softwareVersion = request.getParameter("softwareVersion").trim();
+        messageData = request.getParameter("messageData").trim();
+        ArrayList problems = new ArrayList();
+        /* The following code checks the fields for minimum lengths and also 
+          ensures that extremely dodgy data is not sent, such as unprintable
+          characters. */
+        
+        /* Organization Name */
+        String fieldName = "Organization Name";
+        String field = orgName;
+        if (field == null || field.length() < 3)
+        {
+          problems.add(fieldName + " must be at least 3 characters");
+        }
+        else 
+        {
+          char c;
+          for (int i = 0; i < field.length(); i++)
+          {
+            c = field.charAt(i);
+            if (c < ' ' || c > 128)
+            {
+              problems.add(fieldName + " has an illegal or unexpected character");
+            }
+          }
+        }
+        if (field.length() > 100)
+        {
+          field = field.substring(0, 100);
+        }
+        orgName = field;
+        
+        /* Contact Name */
+        fieldName = "Contact Name";
+        field = contactName;
+        if (field == null || field.length() < 3)
+        {
+          problems.add(fieldName + " must be at least 3 characters");
+        }
+        else 
+        {
+          char c;
+          for (int i = 0; i < field.length(); i++)
+          {
+            c = field.charAt(i);
+            if (c < ' ' || c > 128)
+            {
+              problems.add(fieldName + " has an illegal or unexpected character");
+            }
+          }
+        }
+        if (field.length() > 100)
+        {
+          field = field.substring(0, 100);
+        }
+        contactName = field;
+        
+        /* Contact Phone */
+        fieldName = "Contact Phone";
+        field = contactPhone;
+        if (field == null || field.length() < 3)
+        {
+          problems.add(fieldName + " must be at least 3 characters");
+        }
+        else 
+        {
+          char c;
+          for (int i = 0; i < field.length(); i++)
+          {
+            c = field.charAt(i);
+            if (c < ' ' || c > 128)
+            {
+              problems.add(fieldName + " has an illegal or unexpected character");
+            }
+          }
+        }
+        if (field.length() > 100)
+        {
+          field = field.substring(0, 100);
+        }
+        
+        /* Contact Phone */
+        contactPhone = field;
+        fieldName = "Contact Email";
+        field = contactEmail;
+        if (field == null || field.length() < 3)
+        {
+          problems.add(fieldName + " must be at least 3 characters");
+        }
+        else 
+        {
+          char c;
+          for (int i = 0; i < field.length(); i++)
+          {
+            c = field.charAt(i);
+            if (c < ' ' || c > 128)
+            {
+              problems.add(fieldName + " has an illegal or unexpected character");
+            }
+          }
+        }
+        if (field.length() > 100)
+        {
+          field = field.substring(0, 100);
+        }
+        contactEmail = field;
+        
+        /* Software Name */
+        fieldName = "Software Name";
+        field = softwareName;
+        if (field == null || field.length() < 3)
+        {
+          problems.add(fieldName + " must be at least 3 characters");
+        }
+        else 
+        {
+          char c;
+          for (int i = 0; i < field.length(); i++)
+          {
+            c = field.charAt(i);
+            if (c < ' ' || c > 128)
+            {
+              problems.add(fieldName + " has an illegal or unexpected character");
+            }
+          }
+        }
+        if (field.length() > 100)
+        {
+          field = field.substring(0, 100);
+        }
+        softwareName = field;
+        
+        /* Software Version */
+        fieldName = "Software Version";
+        field = orgName;
+        if (field == null || field.length() < 3)
+        {
+        }
+        else 
+        {
+          char c;
+          for (int i = 0; i < field.length(); i++)
+          {
+            c = field.charAt(i);
+            if (c < ' ' || c > 128)
+            {
+              problems.add(fieldName + " has an illegal or unexpected character");
+            }
+          }
+        }
+        if (field.length() > 100)
+        {
+          field = field.substring(0, 100);
+        }
+        softwareVersion = field;
+        
+        /* 
+          Now it's time to do some very basic checks, just to make sure we have
+          something that looks remotely like HL7. */
+        int startPos = 0;
+        while (messageData.length() > startPos && messageData.charAt(startPos) <= ' ')
+        {
+          startPos++;
+        }
+        if (startPos > 0 && startPos < messageData.length())
+        {
+          messageData = messageData.substring(startPos);
+        }
+          
+        /* Checking to see if the first segment is an HL7 header segment. */
+        if (messageData.length() < 10 || (!messageData.startsWith("MSH") && !messageData.startsWith("BHS") && !messageData.startsWith("FHS")))
+        {
+          problems.add("Message does not appear to be HL7, should start with MSH, BHS or FHS segments");
+        }
+        
+        /* 
+          If the message is really long we want to reject. This keeps us from having
+          performance problems. This was not built to attest for large files. Normally
+          providers are only sending one or two messages. */
+        if (messageData.length() > 1024 * 900)
+        {
+          problems.add("Message batches larger than 900 KB are not accepted");
+        }
+        
+        if (problems.size() == 0) 
+        { 
+        /*
+          Now it is time to look through the segments and look for vaccinations.
+          The parsing algorithm breaks a segment on non-printable characters. This 
+          allows for alternative line breaking and for the standard HL7 line 
+          breaking. Blank or short lines are skipped. */
+        ArrayList segments = new ArrayList();
+        boolean newSegment = true;
+        String line = "";
+        for (int i = 0; i < messageData.length(); i++)
+        {
+          char c = messageData.charAt(i);
+          if (c < ' ')
+          {
+            if (line.length() > 4)
+            {
+              segments.add(line);
+            }
+            line = "";
+          }
+          else 
+          {
+            line = line + c;
+          }
+        }
+        if (line.length() > 4)
+        {
+          segments.add(line);
+        }
+        /* Now it's time to pull out the RXA segments. */
+        for (int i = 0; i < segments.size(); i++)
+        {
+          String segment = (String) segments.get(i);
+          String[] fields = segment.split("\\|");
+          if (fields[0].equals("RXA"))
+          {
+            rxaSegmentFields.add(fields);
+          }
+          else if (fields[0].equals("MSH"))
+          {
+            if (fields.length < 8 || !fields[8].startsWith("VXU"))
+            {
+              problems.add("Unexpected message type: '" + (fields.length < 8 ? "" : fields[8]) + "', expecting VXU");
+            }
+          }
+        }
+        /* For a success we really have to see at least one RXA. */
+        if (rxaSegmentFields.size() == 0)
+        {
+          problems.add("No RXA segments in file");
+        }
+        /* At the very least one of them should have a date and vaccine code. */
+        boolean foundOneGoodOne = false;
+        for (Iterator it = rxaSegmentFields.iterator(); it.hasNext();)
+        {
+          String[] fields = (String[]) it.next();
+          if (fields.length > 5 && !fields[3].equals("") && !fields[5].equals(""))
+          {
+            foundOneGoodOne = true;
+          }
+        }
+        if (!foundOneGoodOne)
+        {
+          problems.add("No RXA segments found with values in RXA-3 and RXA-5");
+        }
+        }
+        /* If we found more than one problem then we display the error message. */
+        if (problems.size() > 0)
+        {
+          %>
+          <p><font color="red">Unable to accept meaningful use message.</font></p>
+          <ul>
+          <% 
+            for (Iterator it = problems.iterator(); it.hasNext(); )
+            {
+              String problem = (String) it.next();
+              %>
+              <li><%= problem %></li>
+              <% 
+            }
+            %>
+          </ul>
+          <p>Submitted Data:</p>
+          <code><%= messageData %></code>
+          <% 
+        }
+        else
+        {
+          /* If the data is good it needs to be saved to the file.  */
+          File baseDir = new File(downloadDirectory);
+          if (!baseDir.exists())
+          {
+            /* Make the directory if it's not there yet. */
+            baseDir.mkdirs();
+          }
+          SimpleDateFormat sdf = new SimpleDateFormat();
+          /* File name is based on the organization name indicated by user. */
+          /* 
+            The safe name has all non numeric and alphabetic characters removed. This is to
+            ensure there are no problems making the file name from a user entered value.
+            */
+          String safeOrgName = "";
+          for (int i = 0; i < orgName.length(); i++)
+          {
+            char c = orgName.charAt(i);
+            if (c == ' ' || (c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z'))
+            {
+              safeOrgName += c;
+            }
+          }
+          String filename = "MU " + safeOrgName.trim() + ".txt";
+          File file = new File(baseDir, filename);
+          if (file.exists() && file.length() > 10 * 1024 * 1024) 
+          {
+            /* File is now bigger than 10 MB. We should not accept any more submissions from this
+               provider. This is to protect from someone sending a large amount of data too
+               many times and loading up the drive with too much data. */
+            %>
+            <p><font color="red">The maximum amount of meaningful use data allowed to be sent
+              has been received. Thank you for your submissions, please *** contact registry
+              help desk for assistance. ***</font></p>
+            <% 
+          }
+          else { 
+          
+          /* File is opened for append. If this is run again by same clinic it is 
+            just tacked onto the original file. */
+          PrintWriter pw = new PrintWriter(new FileWriter(file, true));
+          pw.println("-----------------------------------------------------------");
+          pw.println("Submission Date:   " + sdf.format(new Date()));
+          pw.println("Organization Name: " + orgName);
+          pw.println("Contact Name:      " + contactName);
+          pw.println("Contact Phone:     " + contactPhone);
+          pw.println("Contact Email:     " + contactEmail);
+          pw.println("Software Name:     " + softwareName);
+          pw.println("Software Version:  " + softwareVersion);
+          pw.println();
+          pw.println(messageData);
+          pw.println();
+          pw.close();
+          %>
+            <p><font color="Blue"><bold>Submission Successful</bold></font></p>
+            <p>*** Put appropriate language to make this page an official attestation report. This should
+            include language that indicates that the sender has complied with the intent of meaningful
+            use to submit an HL7 message to to the immunization registry. Instructions should be given
+            to indicate what next steps could be done to receive feedback from the registry about 
+            how to make additional submissions. ***</p>
+            <table celpadding="4" cellspacing="0" border="1">
+              <tr><td>Submission Date</td><td><%= sdf.format(new Date()) %></td></tr>
+              <tr><td>Organization Name</td><td><%= orgName %></td></tr>
+              <tr><td>Contact Name</td><td><%= contactName %></td></tr>
+              <tr><td>Contact Phone</td><td><%= contactPhone %></td></tr>
+              <tr><td>Contact Email</td><td><%= contactEmail %></td></tr>
+              <tr><td>Software Name</td><td><%= softwareName %></td></tr>
+              <tr><td>Software Version</td><td><%= softwareVersion %></td></tr>
+            </table>
+            <p><%= rxaSegmentFields.size() %> Vaccination<%= rxaSegmentFields.size() == 1 ? "" : "s" %> Found</p>
+            <table celpadding="4" cellspacing="0" border="1">
+              <tr>
+                <th>Date Administered</th>
+                <th>Administration Code(s)</th>
+              </tr>
+              <!-- Immunization data is shown to give a sense of completion. -->
+              <% for (Iterator it = rxaSegmentFields.iterator(); it.hasNext(); ) 
+               {
+                  String[] fields = (String[]) it.next();
+                  if (fields.length > 5) {
+                  %>
+                  <tr>
+                    <td><%= fields[3] %></td>
+                    <td><%= fields[5] %></td>
+                  </tr>
+                  <% 
+                } 
+                } %>
+            </table>
+          <%
+        }
+        }
+      }
+      else 
+      { 
+      %>
+      <form method="POST" action="#">
+      <table celpadding="4" cellspacing="0" border="1">
+        <tr>
+          <td>Organization Name</td>
+          <td><input type="text" name="orgName" value="<%= orgName %>" size="40"></td>
+        </tr>
+        <tr>
+          <td>Contact Name</td>
+          <td><input type="text" name="contactName" value="<%= contactName %>" size="30"></td>
+        </tr>
+        <tr>
+          <td>Contact Phone</td>
+          <td><input type="text" name="contactPhone" value="<%= contactPhone %>" size="15"></td>
+        </tr>
+        <tr>
+          <td>Contact Email</td>
+          <td><input type="text" name="contactEmail" value="<%= contactEmail %>" size="25"></td>
+        </tr>
+        <tr>
+          <td>Software Name</td>
+          <td><input type="text" name="softwareName" value="<%= softwareName %>" size="30"></td>
+        </tr>
+        <tr>
+          <td>Software Version</td>
+          <td><input type="text" name="softwareVersion" value="<%= softwareVersion %>" size="10"></td>
+        </tr>
+        <tr>
+          <td>HL7 Messages</td>
+          <td><textarea rows="15" cols="80" name="messageData"><%= messageData %></textarea></td>
+        </tr>
+        <tr>
+          <td colspan="2"><input type="submit" name="action" value="Submit"></td>
+        </tr>
+      </table>
+      </form>
+      <%
+    } %>
+  </body>
+</html>

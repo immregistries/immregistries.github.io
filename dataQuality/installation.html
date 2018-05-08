@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a href="dataQuality.html"
+      class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a href="../matching/matching.html"
+      class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Data Quality</h1>
+    <ul>
+      <li><a href="dataQuality.html" class="menu">Road Map</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+      <li><a href="dqaReport.html" class="menu">DQA Report User Guide</a></li>
+      <li><a href="workGroups.html" class="menu">Work Groups</a></li>
+      <li><a href="doc/index.html" class="menu">Technical Documentation</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/ois-dqa/" class="menu">OIS DQA</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>Installation for MySQL</h1>
+
+    <p>The DQA is designed to be most easily installed on MySQL. Installations on other databases such as Oracle and PostGres are supported and
+      can be accomplished by a technical team. These instructions are only for those installing the simpliest version on an MySQL database.</p>
+
+    <p>Please Note: These instructions assume that you are generally comfortable with installing your own software, have some experience working
+      with databases, and have admnistrative rights to your system. If one or both of these do not apply you will want to ask for assistance from
+      other team members or your information systems department to help you with this process.</p>
+
+    <h2>Install MySQL</h2>
+    <p>MySQL is available as a free community download. This will work well for local and small installations. (Please note that these directions
+      are subject to change. MySQL may change their download and installation process at any time with no notice to this project. )</p>
+    <ol>
+      <li>Navigate to <a href="http://www.mysql.com/">http://www.mysql.com/</a>.
+      </li>
+      <li>Select Downloads.</li>
+      <li>Scroll to the bottom section titled "MySQL Community Edition (GPL)" and select Community (GPL) Downloads.</li>
+      <li>Select Download under the MySQL Community Server section.</li>
+      <li>Follow the installation instructions for your operating system.</li>
+    </ol>
+    <p>For more information or help with MySQL downloads, please follow the links and help documents given on the MySQL page. Installation of
+      MySQL is straightforward and standard/default options should be selected.</p>
+    <p>Once MySQL is installed you will need to decide on which type of client to use to access it for administrative purposes. Here are your
+      choices:</p>
+    <ul>
+      <li>Use the already installed client that MySQL provides: <a href="http://dev.mysql.com/doc/refman/5.6/en/mysql.html">MySQL
+          Command-Line Tool</a>. If you are comfortable with command line tools you will find this easy to use. The directions in the next section will
+        assume you are using this tool.
+      </li>
+      <li>Find your own third party client. A good list of them can be found here: <a
+        href="http://www.databasejournal.com/features/mysql/article.php/3880961/Top-10-MySQL-GUI-Tools.htm">Top 10 MySQL GUI Tools</a>.
+      </li>
+      <li>Use your own client you are familar with. You may already have a database software you use now that can connect to MySQL.</li>
+    </ul>
+    <p>Once you have MySQL installed you should ensure the following:</p>
+    <ul>
+      <li>MySQL should be running in the background. In Windows MySQL will be installed as a Service. Open your Services panel (<a
+        href="http://www.sophos.com/en-us/support/knowledgebase/11299.aspx" target="_blank">Windows Services</a>) and verify that you can see MySQL
+        listed there and that it is running. You may also want to configure it to automatically start whenever your system starts.
+      </li>
+      <li>You should have established an admin username and password during installation of MySQL. Please save this for future use. Without this
+        username and password you can not setup the database in the next step.</li>
+      <li>You can access MySQL through your favorite client.</li>
+    </ul>
+
+    <h2>Setup Database</h2>
+    <p>Now that MySQL is installed and you have access to your new database, it is time to install the DQA specific database that the DQA will
+      need to do its work. This database will also hold the data imported in which you can directly access by connecting to the database using your
+      favorite MySQL client.</p>
+    <p>
+      These instructions require that you connect to your database using your client. The examples given will be shown on the <a
+        href="http://dev.mysql.com/doc/refman/5.6/en/mysql.html">MySQL Command-Line Tool</a>. Instructions for other clients will vary from these
+      instructions.
+    </p>
+    <p>
+      The MySQL database scripts can be found at <a href="https://svn.code.sf.net/p/ois-dqa/code/database/mysql/trunk/">https://svn.code.sf.net/p/ois-dqa/code/database/mysql/trunk/</a>
+      . For this installation you will need the following files:
+    </p>
+    <ul>
+      <li>create-user.sql</li>
+      <li>initial-v1.08.sql</li>
+    </ul>
+    <p>Download, modify and then run each of these scripts:</p>
+    <ol>
+      <li>Download the two scripts to your local system.</li>
+      <li>Open the create-user.sql script in a text editor, such as Notepad, and modify the changme password to a secure password that you will
+        remember. This is the username and password you will give to access the DQA when it is running.</li>
+      <li>Run the create-user.sql script and verify there are no errors.</li>
+      <li>Open the initial-v1.08.sql script and modify line 44 to indicate the user information for the admin user. Change dqa_admin to a user
+        name of your choosing, change_this_password to a secure password, and set_this_email@email.com to your email address.</li>
+      <li>Run the initial-v1.08.sql script and verify there are no errors.</li>
+    </ol>
+
+    <p>
+      Note: To run a script into MySQL you can use a command like this:<br />
+      <code>mysql -uroot -ppassword &lt; script.sql</code>
+      <br /> Make sure
+      <code>root</code>
+      and
+      <code>password</code>
+      are replaced with the username and password you created when installing MySQL and the file name
+      <code>script.sql</code>
+      is replaced with the name of the file you want to import. The -u and -p should remain on front of the username and password.
+    </p>
+
+
+    <h2>Install Java</h2>
+    <p>
+      Installation instructions for java are maintained by Oracle and can be found here: <a
+        href="https://www.java.com/en/download/help/download_options.xml">How do I install Java?</a>. Install the default or latest version pointed to
+      by this site.
+    </p>
+    <h2>Install Tomcat</h2>
+    <p>
+      Installation instructions for Tomcat are maintained by the Apache Software Foundation here: <a
+        href="http://tomcat.apache.org/tomcat-7.0-doc/appdev/installation.html">Installation</a>. Install the Tomcat version 7 or later.
+    </p>
+    <p>
+      Once Tomcat is installed it would normally be configured to run automatically in the services panel, if running on a Windows system. Ensure that
+      Tomcat is up and running before downloading the DQA. You can confirm that Tomcat is running by visiting <a href="localhost:8080">localhost:8080</a>.
+    </p>
+
+    <h2>Download DQA</h2>
+    <p>In this last step everything comes together for a working system. You should have Tomcat and MySQL up and running.</p>
+    <ol>
+      <li>Download the software application from the <a href="http://ois-pt.org/tester/installDQA/DownloadServlet"> DQA Download</a> site. Note:
+        you will need to enter the URL, username and password to download the software. The URL will probably be: <code>jdbc:mysql://localhost/dqa</code>,
+        if the database and Tomcat are installed on the same system. The username and password were set by you in the Setup Database stage. Setting
+        these values here allows the downloading software to your database connection parameters in the DQA version you get.
+      </li>
+      <li>Save the dqa.war file into the Tomcat/webapps directory. In a windows system this can be found here: C:\Program Files\Apache Software
+        Foundation\Tomcat 7.0\webapps</li>
+      <li>Confirm that after a few seconds Tomcat has created a Tomcat/webapps/dqa directory to match the dqa.war file that you just copied in.
+        This indicates that Tomcat is running and was able to unpack the DQA application and deploy it.</li>
+      <li>Login to the DQA via your web browser <a href="http://localhost:8080/config"></a>. You will use the password you setup in the Setup
+        Database stage.
+      </li>
+    </ol>
+
+    <h2>Configure the DQA</h2>
+    <p>Once you have successfully logged in you will want to configure the DQA to start working for you.</p>
+    <p><a href="configuration.html">Configuration</a></p>
+
+  </div>
+</body>
+</html>

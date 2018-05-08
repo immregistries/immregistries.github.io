@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="doc.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Admin User Manual</h1>
+    <ul>
+      <li><a href="index.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+    </ul>
+    <h1>Developer Manual</h1>
+    <ul>
+      <li><a href="developer.html" class="menu">Development Environment</a></li>
+      <li><a href="erd.html" class="menu">Database ERD</a></li>
+      <li><a href="configureDQA.html" class="menu">Configure DQA Report</a></li>
+      <li><a href="howTo.html" class="menu">How To</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>Configure DQA Report</h1>
+    <p>The DQA report is defined by an XML document and encapsulates the IIS specific requirements for data quality for a given type of submitter.
+      Initially DQA users have defined a global DQA report that is used for all providers, but as the DQA processes become more tuned additional DQA
+      reports may be created that target specific types of submitters.</p>
+    <h2>Working Example</h2>
+    <p>Here is a working example used by MCIR:</p>
+    <pre class="xmlSource">&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;dqa-scoring&gt;
+  &lt;section name="completeness" weight="50"&gt;
+    &lt;section name="patient" weight="45"&gt;
+      &lt;section name="required" weight="14"&gt;
+        &lt;score label="Patient Id" hl7Reference="PID-3" denominator="patient count" numerator="Patient submitter id" weight="10" /&gt;
+        &lt;score label="First Name" hl7Reference="PID-5.2" denominator="patient count" numerator="Patient name first" weight="5" /&gt;
+        &lt;score label="Last Name" hl7Reference="PID-5.1" denominator="patient count" numerator="Patient name last" weight="5" /&gt;
+        &lt;score label="Possible Test Name" hl7Reference="" denominator="patient count" numerator="Patient name may be test name" weight="-5" /&gt;
+        &lt;score label="Possible Baby Name" hl7Reference="" denominator="patient count" numerator="Patient name may be temporary newborn name" weight="-10" /&gt;
+        &lt;score label="Birth Date" hl7Reference="PID-7" denominator="patient count" numerator="Patient birth date" weight="10" /&gt;
+        &lt;score label="Sex" hl7Reference="PID-8" denominator="patient count" numerator="Patient gender" weight="5" /&gt;
+        &lt;score label="Address" hl7Reference="PID-11" denominator="patient count" numerator="Patient address" weight="2"&gt;
+          &lt;score label="Street" hl7Reference="PID-1" denominator="patient count" numerator="Patient address street" weight="5" /&gt;
+          &lt;score label="City" hl7Reference="PID-3" denominator="patient count" numerator="Patient address city" weight="1" /&gt;
+          &lt;score label="State" hl7Reference="PID-4" denominator="patient count" numerator="Patient address state" weight="1" /&gt;
+          &lt;score label="Zip" hl7Reference="PID-5" denominator="patient count" numerator="Patient address zip" weight="1" /&gt;
+        &lt;/score&gt;
+      &lt;/section&gt;
+      &lt;section name="expected" weight="4"&gt;
+        &lt;score label="Middle Name" hl7Reference="PID-5.3" denominator="patient count" numerator="Patient middle name" weight="10" /&gt;
+        &lt;score label="Phone" hl7Reference="PID-13" denominator="patient count" numerator="Patient phone" weight="10" /&gt;
+        &lt;score label="Mother's Maiden" hl7Reference="PID-6" denominator="patient count" numerator="Patient mother's maiden name" weight="10" /&gt;
+      &lt;/section&gt;
+      &lt;section name="recommended" weight="2"&gt;
+        &lt;score label="Ethnicity" hl7Reference="PID-22" denominator="patient count" numerator="Patient ethnicity" weight="10" /&gt;
+        &lt;score label="Race" hl7Reference="PID-10" denominator="patient count" numerator="Patient race" weight="10" /&gt;
+        &lt;score label="Responsible Party" hl7Reference="NK1" denominator="patient count" numerator="Patient guardian responsible party" weight="1"&gt;
+          &lt;score label="First Name" hl7Reference="NK1-2.2" denominator="patient count" numerator="Patient guardian name first" weight="4" /&gt;
+          &lt;score label="Last Name" hl7Reference="NK1-2.1" denominator="patient count" numerator="Patient guardian name last" weight="4" /&gt;
+          &lt;score label="Same as Patient" hl7Reference="NK1-3" denominator="patient count" numerator="Patient guardian name is same as underage patient" weight="-8" /&gt;
+          &lt;score label="Relationship" hl7Reference="NK1-3" denominator="patient count" numerator="Patient guardian relationship" weight="1" /&gt;
+        &lt;/score&gt;
+      &lt;/section&gt;
+      &lt;section name="optional" weight="0"&gt;
+        &lt;score label="Birth Indicator" hl7Reference="PID-24" denominator="patient count" numerator="Patient birth indicator" weight="0" /&gt;
+        &lt;score label="Medicaid Id" hl7Reference="PID-3" denominator="patient count" numerator="Patient Medicaid number" weight="0" /&gt;
+        &lt;score label="SSN" hl7Reference="PID-3" denominator="patient count" numerator="Patient SSN" weight="0" /&gt;
+        &lt;score label="Alias" hl7Reference="PID-5" denominator="patient count" numerator="Patient alias" weight="0" /&gt;
+        &lt;score label="Primary Language" hl7Reference="PID-15" denominator="patient count" numerator="Patient primary language" weight="0" /&gt;
+        &lt;score label="Resp Party Address" hl7Reference="NK1-4" denominator="patient count" numerator="Patient guardian address" weight="0"&gt;
+          &lt;score label="Street" hl7Reference="NK1-4.1" denominator="patient count" numerator="Patient guardian address street" weight="0" /&gt;
+          &lt;score label="City" hl7Reference="NK1-4.2" denominator="patient count" numerator="Patient guardian address city" weight="0" /&gt;
+          &lt;score label="State" hl7Reference="NK1-4.3" denominator="patient count" numerator="Patient guardian address state" weight="0" /&gt;
+          &lt;score label="Zip" hl7Reference="NK1-4.4" denominator="patient count" numerator="Patient guardian address zip" weight="0" /&gt;
+        &lt;/score&gt;
+        &lt;score label="Resp Party Phone" hl7Reference="NK1-5" denominator="patient count" numerator="Patient guardian phone" weight="0" /&gt;
+        &lt;score label="Address County" hl7Reference="PID-11.6" denominator="patient count" numerator="Patient address county" weight="0" /&gt;
+        &lt;score label="Financial Class" hl7Reference="PV1-20" denominator="patient count" numerator="Patient VFC status" weight="0" /&gt;
+        &lt;score label="Registry Status" hl7Reference="PD1-16" denominator="patient count" numerator="Patient registry status" weight="0" /&gt;
+        &lt;score label="Primary Physician" hl7Reference="PD1-4" denominator="patient count" numerator="Patient primary physician id" weight="0"&gt;
+          &lt;score label="Name" hl7Reference="" denominator="patient count" numerator="Patient primary physician name" weight="0" /&gt;
+        &lt;/score&gt;
+        &lt;score label="Primary Facility" hl7Reference="PD1-3" denominator="patient count" numerator="Patient primary facility id" weight="0"&gt;
+          &lt;score label="Name" hl7Reference="" denominator="patient count" numerator="Patient primary facility name" weight="0" /&gt;
+        &lt;/score&gt;
+        &lt;score label="Patient Registry Id" hl7Reference="PID-3" denominator="patient count" numerator="Patient registry id" weight="0" /&gt;
+        &lt;score label="Protection Indicator" hl7Reference="PD1-12" denominator="patient count" numerator="Patient protection indicator" weight="0" /&gt;
+        &lt;score label="Publicity Indicator" hl7Reference="PD1-11" denominator="patient count" numerator="Patient publicity code" weight="0" /&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+    &lt;section name="vaccination" weight="45"&gt;
+      &lt;section name="required" weight="14"&gt;
+        &lt;score label="Vaccination Date" hl7Reference="RXA-3" denominator="vaccination count" numerator="Vaccination admin date" weight="40" /&gt;
+        &lt;score label="Vaccination Code" hl7Reference="RXA-5" denominator="vaccination count" numerator="Vaccination admin code" weight="40"&gt;
+          &lt;score label="Not Specific" hl7Reference="" denominator="vaccination admin count" numerator="Vaccination admin code is not specific" weight="-10" /&gt;
+          &lt;score label="Not Vaccine" hl7Reference="" denominator="vaccination count" numerator="Vaccination admin code is not vaccine" weight="-40" /&gt;
+          &lt;score label="Valued as Unknown" hl7Reference="" denominator="vaccination count" numerator="Vaccination admin code is valued as unknown" weight="-40" /&gt;
+        &lt;/score&gt;
+        &lt;score label="Information Source" hl7Reference="RXA-9" denominator="vaccination count" numerator="Vaccination information source" weight="40"&gt;
+          &lt;score label="May be Historical" hl7Reference="" denominator="vaccination count" numerator="Vaccination information source is administered but appears to historical"
+            weight="-10" /&gt;
+          &lt;score label="May be Administered" hl7Reference="" denominator="vaccination count" numerator="Vaccination information source is historical but appears to be administered"
+            weight="-10" /&gt;
+        &lt;/score&gt;
+        &lt;score label="VFC Status" hl7Reference="OBX-5" denominator="vaccination admin count" numerator="Vaccination financial eligibility code" weight="20" /&gt;
+      &lt;/section&gt;
+      &lt;section name="expected" weight="4"&gt;
+        &lt;score label="CVX Code" hl7Reference="RXA-5" denominator="vaccination count" numerator="Vaccination CVX code" weight="20" /&gt;
+        &lt;score label="Lot Number" hl7Reference="RXA-15" denominator="vaccination admin count" numerator="Vaccination lot number" weight="20" /&gt;
+        &lt;score label="Manufacturer" hl7Reference="RXA-17" denominator="vaccination admin count" numerator="Vaccination manufacturer code" weight="20" /&gt;
+      &lt;/section&gt;
+      &lt;section name="recommended" weight="2"&gt;
+        &lt;score label="Admin Amount" hl7Reference="RXA-6" denominator="vaccination admin count" numerator="Vaccination administered amount" weight="14"&gt;
+          &lt;score label="Missing Units" hl7Reference="RXA-7" denominator="vaccination admin count" numerator="Vaccination administered unit is missing" weight="-3" /&gt;
+        &lt;/score&gt;
+        &lt;score label="Completion Status" hl7Reference="RXA-20" denominator="vaccination admin count" numerator="Vaccination completion status" weight="6" /&gt;
+      &lt;/section&gt;
+      &lt;section name="optional" weight="0"&gt;
+        &lt;score label="Facility Id" hl7Reference="RXA-11" denominator="vaccination admin count" numerator="Vaccination facility id" weight="0" /&gt;
+        &lt;score label="Given By Id" hl7Reference="RXA-10" denominator="vaccination admin count" numerator="Vaccination given by" weight="0" /&gt;
+        &lt;score label="Action Code" hl7Reference="RXA-21" denominator="vaccination count" numerator="Vaccination action code" weight="0" /&gt;
+        &lt;score label="Ordered By" hl7Reference="ORC-12" denominator="vaccination admin count" numerator="Vaccination ordered by" weight="0" /&gt;
+        &lt;score label="Entered By" hl7Reference="ORC-10" denominator="vaccination count" numerator="Vaccination recorded by" weight="0" /&gt;
+        &lt;score label="Refusal Reason" hl7Reference="RXA-18" denominator="vaccination count" numerator="Vaccination refusal reason" weight="0" /&gt;
+        &lt;score label="Lot Expiration Date" hl7Reference="RXA-16" denominator="vaccination admin count" numerator="Vaccination lot expiration date" weight="0" /&gt;
+        &lt;score label="CPT Code" hl7Reference="RXA-5" denominator="vaccination count" numerator="Vaccination CPT code" weight="0" /&gt;
+        &lt;score label="System Entry Date" hl7Reference="RXA-22" denominator="vaccination count" numerator="Vaccination system entry time" weight="0"&gt;
+          &lt;score label="In Future" hl7Reference="" denominator="vaccination count" numerator="Vaccination system entry time is in future" weight="-5" /&gt;
+        &lt;/score&gt;
+        &lt;score label="Vaccination Id" hl7Reference="ORC-3" denominator="vaccination count" numerator="Vaccination id" weight="0" /&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+    &lt;section name="vaccineGroup" weight="10"&gt;
+      &lt;section name="expected" weight="2"&gt;
+        &lt;section name="DTAP" weight="1" /&gt;
+        &lt;section name="HepB" weight="1" /&gt;
+        &lt;section name="POLIO" weight="1" /&gt;
+        &lt;section name="HIB" weight="1" /&gt;
+        &lt;section name="FLU" weight="1" /&gt;
+        &lt;section name="MMR" weight="1" /&gt;
+        &lt;section name="VARICELLA" weight="1" /&gt;
+        &lt;section name="PneumoPCV" weight="1" /&gt;
+      &lt;/section&gt;
+      &lt;section name="recommended" weight="1"&gt;
+        &lt;section name="HPV" weight="1" /&gt;
+        &lt;section name="ROTAVIRUS" weight="1" /&gt;
+        &lt;section name="Td" weight="1" /&gt;
+        &lt;section name="HepA" weight="1" /&gt;
+      &lt;/section&gt;
+      &lt;section name="optional" weight="0"&gt;
+        &lt;section name="RABIES" weight="0" /&gt;
+      &lt;/section&gt;
+      &lt;section name="unexpected" weight="-2"&gt;
+        &lt;section name="ANTHRAX" weight="1" /&gt;
+      &lt;/section&gt;
+    &lt;/section&gt;
+  &lt;/section&gt;
+  &lt;section name="quality" weight="40"&gt;
+    &lt;section name="errors" weight="28"&gt;
+    &lt;/section&gt;
+    &lt;section name="warnings" weight="12"&gt;
+    &lt;/section&gt;
+  &lt;/section&gt;
+  &lt;section name="timeliness" weight="10"&gt;
+    &lt;section name="early" weight="10" days="1"&gt;
+    &lt;/section&gt;
+    &lt;section name="onTime" weight="7" days="3"&gt;
+    &lt;/section&gt;
+    &lt;section name="late" weight="4" days="7"&gt;
+    &lt;/section&gt;
+    &lt;section name="veryLate" weight="1" days="30"&gt;
+    &lt;/section&gt;
+    &lt;section name="oldData" weight="0"&gt;
+    &lt;/section&gt;
+  &lt;/section&gt;
+&lt;/dqa-scoring&gt;</pre>
+    <h2>Document Structure</h2>
+    <p>
+      The DQA report is defined by a setting of nesting structures that define how the final score is put together and set out the report structure.
+      This explanation assumes that you already understand how to <a href="../dqaReport.html">read a standard DQA report</a>.
+    </p>
+    <h4>XML Tag: dqa-scoring</h4>
+    <p>
+      This is the base tag for the document. This is required. It is expected to contain 3
+      <code>section</code>
+      tags as elements where name is set to:
+      <code>completeness</code>
+      ,
+      <code>quality</code>
+      , and
+      <code>timeliness</code>
+      .
+    </p>
+    <h4>XML Tag: section</h4>
+    <p>The section tag may appear within the root dqa-scoring tag or within another section tag.</p>
+    <ul>
+      <li><b>name</b> Required. Used by the DQA report generator to locate the settings for a section.</li>
+      <li><b>weight</b> Required. Indicates the weight for this section. Use an integer value. The actual weight assigned will be this value
+        divided by the sum of all the weights defined at the same level, so the actual value is not as critical as to how it compares to all the other
+        section values at the same level.</li>
+      <li><b>days</b> Optional. Indicates the number of days it took to report an administered vacciation for the timeliness sections. This value
+        is expected in all timeliness sections and ignore in the others.</li>
+    </ul>
+    <p>The DQA report has a pre-defined structure which this XML should mirror. The sections the DQA report expect are:</p>
+    <ul>
+      <li>completeness
+        <ul>
+          <li>patient
+            <ul>
+              <li>required</li>
+              <li>expected</li>
+              <li>recommended</li>
+              <li>optional</li>
+            </ul>
+          </li>
+          <li>vaccination
+            <ul>
+              <li>required</li>
+              <li>expected</li>
+              <li>recommended</li>
+              <li>optional</li>
+            </ul>
+          </li>
+          <li>vaccineGroup
+            <ul>
+              <li>expected</li>
+              <li>recommended</li>
+              <li>optional</li>
+              <li>unexpected</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>quality
+        <ul>
+          <li>errors</li>
+          <li>warnings</li>
+        </ul>
+      </li>
+      <li>timeliness
+        <ul>
+          <li>early</li>
+          <li>onTime</li>
+          <li>late</li>
+          <li>veryLate</li>
+          <li>oldData</li>
+        </ul>
+      </li>
+    </ul>
+    <h4>XML Tag: score</h4>
+    <p>Within patient and vaccination completeness sections a score tag indicates how a specific field can be used to create the score for each
+      section. This is where IIS specific requirements are documented and weighted.</p>
+    <ul>
+      <li><b>label</b> Required. A short description that will be used on the report. This must be kept very short and concise in order to fit on
+        the report. Longer descriptions will cause the display to wrap and make the tables harder to read.</li>
+      <li><b>hl7Reference</b> Optional. A short description of where in HL7 this field data should be placed.</li>
+      <li><b>denominator</b> Required. The object that should be used to count the total number of times this field should or should not appear.
+        Valid values:
+        <ul>
+          <li><b>patient count</b> The total number of patient records.</li>
+          <li><b>vaccination count</b> The total number of vaccination records. (Adds, Deletes, non-administered, and historical included.)</li>
+          <li><b>vaccination admin count</b> The total number of vaccination administered records. (Does not include deletes, historical and
+            non-administered.)</li>
+        </ul></li>
+      <li><b>numerator</b> This is a text key that links to the <a href="erd.html#PotentialIssue">potential issue</a> table. A valid value here
+        is made from the concatenation of DQA_POTENTIAL_ISSUE.TARGET_OBJECT &amp; SPACE &amp; DQA_POTENTIAL_ISSUE.TARGET_FIELD. This link to the issue
+        with the same target object and target_field where the issue_type = 'is missing'. This means that the DQA report determines how often a field
+        has been received by subtracting the number of 'is missing' issues generated from the denominator. (For example, if a submitter always sends
+        the patient name first, then there will be 0 issues register under 'patient name first is missing'. This is subtracted from the total number
+        of patients and this shows the total number of times that 'patient name first is missing' was NOT the case. This is how the DQA report
+        actually generates the completeness report. ) Here is a common set of numerators used:
+        <ul>
+
+          <li>Patient address</li>
+          <li>Patient address city</li>
+          <li>Patient address county</li>
+          <li>Patient address state</li>
+          <li>Patient address street</li>
+          <li>Patient address zip</li>
+          <li>Patient alias</li>
+          <li>Patient birth date</li>
+          <li>Patient birth indicator</li>
+          <li>Patient ethnicity</li>
+          <li>Patient gender</li>
+          <li>Patient guardian address</li>
+          <li>Patient guardian address city</li>
+          <li>Patient guardian address state</li>
+          <li>Patient guardian address street</li>
+          <li>Patient guardian address zip</li>
+          <li>Patient guardian name first</li>
+          <li>Patient guardian name is same as underage patient</li>
+          <li>Patient guardian name last</li>
+          <li>Patient guardian phone</li>
+          <li>Patient guardian relationship</li>
+          <li>Patient guardian responsible party</li>
+          <li>Patient Medicaid number</li>
+          <li>Patient middle name</li>
+          <li>Patient mother's maiden name</li>
+          <li>Patient name first</li>
+          <li>Patient name last</li>
+          <li>Patient name may be temporary newborn name</li>
+          <li>Patient name may be test name</li>
+          <li>Patient phone</li>
+          <li>Patient primary facility id</li>
+          <li>Patient primary facility name</li>
+          <li>Patient primary language</li>
+          <li>Patient primary physician id</li>
+          <li>Patient primary physician name</li>
+          <li>Patient protection indicator</li>
+          <li>Patient publicity code</li>
+          <li>Patient race</li>
+          <li>Patient registry id</li>
+          <li>Patient registry status</li>
+          <li>Patient SSN</li>
+          <li>Patient submitter id</li>
+          <li>Patient VFC status</li>
+          <li>Vaccination action code</li>
+          <li>Vaccination admin code</li>
+          <li>Vaccination admin code is not specific</li>
+          <li>Vaccination admin code is not vaccine</li>
+          <li>Vaccination admin code is valued as unknown</li>
+          <li>Vaccination admin date</li>
+          <li>Vaccination administered amount</li>
+          <li>Vaccination administered unit is missing</li>
+          <li>Vaccination completion status</li>
+          <li>Vaccination CPT code</li>
+          <li>Vaccination CVX code</li>
+          <li>Vaccination facility id</li>
+          <li>Vaccination financial eligibility code</li>
+          <li>Vaccination given by</li>
+          <li>Vaccination id</li>
+          <li>Vaccination information source</li>
+          <li>Vaccination information source is administered but appears to historical</li>
+          <li>Vaccination information source is historical but appears to be administered</li>
+          <li>Vaccination lot expiration date</li>
+          <li>Vaccination lot number</li>
+          <li>Vaccination manufacturer code</li>
+          <li>Vaccination ordered by</li>
+          <li>Vaccination recorded by</li>
+          <li>Vaccination refusal reason</li>
+          <li>Vaccination system entry time</li>
+          <li>Vaccination system entry time is in future</li>
+
+        </ul></li>
+
+      <li><b>weight</b> Indicates the weight this issue should take. The weight is taken within consideration of the sum of all the positive
+        weights given for all score objects placed under a section tag (including score tags next within another score tag.) If the weight is negative
+        this is not included in the overall weight, but is weighted as a demerit. Which means it does not show on the report, or subtract from the
+        score, unless the issue exists. In this way a positive score can be given for a field being valued and then some or all of the score
+        subtracted if there are specific issues identified with this field.</li>
+    </ul>
+    <p>A score tag under a section tag can have one more next score tag. These scores are shown on the report indented, implying they are part of
+      a composite field. This is commonly used for address where the DQA can report on which parts of the address were actually sent. The weights in
+      these sub sections count at the same level as all other weights within the same section, the nesting only implies indention within the report.</p>
+
+  </div>
+</body>
+</html>

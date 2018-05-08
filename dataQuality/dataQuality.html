@@ -1,0 +1,224 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a href="dataQuality.html"
+      class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a href="../matching/matching.html"
+      class="menu">Matching</a><a href="../aart/aart.html" class="menu">AART</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Data Quality</h1>
+    <ul>
+      <li><a href="dataQuality.html" class="menu">Road Map</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+      <li><a href="dqaReport.html" class="menu">DQA Report User Guide</a></li>
+      <li><a href="workGroups.html" class="menu">Work Groups</a></li>
+      <li><a href="doc/index.html" class="menu">Technical Documentation</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/ois-dqa/" class="menu">OIS DQA</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>Road Map</h1>
+    <p>Data quality assurance is critical for registries importing data from providers. The OIS Data Quality Assurance (DQA) tool is the result of
+      a collaborative effort between several registries. Initial development began in the Spring of 2011 by the Texas immunization registry, ImmTrac,
+      with a goal of creating a data quality process to augment their new HL7 interface.</p>
+    <p>
+      <a href="DQA Vision Extended.pdf">Original DQA Vision Document (PDF)</a>
+    </p>
+    <h1>Testing Process</h1>
+    <p>The testing process for the DQA and IIS is described in the following documents:</p>
+    <ul>
+      <li><a href="IIS HL7 Interface Testing Process 2013-09-09.pptx">IIS HL7 Interface Testing Process 2013-09-09.pptx</a></li>
+      <li><a href="IIS HL7 Interface Testing Process 2013-09-12.docx">IIS HL7 Interface Testing Process 2013-09-12.docx</a></li>
+    </ul>
+    <h1>Release Notes</h1>
+    <h2>Release 1.08 - October 16, 2014</h2>
+    <p>This release includes several critical improvements to the functionality of the DQA.</p>
+    <h3>Submission Process</h3>
+    <p>A new process has been added to support an internal submission queue. This new submission process matches function of the original file
+      submission process and allows additional methods of importing data into the DQA. In addition an upload interface has been added to the admin
+      menu to allow for uploading into this submission table, and to check on the status of all submissions.</p>
+    <h3>Database Cleanup</h3>
+    <p>Support has been added for automatic an regular removal of data from the DQA database. This is important as otherwise the amount of data
+      stored by the DQA continues to grow as data is inserted. The DQA was built to be able to progressively delete data starting from that which was
+      most detailed and continue to provide good information at the aggragate level. The cleanup can be configured and scheduled in the admin menu.</p>
+    <h3>IIS Data Quality Support</h3>
+    <p>Added initial support for the American Immunization Registry (AIRA) data quality project for IIS. This required adding new validations and
+      support for a simplified flat-file format.</p>
+    <h3>Patch Release Notes</h3>
+    <p>Patch 1.08.02 - October 16, 2014</p>
+    <ul>
+      <li>Fixed bug with uploading submission files in Internet Explorer.</li>
+      <li>Updated documentation of issues to include explanation for new issues added in 1.08.</li>
+      <li>Added support for checking submissions to ensure that they contained HL7 data, have a file footer when a file header is given, and can
+        (if configured in admin) verify that message control ids are unique within the submission itself.</li>
+    </ul>
+    <h2>Release 1.06 - August 20, 2013</h2>
+    <p>The following improvements were made:</p>
+    <ul>
+      <li>Potential Issue table now has an hl7_error_code column that holds the numeric HL7 error code that should be used when construct ACK
+        messages. This is to assist the requesting system in determining the type of error that was generated.</li>
+      <li>Code Master table has been reworked and now supports hierarchies of codes and links observation codes to other code tables. For example
+        the concept of a state code being unique within a given country code is now supported (which allows Baja California (BC), Mexico and British
+        Columbia (BC), Canada to exist in the same master table.) and allows the DQA to understand that the observation code that identifies the
+        vaccination's VFC status is linked to the set of Financial Codes.</li>
+      <li>Likewise the Code Received table has been altered to support a context_value that indicates the given context for a code. This allows
+        an interface to receive a state code for both Baja California and British Columbia and keep those values received separate. Without this the
+        two states would share the same entry in this table.</li>
+      <li>Remove a duplicate in the Code Table and added new Code Table concepts.</li>
+      <li>Added all Mexico and Canadia states to the master code table list. Add all US counties to the code master table in both SSNNN and NNNNN
+        formats.</li>
+      <li>Created Vaccination VIS table to hold all VIS information for a single vaccination. While the database holds these values DQA does not
+        yet fully support them.</li>
+      <li>Added concepts of funding_source, refusal_reason, vis_presented_date, and vis_document_code to Vaccination table. While the database
+        holds these values DQA does not yet fully support them.</li>
+      <li>Added QBP/RSP interface. This is for supporting testing by the DQA. This interface is functional but not up to standard, as some data
+        is not returned and some technical items remain. The next version will finish bringing this up to full compliance with standards.</li>
+
+    </ul>
+
+    <h2>Release 1.05 - November 14, 2012</h2>
+
+    <p>The largest change in this release was the addition of support for recording the status of remote Simple Message Movers. This change was
+      for the deployment and support of IHS installation of the SMM.</p>
+    <p>In addition the following bug fixes were made:</p>
+    <ul>
+      <li>Fixed bug with database connection creation not being synchronized.</li>
+      <li>Added version to the bottom of DQA report.</li>
+      <li>Fixed percentage issues on DQA report.</li>
+      <li>Changed validation of facility in RXA-11.4 so that it only happens on administered vaccinations.</li>
+    </ul>
+    <h2>Release 1.04 - October 8, 2012</h2>
+    <h3>Improved Invalid Validation</h3>
+    <p>The largest change in this version is a revision to how CVX, CPT, MVX and vaccine product concepts are validated. Previous to this version
+      a code could be invalidated for either being an invalid code outright, or because the vaccination event it was associated with was on a date
+      that was outside the expected or required code use dates. This caused some confusion and problems because a single code could be valid in some
+      situations and valid in others. This violated the idea common to all codes that a code is either valid or invalid in it's own right. Other
+      isssue might be determined but these were not validity per se.</p>
+    <p>This release introduces two new flavors of issues:</p>
+    <ul>
+      <li><b>is invalid for administered date</b>: An otherwise valid code is invalid because it was used sooner or later than the valid range
+        for this code.</li>
+      <li><b>is unexpected for administered date</b>: An otherwise expected code is not expected because it was used sooner or later than the
+        expected range for this code.</li>
+    </ul>
+    <p>Normally an invalid issue would trigger an error and an unexpected will trigger a warning.</p>
+    <p>In relation to historical codes, these new issues would only be triggered or checked for on administered vaccinations. To mark a code as
+      invalid for historical, the only method currently available is to mark the code globally invalid in the template code received table. In this
+      case this code will not be valid for reporting any vaccination, at any time, either for historical or administered. It is expected that very few
+      of these codes will be considered to be outright invalid.</p>
+    <h3>Improved Tracking for Vaccine Product</h3>
+    <p>Vaccine Product is a derived value from the vaccine administered and the manufacturer indicated. This value is only determined for
+      administered vaccinations. Previous to this version, unrecognized combinations were noted with an issue but no other information. This version
+      now logs all CVX-MVX combinations as a new code received, as if the sender sent it in the message. This then allows the codes sent to appear on
+      the DQA report for troubleshooting.</p>
+    <h3>Database Version</h3>
+    <p>A new table has been created to track the current database version and logs made during database upgrade. The table has the following
+      format:</p>
+    <p>Table dqa_database_log:</p>
+    <ul>
+      <li><b>change_id</b> unique key to row</li>
+      <li><b>change_date</b> date/time change was made locally</li>
+      <li><b>change_version</b> the DQA version this change belongs to</li>
+      <li><b>change_comment</b> log of change made</li>
+    </ul>
+    <h3>Minor Bug Fixes</h3>
+    <p>Also address a few minor issues:</p>
+    <ul>
+      <li>Added period "." as an valid name character.</li>
+      <li>Fixed issue with reset profile functionality.</li>
+      <li>Added the DQA version to every UI page.</li>
+      <li>Added link to profile XML on configuration page.</li>
+    </ul>
+    <p>
+      <a href="sprint/DQA Sprint Review 2012-10-02.odpp">Sprint Review Presentation</a> (Open Office Impress Format)
+    </p>
+    <h2>Release 1.03 - September 7, 2012</h2>
+    <p>This release only a couple of changes:</p>
+    <ul>
+      <li>Fixed validation issue with validations being too strict for dates with time components. Added logic to strip time components from most
+        date checks.</li>
+      <li>Finished automated report for showing errors and warning documention.</li>
+    </ul>
+    <p>
+      <a href="sprint/DQA Sprint Review 2012-09-04.odp">Sprint Review Presentation</a> (Open Office Impress Format)
+    </p>
+
+    <h2>Release 1.02 - August 11, 2012</h2>
+    <p>After a two month hiatus to focus on other open source projects the next release of DQA has been finished. This release has the following
+      improvements and fixes:</p>
+    <ul>
+      <li>The application has been restructured into four major pieces:
+        <ul>
+          <li><b>Database</b> Defines how to build and populate the persistence layer for three databases: Oracle, MySQL and Hypersonic.</li>
+          <li><b>Core</b> Creates a java application jar (module) that encapsulates the core of the DQA logic.</li>
+          <li><b>Web Service</b> Exposes the core as a web service that can be accessed by the IIS or other integration system.</li>
+          <li><b>Web UI</b> Exposes the core as a web application and builds a Java Servlet war. The result of this project is essentially what
+            the DQA was in release 1.1.</li>
+        </ul>
+      </li>
+      <li>There has been some improvement in the validation:
+        <ul>
+          <li>Support for not expecting a value in RXA-9 when the completion status indicates that the vaccination was actually not given. This
+            will support properly reporting vaccination waivers.</li>
+          <li>Added validation for phone numbers. Previously the "invalid" issue was not triggered for badly formatted phone numbers.</li>
+          <li>Added warning for indicating that the Next-of-Kin for an under-age patient was a Child.</li>
+        </ul>
+      </li>
+      <li>Update CVX, MVX, CPT and vaccine product tables with the latest changes from the CDC.</li>
+      <li>Added support for saving the message hash id in the DQA database.</li>
+      <li>Changed DQA Report so that the "Ready for Production" section at the top can be turned on an off and if the total number of messags are
+        lower than a certain threshold that section indicates that a "Ready for Production" determination could not be made.</li>
+      <li>Added a new ability on the profile settings page to reload the profile settings. This allows for updating the core data and potential
+        issue status and then refreshing the profile settings.</li>
+      <li>Modified the documentation page so that it will display all issues or just the ones with errors.</li>
+    </ul>
+    <p>Several items have been postponed for the next release:</p>
+    <ul>
+      <li>Change how CVX and CPT codes are processed. Currently the invalid/valid date ranges are not being handled or documented as well as
+        needed. The next release the DQA needs to support two concepts of valid, the first is a list of valid values that the IIS allows and the
+        second is the general valid dates as specified by the CDC. In addition the CDC only specifies validity for administered vaccines for CVX. Also
+        need to add the ability to indicate that CPT is the preferred code so that it is choosen even when CVX is deemed not acceptable.</li>
+      <li>Add support for emailing DQA reports. Looking to integrate with a project tracking system.</li>
+      <li>Update the DQA based on the latest CDC guide released last week.</li>
+      <li>Improve database setup process for the maven build script.</li>
+    </ul>
+    <p>We are also working to install a Bugzilla to handle bug/improvement tracking. We hope to have this installed in the coming week. This
+      should help us keep organized going forward.</p>
+    <p>
+      <a href="sprint/DQA Sprint Review 2012-08-08.odp">Sprint Review Presentation</a> (Open Office Impress Format)
+    </p>
+    <p>The next release is planned for the beginning of September.</p>
+    <h2>Release 1.1</h2>
+    <p>The next release is scheduled for May 1st and will include significant UI improvements supported by a new web service layer.</p>
+    <h2>Release 1.0</h2>
+    <p>The final release of the initial development effort was released April 3, 2012. It is available to build from the
+      /ois-dqa/interface/wicket/branches/v1_00 SVN folder. This release resolves the following issues identified in the previous release 0.12.</p>
+    <ul>
+      <li>Added ability to specify HL7 references on DQA report. Changed MCIR DQA report to include HL7 references.</li>
+      <li>Added new administration UI under /config to support basic administration options. Next version will include some more functionality,
+        but most administration will be eclipsed by the new web service interface coming in the next version.</li>
+      <li>Moved /test logic to the new /config admin UI.</li>
+      <li>Moved the informationation logging under /in to the new /config admin UI.</li>
+      <li>Update CVX/CPT codes to latest from CDC.</li>
+      <li>Fixed issue with MSH-4 not appearing on the DQA report.</li>
+      <li>Changed handling of RXA-5 code tables so that if the code table is not recognized, an issue (which by default is a warning) is
+        generated but the DQA attempts to read the code as either a CVX or CPT.</li>
+      <li>Created new database installation script to replace the incremental versions used prior to v1.0.</li>
+    </ul>
+
+
+  </div>
+</body>
+</html>

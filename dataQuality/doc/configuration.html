@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="doc.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Admin User Manual</h1>
+    <ul>
+      <li><a href="index.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+    </ul>
+    <h1>Developer Manual</h1>
+    <ul>
+      <li><a href="developer.html" class="menu">Development Environment</a></li>
+      <li><a href="erd.html" class="menu">Database ERD</a></li>
+      <li><a href="configureDQA.html" class="menu">Configure DQA Report</a></li>
+      <li><a href="howTo.html" class="menu">How To</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>Configuration</h1>
+    <p>
+      The admin configuration user interface is accessible at
+      <code>/config</code>
+      from the root of the running DQA. The username and password for entry are defined in the DQA_USER_ACCOUNT table and should have been setup when
+      the DQA was installed. After logging in, you should see somethink like this:
+    </p>
+    <h4>Applications</h4>
+    <img src="Applications.png" height="442" width="700" border="1" />
+    <p>This main page lists all the applications the DQA is pre-configured to support. From this point there are three main areas of action that
+      can be taken:</p>
+    <ul>
+      <li><b>Menu</b> Use the menu to navigate to a new section.</li>
+      <li><b>Edit Template</b> Select a report template to edit. This is where the XML that defines the DQA report can be set.</li>
+      <li><b>Switch Applications</b> Change the current running application to the appropriate one. This is normally only done once during setup.
+      </li>
+    </ul>
+    <h4>Edit Template</h4>
+    <img src="Edit Template.png" height="369" width="700" border="1" />
+    <p>
+      Displays the details on the template and allows for setting the <a href="configureDQA.html">report definition</a> that is used on this template.
+      If the template is not correctly formatted an error will be displayed. In order for the DQA report to work properly a valid DQA Report
+      Definition must be entered here.
+    </p>
+    <h4>Status</h4>
+    <img src="Status.png" height="303" width="700" border="1" />
+    <p>Lists details of internal threads that process incoming and outgoing data. Use this page to check on the status of the DQA and troubleshoot
+      issues.</p>
+    <h4>Settings</h4>
+    <img src="Settings.png" height="330" width="700" border="1" />
+    <p>Allows for setting keyed values for the currently selected application. All values left blank will take on their default values.</p>
+    <ul>
+      <li>Read file enabled: Indicates whether data should be imported from a local directory. This could be a directory that is used as an SFTP
+        folder for providers to submit data.
+        <ul>
+          <li>Base directory path: Points to the local directory where the submitter folders are stored. The DQA will assume that <b>any</b>
+            folder placed in this directory represents a new profile for a submitter profile and will automatically create a profile with the same
+            name as the folder and set its status to Test. This field is required in order to read data in. If the folder is not found, data will not
+            be imported and no other action will be taken. All other folder references in this section are based relative to the submitter folder
+            being processed.
+          </li>
+          <li>Accepted directory name: This is the folder name where the data that has been accepted and processed should be placed. By default
+            this is assumed to be Accept and if it does not exist will be automatically created.</li>
+          <li>DQA directory name: This is the folder where the weekly DQA report will be placed. By default this folder is assumed to be dqa, and
+            if it doesn't exist will be automatically created.</li>
+          <li>Receive directory name: This is the folder name where the log file, error report, acknowledgement file, and submission DQA report
+            are placed. These can all be downloaded and inspected by the submitter.</li>
+          <li>Submit directory name: This is the folder where data can be placed for processing by the DQA. Once the data is processed the file
+            is moved from this folder to the /receive directory. By default the directory name is /submit and if it does not exist will be
+            automatically created by the DQA. In order to process the file the DQA verifies that the file has not been modified in the last 90 seconds
+            and that the first line starts with FHS or MSH (and if the file starts with FHS it must end with FTS). Otherwise it assumes the file is
+            still being modified or that it does not contain HL7 data.</li>
+          <li>Processing thread count: The number of threads that can be created to processing incoming data. Data from different submitters can
+            be processed at the same time, but data from the same provider is processed sequentially. A default value of 5 is assumed.</li>
+          <li>Wait after last update (secs): Indicates how long to wait after file has been changed before loading it. This is to protect from
+            slow transmission issues where the DQA could begin and finish processing a file before it had completely transfered. The default for this
+            90.</li>
+        </ul>
+      </li>
+      <li>Export batches enabled: Currently this is always enabled but data is only exported if profile is in Production mode.
+        <ul>
+          <li>Base directory path: The local directory where the batch exports should be placed.</li>
+          <li>MSH Processing id: The value that should be placed in the HL7 header.</li>
+          <li>MSH Receiving Application: The value that should be placed in the HL7 header.</li>
+          <li>MSH Receiving Facility: The value that should be placed in the HL7 header.</li>
+          <li>MSH Sending Application: The value that should be placed in the HL7 header.</li>
+          <li>MSH Version Id: The value that should be placed in the HL7 header.</li>
+        </ul>
+      </li>
+      <li>Validate header
+        <ul>
+          <li>Sending facility max length: Set the maximum expected length for the value in MSH-4.</li>
+          <li>Sending facility min length: Set the minimum expected length for the value in MSH-4.</li>
+          <li>Sending facility is numeric: Set the if the value in MSH-4 is expected to be numeric.</li>
+          <li>Sending facility is PFS: Set if the value in MSH-4 should be a valid ImmTrac PFS number. This triggers an algorithm that checks for
+            the codes internal consistency, but does not verify if this is a currently assigned PFS.</li>
+        </ul>
+      </li>
+      <li>Validate vaccination
+        <ul>
+          <li>Vaccination max length: Set the maximum expected length for the value in MSH-4.</li>
+          <li>Vaccination min length: Set the minimum expected length for the value in MSH-4.</li>
+          <li>Vaccination is numeric: Set the if the value in MSH-4 is expected to be numeric.</li>
+          <li>Vaccination is PFS: Set if the value in MSH-4 should be a valid ImmTrac PFS number. This triggers an algorithm that checks for the
+            codes internal consistency, but does not verify if this is a currently assigned PFS.</li>
+        </ul>
+      </li>
+      <li>Weekly batch
+        <ul>
+          <li>Batch day (1=Sunday): The day of the week when the regular weekly batch should be generated.</li>
+          <li>Batch after (HH:MM): The time of day when the batch process can start.</li>
+          <li>Batch before (HH:MM): The time of day after which the batch process should not start.</li>
+        </ul>
+      </li>
+      <li>Weekly export
+        <ul>
+          <li>Export day for highest priority (2=Monday): Indicates which day of the week the data should be exported on based on the submitter
+            profile priority setting.</li>
+          <li>Export day for high priority (2=Monday) Indicates which day of the week the data should be exported on based on the submitter
+            profile priority setting.</li>
+          <li>Export day for normal priority (2=Monday) Indicates which day of the week the data should be exported on based on the submitter
+            profile priority setting.</li>
+          <li>Export day for low priority (2=Monday) Indicates which day of the week the data should be exported on based on the submitter
+            profile priority setting.</li>
+          <li>Export day for lowest priority (2=Monday) Indicates which day of the week the data should be exported on based on the submitter
+            profile priority setting.</li>
+          <li>Export time after (HH:MM): The time of day after which the weekly export should be started.</li>
+          <li>Export time before (HH:MM): The time of day after which the weekly export should not be started.</li>
+        </ul>
+      </li>
+    </ul>
+    <h4>Reload</h4>
+    <img src="Reload.png" height="178" width="700" border="1" />
+    <p>If data is changed on the database, the DQA is not automatically aware of that. Clicking reload will refresh cached values.</p>
+    <h4>Test</h4>
+    <img src="Test.png" height="247" width="700" border="1" />
+    <p>Allows for testing the weekly batch process and weekly export process. This is to facility quality testing and verification that the
+      process works. Simply put a date in either of these boxes that is in the future and the weekly batch process will be started as if it were that
+      day.</p>
+  </div>
+</body>
+</html>

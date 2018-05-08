@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="doc.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Admin User Manual</h1>
+    <ul>
+      <li><a href="index.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+    </ul>
+    <h1>Developer Manual</h1>
+    <ul>
+      <li><a href="developer.html" class="menu">Development Environment</a></li>
+      <li><a href="erd.html" class="menu">Database ERD</a></li>
+      <li><a href="configureDQA.html" class="menu">Configure DQA Report</a></li>
+      <li><a href="howTo.html" class="menu">How To</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>Developer Guide</h1>
+    <p></p>
+    <h2>Setup Instructions for DQA Development</h2>
+    <p>DQA is easiest to develop in Eclipse. But this is not required. Here are the instructions to the standard setup:</p>
+    <ol>
+      <li>Get Source Forge account<br> The source code is stored in Source Forge. You should register an account and then send an email to
+        Nathan Bunker with your new Source Forge id to request to become a member of the project.
+      </li>
+      <li>Install Maven<br> Maven is a build process that is way awesome. It does a lot of what ant does but even more. Installing is as
+        easy as ant and makes the rest of the dev process so much better.
+        <ul>
+          <li><a href="http://maven.apache.org/download.html">Maven Installation Instructions</a></li>
+        </ul>
+      </li>
+      <li>Install Eclipse<br> Development does not require <a href="http://www.eclipse.org/">Eclipse</a>, but it&#39;s what the developers
+        on this project are using and so you may find it easiest to use this.
+      </li>
+      <li>Install Maven Eclipse plugin<br> This plugin supports functions that help with using both Maven and Eclipse. You install this from
+        within Eclipse. Go to Help &gt;&gt; Install software and use the second link below to get the software.
+        <ul>
+          <li><a href="http://www.eclipse.org/m2e/">Maven Installation Instructions</a></li>
+          <li>Eclipse installation link: http://download.eclipse.org/technology/m2e/releases</li>
+        </ul>
+      </li>
+      <li>Install SVN plugin<br> This supports connecting to SVN. Eclipse doesn&#39;t support SVN out of the box. Install this just like the
+        Maven Eclipse plugin.
+        <ul>
+          <li><a href="http://subclipse.tigris.org/">SVN Installation Instructions</a></li>
+          <li>Eclipse installation link: http://subclipse.tigris.org/update_1.8.x</li>
+        </ul>
+      </li>
+      <li>Install Oracle jar into Maven<br> All the other jars in this project are open source, but you will need to add the Oracle jar
+        manually. If you do not plan to use Oracle then you will need to comment out the oracle dependency in the pom.xml file instead.
+        <ul>
+          <li>Modify the script below to indicate the location of your Oracle jar and then run:<br> <code>mvn install:install-file
+              -Dfile={ORACLE_HOME}/jdbc/lib/ojdbc6.jar -Dpackaging=jar\ -DgroupId=com.oracle -DartifactId=oracle -Dversion=10.2.0</code>
+          </li>
+        </ul>
+      </li>
+      <li>Setup database
+        <ul>
+          <li>Oracle: Better scripts are coming soon, contact Nathan Bunker for now</li>
+          <li>MySQL: Better scripts are comming soon, contact Nathan Bunker for now</li>
+          <li>Hypersonic: This is ready to go and you don&#39;t need to do anything to run Hypersonic</li>
+        </ul>
+      </li>
+      <li>Check out DQA code
+        <ul>
+          <li>In Eclipse switch to SVN Repository perspective.</li>
+          <li>Add new SVN Repository at this URL: https://svn.code.sf.net/p/ois-dqa/code You will have to use your source forge credentials</li>
+          <li>The project is now organized into four areas areas. The three main ones you will want to check out are listed below:
+            <ul>
+              <li><b>/core/branches/v1_08</b> DQA application Core</li>
+              <li><b>/database</b> All DQA database scripts</li>
+              <li><b>/webui/branches/v1_08</b> DQA stand alone web application</li>
+            </ul>
+          </li>
+          <li>Choose "New Project Wizard"</li>
+          <li>On the wizard give the project a name and then finish</li>
+        </ul>
+      </li>
+      <li>Check out TCH Connector <br /> The TCH Connector allows the DQA to request Clinical Decision Support when replying back with a QBP.
+        This functionality is optional, but the connecting jar must be built into the project.
+        <ul>
+          <li>Follow the instructions for checking out the DQA code in SVN.</li>
+          <li>URL for this repository is https://svn.code.sf.net/p/tchforecastconn/code/</li>
+          <li>The current version to check out is: <b>branches/v2_12</b></li>
+        </ul>
+      </li>
+      <li>Build TCH Connector <br/>
+       Build the connector by running <code>mvn install -Dmaven.test.skip=true</code> for this project. 
+      </li>
+      
+      <li>Include Oracle as Dependency<br> If you are connecting to Oracle you will need open pom.xml in the WebService and/or WebUI project
+        and comment in the Oracle jar dependency. This should now point to the Oracle jar that you loaded previously into your Maven repository.
+        (Oracle is not enabled by default as this is a proprietary solution and DQA is designed to work out-of-the-box without Oracle.)
+      </li>
+      <li>Setting up each project so it compiles
+        <ul>
+          <li>On the command line, go to the project root folder. (Same folder the pom.xml is in.)</li>
+          <li>Prep the file for Eclipse by running: mvn eclipse:eclipse</li>
+          <li>Go back to Eclipse, right-click on project and choose refresh.</li>
+          <li>The project should now have no compile errors and be setup correctly.</li>
+          <li>If this is the WebUI or WebService project you will also want to right click on the project, click properties, and configure the
+            build path to point to the DQA core project. This will allow Eclipse to automatically see changes you make in core.</li>
+        </ul>
+      </li>
+      <li>Compiling the core
+        <ul>
+          <li>On the command line, <code>run mvn install -Dmaven.test.skip=true</code> on the core. This will install the DQA core application in your local repository which will
+            make it available to the the WebUI and/or WebService project.</li>
+        </ul>
+      </li>
+      <li>Setup database parameters.
+        <ul>
+          <li>In Eclipse go to src/main/resources and open hibernate.cfg.xml in the WebService adn/or WebUI project.</li>
+          <li>Eclipse may try to be cute and show you the XML doc in a special window, you can select the Source tab on the bottom and switch to
+            source.</li>
+          <li>By default the file is configured to work with HSQL. Change this to your preferred database by copying the lines of code from
+            either the hibernate.cfg.oracle.xml or hibernate.cfg.mysql.xml file. As you will see these files are only a snippet of the full file so be
+            sure to copy and replace carefully.</li>
+          <li>Change the connection parameters so the url/username/password is correct. For Hypersonic there is no need to make this change.</li>
+        </ul>
+      </li>
+      <li>Make sure database is running</li>
+      <li>Running the project
+        <ul>
+          <li>To run, go into Test folder and find the Start java file.</li>
+          <li>Right click on Start and Run As &gt;&gt; Java Application.</li>
+          <li>Now the application will start in Jetty and the output will show in the Console inside Eclipse</li>
+          <li>Remember to stop it using the red stop button if you want to stop and restart it</li>
+        </ul>
+      </li>
+      <li>Building the project
+        <ul>
+          <li>On the command line, in the project root folder for either WebUI and/or WebService. (Same folder the pom.xml is in.) run this
+            command: <code>mvn install -Dmaven.test.skip=true</code></li>
+          <li>Maven will first compile, then run the JUnit tests (database has to be runing so unit tests will work), and then buld the war.</li>
+          <li>The war file is in the target directory and is named with the current version.</li>
+          <li>You will probably want to rename the war file to simply dqa.war</li>
+        </ul>
+      </li>
+      <li>Running<br />The application can be run during develop easily using Jetty.
+        <ul>
+          <li>In Eclipse navigate to src/test/org/openimmunizationsoftare/dqa/Start.java.</li>
+          <li>Right click on Start.java, select Run As &gt;&gt; Java Application.</li>
+          <li>Jetty will start project in Eclipse environment and listen on port 8281. Navigate to <a href="http://localhost:8281/config">http://localhost:8281/config</a>.
+          </li>
+          <li>Jetty can be stopped by pressing STOP button in Jetty console window in Eclipse. Remember that in this way Jetty shares the JVM of
+            Eclipse. DQA can't process extremely large DQA files in this environment. Test this functionality using Tomcat.</li>
+        </ul>
+      </li>
+
+      <li>Deploy
+        <ul>
+          <li>Both WebUI and/or WebService project can be deployed on Tomcat, Glassfish, our it may work on your favorite J2EE app server. Try
+            it!</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+</body>
+</html>

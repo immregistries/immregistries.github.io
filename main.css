@@ -1,0 +1,191 @@
+body
+{
+  font-family:Tahoma, Geneva, sans-serif;
+  margin:0px;
+}
+
+.topSash 
+{
+  background-color:#006C51;
+  margin:0px;
+  padding:2px;
+  padding-left:5px;
+  color:#EFEFEF;
+  width:100%;
+  border-width: 2px 0px 1px 0px;
+  border-style: solid;
+  border-color:#333333;
+}
+
+a:visited.menu
+{
+  color:#333333;
+  background-color: #EFEFEF;
+  text-decoration:none;
+  margin-top:2px;
+  margin-bottom:2px;
+  padding-left:5px;
+  padding-right:5px;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color:#EFEFEF;
+}
+
+a:link.menu
+{
+  color:#333333;
+  background-color: #EFEFEF;
+  text-decoration:none;
+  margin-top:2px;
+  margin-bottom:2px;
+  padding-left:5px;
+  padding-right:5px;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color:#EFEFEF;
+}
+
+a:active.menu
+{
+  color:#333333;
+  background-color: #EFEFEF;
+  text-decoration:none;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  padding-left:5px;
+  padding-right:5px;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color:#EFEFEF;
+}
+
+
+a:hover.menu
+{
+  color:#FFFFFF;
+  background-color: #006C51;
+  margin-top:2 px;
+  margin-bottom:2 px;
+  padding-left:5px;
+  padding-right:5px;
+  border-width: 0px 1px 1px 1px;
+  border-style: solid;
+  border-color:#333333;
+  text-decoration:none;
+}
+
+.menuBar
+{
+  background-color: #EFEFEF;
+  color: #333333;
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  font-size: 120%;
+}
+
+.mainBody
+{
+  padding:10px;
+  width:700px;
+}
+
+h1 
+{
+  font-size:1.5em;
+  color:#006C51;
+}
+
+h2
+{
+  font-size:1.2em;
+  color:#006C51;
+}
+
+h3
+{
+  font-size:1.0em;
+  color:#006C51;
+}
+
+table
+{
+  border-collapse:collapse;
+  border: 2px solid #444444;
+}
+th
+{
+  background-color:#006C51;
+  border: 1px solid #444444;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+td
+{
+  padding-left: 3px;
+  padding-right: 3px;
+  border: 1px solid #444444;
+  font-size: 90%;
+}
+
+.contacted
+{
+  background-color:#EFEFEF;
+}
+
+.selected
+{
+  background-color:#EFEFEF;
+}
+
+.connected
+{
+  background-color:#95EE6B;
+}
+
+
+
+.contentsMenu
+{
+  border: 1px solid #444444;
+  background-color: #EFEFEF;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-right: 9px;
+  padding-left: 9px;
+  position:absolute;
+  left:730px;
+  top:70px;
+}
+
+a:visited
+{
+  color:blue;
+  text-decoration:none;
+}
+
+a:link
+{
+  color:blue;
+  text-decoration:none;
+}
+
+a:active
+{
+  color:blue;
+  text-decoration:none;
+}
+
+
+a:hover
+{
+  color:blue;
+  background-color: #EFEFEF;
+  text-decoration:underline;
+}
+
+pre
+{
+	width:680px;
+    overflow:scroll;
+}

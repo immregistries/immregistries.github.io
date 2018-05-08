@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="doc.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+
+  <div class="contentsMenu">
+    <h1>Admin User Manual</h1>
+    <ul>
+      <li><a href="index.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+    </ul>
+    <h1>Developer Manual</h1>
+    <ul>
+      <li><a href="developer.html" class="menu">Development Environment</a></li>
+      <li><a href="erd.html" class="menu">Database ERD</a></li>
+      <li><a href="configureDQA.html" class="menu">Configure DQA Report</a></li>
+      <li><a href="howTo.html" class="menu">How To</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>Installation for version 1.07</h1>
+    <h2>Installation Requirements</h2>
+    <p>The DQA has been designed to use a minimum essential requirements in order to operate on a large number of platforms. The following
+      requirements reflect the minimum necessary to operate the DQA, but in practice more resources may be required in order to operate DQA with large
+      datasets.</p>
+    <ul>
+      <li>Java: Version 1.6 or greater</li>
+      <li>Apache Tomcat (or other compatible java web server): Tomcat 6.0 or greater</li>
+      <li>Memory: At least 192 MB dedicated</li>
+      <li>Database: MySQL, Oracle, or PostGres</li>
+      <li>Minimum disk space when installed (space for MySQL and Java not included): 7MB</li>
+    </ul>
+    <h2>Install Database</h2>
+    <h3>Oracle</h3>
+    <ol>
+      <li>Get database scripts:
+        <ul>
+          <li><a href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/oracle/trunk/initial_v1.sql">initial_v1.sql</a></li>
+          <li><a href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/oracle/trunk/upgrade-1.01.sql">upgrade-1.01.sql</a></li>
+          <li><a href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/oracle/trunk/upgrade-1.02.sql">upgrade-1.02.sql</a></li>
+          <li><a href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/oracle/trunk/upgrade-1.03.sql">upgrade-1.03.sql</a></li>
+          <li><a href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/oracle/trunk/upgrade-1.04.sql">upgrade-1.04.sql</a></li>
+        </ul>
+      </li>
+      <li>If needed, remove old DQA tables<br> Run initial_v1_drop_tables.sql to drop old DQA tables.
+      </li>
+      <li>Set DQA admin password<br> Modify the initial_v1.sql to set local DQA admin password. Search initial_v1.sql for the phrase
+        "dqa_admin" and locate the SQL insert statement that inserts both the username and password. Change the password "changeme" to one you would
+        prefer to use.
+      </li>
+      <li>Run database upgrade scripts. Commit.</li>
+      <li>Build or get WAR file<br> To build the war file, follow the directions under the Developer Guide. Once you have a war file
+        continue the instructions below.
+      </li>
+      <li>Deploy WAR file</li>
+      <li>Login to configuration panel<br> Login into application at the /config URL using the admin username 'dqa_admin' and the password
+        you set above. You should see a list of supported applications.
+      </li>
+      <li>Click on the Report Template of the application you are configuring to support. Copy the applications default template definition in
+        the Report Definition box and then click update report template. Report definitions can be found here:
+        <ul>
+          <li><a href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/reports/immtrac-dqa.xml">ImmTrac Default DQA Definition</a></li>
+          <li><a href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/reports/mcir-dqa.xml">MCIR Default DQA Definition</a></li>
+        </ul>
+      </li>
+      <li>Set running application<br> Under the Applications table, select the application that you are configuring for and click Switch.
+      </li>
+      <li>Configure import/export folders<br> Click on Settings from the floating menu on the right. Set and enable instance specific
+        settings such as the base folder for input files.
+      </li>
+      <li>View status<br> Click on Status from the floating menu to verify operation of the DQA.
+      </li>
+    </ol>
+    <h3>MySQL</h3>
+    <ol>
+      <li>Install MySQL</li>
+      <li>Download initial database script initial_v1.07.sql from here: <a
+        href="https://ois-dqa.svn.sourceforge.net/svnroot/ois-dqa/database/mysql/trunk/">All MySQL Scripts</a></li>
+      <li>Edit create-user.sql script to indicate the correct username and password you would like to use. Run using command: mysql -u[admin
+        username] -p[password] < create-user.sql</li>
+      <li>Run initial database script: mysql -u[admin username] -p[password] [databasename] < initial_v1.07.sql</li>
+    </ol>
+    <h3>PostGres</h3>
+    <p>
+      PostGres scripts are found here: <a href="https://svn.code.sf.net/p/ois-dqa/code/database/postgresql/trunk/">PostGres Scripts</a>
+    </p>
+    <h2>Installing Application</h2>
+    <ul>
+      <li>Install Java RE 1.6 or later.</li>
+      <li>Install Apache Tomcat.</li>
+      <li>Download DQA application from here: <a href="http://ois-pt.org/tester/installDQA/DownloadServlet">DQA Application download</a>. Save
+        this in the webapps directory of Tomcat.
+      </li>
+      <li>Ensure Apache Tomcat is running.</li>
+    </ul>
+  </div>
+</body>
+</html>

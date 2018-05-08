@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a>
+    <a href="dataQuality.html" class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a>
+    <a href="../matching/matching.html" class="menu">Matching</a>
+  </div>
+
+  <div class="contentsMenu">
+    <h1>Data Quality</h1>
+    <ul>
+      <li><a href="dataQuality.html" class="menu">Road Map</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="configuration.html" class="menu">Configuration</a></li>
+      <li><a href="dqaReport.html" class="menu">DQA Report User Guide</a></li>
+      <li><a href="workGroups.html" class="menu">Work Groups</a></li>
+      <li><a href="doc/index.html" class="menu">Technical Documentation</a></li>
+    </ul>
+    <h1>Open Source Projects</h1>
+    <ul>
+      <li><a href="https://sourceforge.net/projects/ois-dqa/" class="menu">OIS DQA</a></li>
+    </ul>
+  </div>
+
+  <div class="mainBody">
+    <h1>Configuration</h1>
+
+    <p>
+      <img src="configuration-menu.png" width="174" height="214" align="right" />The configuration screen can be access
+      from the admin screen by selecting the Settings on the menu located on the right edge of the screen. (See
+      screenshot on the right.) The settings then appear in one large table. After making changes, simply click on
+      update settings at the bottom of the page to save them.
+    </p>
+    <p>The following is an explanation of each setting.</p>
+
+    <h2>Application external URL base</h2>
+    <p>This is used to indicate the URL base for the DQA as it appears to the outside world. You generally do not
+      need to set this. It may be used later in some installations that provide links to users in emails in order to
+      allow them to be linked backed to the DQA.</p>
+
+    <h2>Read in file enabled</h2>
+    <p>Indicates whether the DQA should process files from a local directory or not. If enabled the DQA will look in
+      that directory for folders to import data from.</p>
+    <h3>Base directory</h3>
+    <p>The absolute file directory where the data folders for import will be placed. This must be a folder that is
+      created by you on the same system that the DQA is running on within Tomcat. There should be no other data in this
+      folder and it should be dedicated for use by the DQA.</p>
+    <p>Within this base directory, DQA is going to expect you to create folders during runtime. Each of the folders
+      you create will be linked automatically to a profile with the same name as the folder. Inside each of these
+      folders HL7 data can be submitted and reports read. In this way it is possible to communicate with the DQA via
+      files and folders and have data processed and verified.</p>
+    <p>Screen shot of a single profile folder, configured by DQA to receive and process data:</p>
+    <p>
+      <img src="configuration-folder.png" width="600" height="177" />
+    </p>
+    <p>Please note that the folders shown reside in the profile folder, which in turns resides in the base directory
+      which is defined here. This means that ths configuration allows you to specify a single root folder and inside
+      this you will later create sub-folders for each profile you wish to import data under. And these folders will have
+      more folders created under them by DQA.</p>
+    <h3>Accepted directory name</h3>
+    <p>
+      The name of the directory within the profile folder where data will be copied to once it has been processed by
+      DQA. If not specified DQA uses
+      <code>accepted</code>
+      as the default.
+    </p>
+    <h3>DQA directory name</h3>
+    <p>
+      The name of the directory within the profile folder where the weekly DQA reports will be saved. If not specified
+      DQA uses
+      <code>dqa</code>
+      as the default.
+    </p>
+    <h3>Receive directory name</h3>
+    <p>
+      The name of the directory within the profile folder where the logs, acknowledgements, dqa reports and other
+      outputs are saved from the process of the incoming data in the submit directory. If not specified DQA uses
+      <code>receive</code>
+      as the default.
+    </p>
+    <h3>Submit directory name</h3>
+    <p>
+      The name of the directory within the profile folder where DQA reads the incoming data from. This is where you will
+      want to put new data files in for DQA to read them. If not specified DQA uses
+      <code>submit</code>
+      as the default.
+    </p>
+    <h3>Processing thread count</h3>
+    <p>This is the total number of concurrent threads that can be run to process incoming data. The DQA will only
+      process data from a single profile, one file at a time. Thus, if a submitter sends in 100 files under the same
+      file/profile then the DQA will process each file in the order received. However, another thread can process a
+      different file/profile while this is being processed. By default the DQA processes up to 5 files at the same time.
+    </p>
+    <h3>Wait after last update (secs)</h3>
+    <p>The number of seconds to wait since the last update to a local file. If a file is update in the last 60
+      seconds DQA will postpone the processing until it checks the file folder again. This is to ensure that files are
+      not still be written to by an external transfer process. By default this is 60 seconds.</p>
+    <h3>Export connection script</h3>
+    <p>Controls whether the connection script that may be used by the Simple Message Mover or DQA Tester will be
+      exported when the folder is created. If it is export, it is placed directly in the local profile folder where it
+      can be picked up. By default this is false.</p>
+
+    <h2>Read submission table enabled</h2>
+    <p>Enables the DQA to read from and process items in the submission table. This must be enabled to in order to
+      allow for files to be processed after being uploaded into the DQA from the admin menu, so it's generally
+      recommended to enable this. By default this is false.</p>
+    <h2>Pause after checking for updates (secs)</h2>
+    <p>The number of seconds to wait after checking the submission table to change. Defaults to 60 seconds.</p>
+    <h2>Enforce unique message control ids</h2>
+    <p>Normally DQA does not require nor inforce that message control ids should be unique. (The message control id
+      is defined by the sender and is required to be unique for a given MSH-4 value and day of being sent. This id has
+      to be placed in the ACK and may be used by the original sender to link the original request back to the response.)
+      The DQA can be configured to enforce uniqueness of the message control id within a single submission. If enabled
+      then submissions will error if a message control id is reused within a single submission. Defaults to false.</p>
+
+    <h2>Upload enabled</h2>
+    <p>Enables files to uploaded into the DQA from the admin menu. It's generally recommended to enable this. By
+      default it is set to false.</p>
+    <h2>Uploaded local file directory name</h2>
+    <p>The name of a folder that DQA in Tomcat can have access to for temporarily writing files during the upload
+      process. This must be set in order for uploads to work.</p>
+
+    <h2>Export batches enabled</h2>
+    <p>Enables data to be exported on a weekly basis from the DQA and saved in a local folder for processing by
+      external systems. These files will only contain patients and vaccinations that were submitted by production
+      interfaces and passed data quality checks without any errors. In addition, the original HL7 messages are
+      discarded, patients are sorted by last name and first, records are combined by MRN, and duplicate and deleted
+      vaccinations are removed. By default this is not enabled.
+    <h2>Base directory path</h2>
+    <p>The directory where the data will be exported to.</p>
+    <h2>MSH Processing Id</h2>
+    <p>The processing id to put in all the messages.</p>
+    <h2>MSH Receiving Application</h2>
+    <p>The value to put in MSH-5.</p>
+    <h2>MSH Receiving Facility</h2>
+    <p>The value to put in MSH-6.</p>
+    <h2>MSH Sending Application</h2>
+    <p>The value to put in MSH-3.</p>
+    <h2>MSH Version Id</h2>
+    <p>The value to put in MSH-4.</p>
+
+    <h2>Validate header</h2>
+    <p>This section defines settings used during the validation of HL7 MSH segment.</p>
+    <h2>Sending facility max length</h2>
+    <p>The maximum length of the value in MSH-4.</p>
+    <h2>Sending facility min length</h2>
+    <p>The minimum length of the value in MSH-4.</p>
+    <h2>Sending facility is numeric</h2>
+    <p>The value in MSH-4 must be made of numeric (0-9) characters only.</p>
+    <h2>Sending facility is PFS</h2>
+    <p>The value in MSH-4 must match format of the Texas ImmTrac PFS number that they use to identify facilities.</p>
+
+    <h2>Validate patient</h2>
+    <p>This section defines settings used during the validation of patient information.</p>
+    <h2>Do not validate VFC status (PV1-20)</h2>
+    <p>VFC status used to be transmitted at patient level in PV1-20. This use has now been removed from the standard
+      and is now only seen in older interfaces or for backwards compatibility. DQA can be asked to ignore this field for
+      the purposes of validation. Enabling this will mean that the values are not mapped into the code recieved table or
+      verified, but they will still be save in the patient table as sent in.</p>
+
+    <h2>Validate vaccination</h2>
+    <p>This section defines settings used during the validation of vaccination information.</p>
+    <h2>Vaccination facility max length</h2>
+    <p>The maximum length of the value in RXA-11.4 for administered vaccinations.</p>
+    <h2>Vaccination facility min length</h2>
+    <p>The minimum length of the value in RXA-11.4 for administered vaccinations.</p>
+    <h2>Vaccination facility is numeric</h2>
+    <p>The value in RXA-11.4 for administered vaccinations must be made of numeric (0-9) characters only.</p>
+    <h2>Vaccination facility is PFS</h2>
+    <p>The value in RXA-11.4 for administered vaccinations must match format of the Texas ImmTrac PFS number that
+      they use to identify facilities.</p>
+
+    <h2>DQA report</h2>
+    <p>Configures how the DQA report is created.</p>
+    <h2>Ready for Production flag enabled</h2>
+    <p>This allows a section at the top of the report to indicate if the site is ready for production by having
+      enough data submitted and enough of the required fields completed. By default this is true.</p>
+    <h2>Ready for Production trigger level</h2>
+    <p>The number of messages that need to be in a batch in order for it to be large enough to qualify for testing
+      for ready for production. By default this is set to 50.</p>
+
+    <h2>Weekly batch</h2>
+    <p>The weekly batch will include all data submitted during the seven previous days. The weekly batch is used to
+      create a DQA report which is saved in the file directory under the same name as the interface.</p>
+    <h2>Batch day</h2>
+    <p>The day when weekly batches are put together. The default is Sunday (1).</p>
+    <h2>Batch after</h2>
+    <p>The hour at which weekly batching can begin. The default is 1 AM (01:00).</p>
+    <h2>Batch before</h2>
+    <p>The hour by which weekly batching should stop. The default is 12 PM (12:00).</p>
+
+    <h2>Weekly export</h2>
+    <p>Configures when data will be exported. Originally this was designed by ImmTrac so that data could come out
+      over the course of a week in order to ensure that not all data from a week had to processed in one day.</p>
+    <h2>Export day for highest priority</h2>
+    <p>The day for the highest priority exports.</p>
+    <h2>Export day for high priority</h2>
+    <p>The day for the high priority exports.</p>
+    <h2>Export day for normal priority</h2>
+    <p>The day for the normal priority exports.</p>
+    <h2>Export day for low priority</h2>
+    <p>The day for the low priority exports.</p>
+    <h2>Export day for lowest priority</h2>
+    <p>The day for the lowest priority exports.</p>
+    <h2>Export time after</h2>
+    <p>The hour at which exports could be sent out. The default is 1 PM (13:00).</p>
+    <h2>Export time before</h2>
+    <p>The hour at which exports should stop being sent out. The default is 7 PM (19:00).</p>
+
+    <h2>Database Cleanup</h2>
+    <p>Regular operation of DQA causes a large amount of data to accumulate in the database. In most cases this data
+      can be deleted. But this must be configured by the admin as every situation and record retention policy is
+      different. Different types of data can be deleted on different schedules, which allows for delete details but
+      retaining aggregate information. By deleting the Data Fields, Message Text and Submissions, the DQA will not
+      retain any personal identifiable information.</p>
+    <h2>Database Cleanup Enabled</h2>
+    <p>By default this is false.</p>
+    <h2>Cleanup day</h2>
+    <p>The day when the cleanup operation should be run. 1 AM (01:00)</p>
+    <h2>Cleanup after</h2>
+    <p>The hour at which the cleanup can start.</p>
+    <h2>Cleanup before</h2>
+    <p>The hour by which the cleanup should stop. The default is 12 PM (12:00).</p>
+    <h2>Delete Data Fields received after</h2>
+    <p>The number of days data fields, such as patient and vaccination level data should be retained. The DQA breaks
+      out data received in message into table dedicated to patient, vaccination, next-of-kin, etc. The default is 30
+      days.</p>
+    <h2>Delete Message Text received after</h2>
+    <p>The number of days the original message text can be retained. The DQA stores original HL7 messages, as they
+      were received. The default is 60 days.</p>
+    <h2>Delete Message Analysis created after</h2>
+    <p>The number of days to retain the detailed analysis of each message. This contains no patient identifiable
+      data. The default is 150 days.</p>
+    <h2>Delete Submitted Batch Reports created after</h2>
+    <p>The number of days to retain the aggregate information about batch reports for data received. The default is
+      400 days.</p>
+    <h2>Delete Weekly Batch Reports created after</h2>
+    <p>The number of days to retain the aggregate information about weekly batch reports created. The default is
+      1,500 days.</p>
+    <h2>Delete Submissions last updated after</h2>
+    <p>The number of days to retain submissions. The default is 30 days.</p>
+
+    <h2>CDS Software</h2>
+    <p>Clinical Decision Support (CDS) software allows a system, such as the DQA, get vaccination evaluation and
+      forecasting information on patient records. DQA uses this in order to simulate an IIS query interface. In the
+      future the DQA could use this for validation purposes. This should not normally be configured, and is only useful
+      for external testing purposes. The values for these settings will not be documented here.</p>
+
+    <h2>Remote Reporting</h2>
+    <p>This allows the DQA to be used as a central reporting site for remotely installed Simple Message Mover (SMM)
+      systems. This would not normally be used in other locations. This functionality will not be documented here.</p>
+
+
+
+
+
+  </div>
+</body>
+</html>

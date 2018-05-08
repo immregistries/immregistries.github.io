@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="forecasting.html" class="menu">Forecasting</a> <a
+      href="../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="mainBody">
+    <div class="contentsMenu">
+      <h1>Forecasting</h1>
+      <ul>
+        <li><a href="forecasting.html" class="menu">Road Map</a></li>
+        <li><a href="cds.html" class="menu">Clinical Decision Expert Panel</a></li>
+        <li><a href="cdsForecastingFramework.html" class="menu">CDS Forecasting Framework</a></li>
+        <li><a href="tch.html" class="menu">Texas Children&#39;s Hospital</a></li>
+      </ul>
+      <h1>Applications</h1>
+      <ul>
+        <li><a href="http://openimmunizationsoftware.us/cds2011/action" class="menu">CDS Demonstration System 2011</a></li>
+        <li><a href="http://openimmunizationsoftware.us:6394/fv/fv/" class="menu">TCH Forecast Validator</a></li>
+      </ul>
+      <h1>Open Source Projects</h1>
+      <ul>
+        <li><a href="https://sourceforge.net/projects/iiscds/" class="menu">IIS Clinical Decision Support</a></li>
+      </ul>
+    </div>
+    <h1>CDS Forecasting Framework</h1>
+    <img src="Roadmap%20from%20March%202012%20Meeting.png" width="700" height="380">
+    <p>In addition to showing the new system, Nathan Bunker discussed the Open Immunization Software technical goals for the next 6 months as part
+      of a road map to provide basic CDS software support. Many of these goals would be accomplished through a set of collaborative efforts with the
+      CDS work group and its participants.</p>
+    <h3>Collect &amp; Organize Test Cases</h3>
+    <p>The CDS work group has a sub work group that is working on the tedious task of creating a large set of test case records. Originally they
+      planned to to collate test records from several sources but realized the process of synchronizing them all into one system was a daunting task
+      and opted to create entirely new test cases. These test cases are currently being stored in an Excel spreadsheet. The goal of OIS to take this
+      data and integrate it into a test system that will:</p>
+    <ul>
+      <li>Store and categorize all test cases, including the patient info, vaccination info, and expected results.</li>
+      <li>Allow users to add comments and document test cases.</li>
+      <li>Eventually support querying CDS engines and verifying if expected and actual results match.</li>
+    </ul>
+    <p>Currently several project participants are interested in submitting their test cases to a central system. This effort will require Nathan
+      to make some changes to the base software to accommodate each test set and then a representative from the submitting site to actually enter the
+      data in. Nathan will provide support by making tools available to make the data transfer as easy as possible.</p>
+    <p>Estimated Effort (per entity)</p>
+    <ul>
+      <li>Nathan Bunker: 4 - 20 hours</li>
+      <li>Entity representative: 10 - 80 hours</li>
+    </ul>
+    <h3>Improve Test Case System</h3>
+    <p>The Texas Children&#39;s Hospital validation service is currently targeted for improvement to meet these goals. Most of the functionality
+      needed is already supported by the TCH forecast validator, but it will need to be improved to support collaboration on the national scale. In
+      addition the service will need to move to a more permanent location.</p>
+    <p>Estimated Effort</p>
+    <ul>
+      <li>Nathan Bunker: 40-80 hours</li>
+    </ul>
+    <p>Improvements to be Made</p>
+    <ul>
+      <li>Create login and registration screen. Allows workgroup members to automatically register and login. Shows splash page with TCH legal
+        language.</li>
+      <li>Add concept of test sets. Every user will have a personal test set, and test cases exist in one or more test sets. Initially a user can
+        create and upload any test cases and the group can decide which ones are promoted to a national test set.</li>
+      <li>Add ability to better show and enter in expected results from many different registered users displayed agains the actual results from
+        the targeted system. Current the software assumes the user is from TCH and is targeting improvements on the TCH forecaster. The user needs to
+        be able to enter in expect results representing themselves or their organization and then compare against a chosen forecaster for verify
+        actual results.</li>
+      <li>Improve process for making comments so that it supports commentary from the community more effectively. Current there are comments but
+        improvements could be made to them.</li>
+      <li>Add support for relative dates in test cases.</li>
+    </ul>
+    <h3>Test Case Management and Verification System</h3>
+    <p>The final system would ideally serve as a hub for all testing and verification work. It would capture all expert decisions and allow for
+      forming permanent and ad-hoc testing sets. This system has the potential of becoming a national resource that the CDC could maintain in the
+      years to come to support IISSB project goals. OIS wants to put the initial system in place to demonstrate the need and benefit of such a system.
+    </p>
+    <h3>Create Supporting CDS Tables</h3>
+    <p>There are two sets of data tables that drive the CDS. The first is the basic data that includes vaccine codes, disease groups, and vaccine
+      groups. This part is nearly complete but needs input from the CDS group as a whole to ensure that it is correct. The second set includes all the
+      series table definitions that drive the decision logic. The CDS working group has made a lot of progress establishing these series and recording
+      them in word document format. The next step is for Eric Larson and Nathan Bunker to meet and discuss the somewhat-final format for the decision
+      tables, then for Nathan to put these into Google docs spreadsheet format. After this, Nathan will meet with each vaccine series representative
+      and help them record the series correctly on the spreadsheets. After this is complete the word documents will not longer be used and the Google
+      doc spreadsheets will become the official coordinated repository.</p>
+    <p>Estimated Effort</p>
+    <ul>
+      <li>Nathan Bunker: 10 - 15 hours</li>
+    </ul>
+    <h3>Implement Basic Infrastructure</h3>
+    <p>There are still a few more changes to the basic state diagram, and after these are solidified Nathan Bunker will create a new CDS state
+      diagram and update the support in the demonstration system. When this is complete the new system will be able to step through all the states but
+      will not calculate all the required information. Most of the states will have no functionality.</p>
+    <p>Estimated Effort</p>
+    <ul>
+      <li>Nathan Bunker: 5 - 10 hours</li>
+    </ul>
+    <h3>Finish All State Logic</h3>
+    <p>Once the infrastructure is in place, several technical members of the CDS work group can be assigned to flesh out the state blocks. The
+      work should be highly modular at that point and perfect to involve everyone who wants to.</p>
+    <p>Estimated Effort</p>
+    <ul>
+      <li>Nathan Bunker: 5 - 30 hours</li>
+      <li>Other developers: 10 - 80 hours</li>
+    </ul>
+    <h3>Develop Web Service Interface</h3>
+    <p>Once the CDS demonstration system is working there will need to be an interface so that external validation systems can run tests against
+      the demonstration system.</p>
+    <p>Estimated Effort</p>
+    <ul>
+      <li>Nathan Bunker: 20 - 30 hours</li>
+    </ul>
+    <h3>CDS Project Working Demonstration</h3>
+    <p>The final system will essentially be a forecasting engine. How well it works will depend on how well the logic is implemented and how
+      accurate the series data is.</p>
+    <h3>Other CDS Engines...</h3>
+    <p>The validation engine could also be integrated with other CDS engines. This would assist in the test development and serve as a way to
+      allow these disparate projects see how well their systems are working compared to the national standards.</p>
+    <p>Estimated Effort (per web service engine)</p>
+    <ul>
+      <li>Nathan Bunker: 10 - 30 hours</li>
+    </ul>
+  </div>
+</body>
+</html>

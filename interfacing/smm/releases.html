@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../../index.html" class="menu">Home</a> <a href="../interfacing.html" class="menu">Interfacing</a> <a
+      href="../../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../../forecasting/forecasting.html" class="menu">Forecasting</a>
+    <a href="../../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="contentsMenu">
+    <h1>Simple Message Mover</h1>
+    <ul>
+      <li><a href="simpleMessageMover.html" class="menu">Overview</a></li>
+      <li><a href="installation.html" class="menu">Installation</a></li>
+      <li><a href="userGuide.html" class="menu">User Guide</a></li>
+      <li><a href="releases.html" class="menu">Releases</a></li>
+      <li><a href="testingProcess.html" class="menu">Testing Process</a></li>
+      <li><a href="releaseProcess.html" class="menu">Release Process</a></li>
+    </ul>
+  </div>
+  <div class="mainBody">
+    <h1>Releases</h1>
+    <h2>1.29</h2>
+    <p>Released May 30, 2014</p>
+    <p>This is a minor release that fixes a small issue in some text and makes minor improvements to the IIS Stress Test. </p>
+    <h2>1.28</h2>
+    <p>Released Feb 8, 2014</p>
+    <p>This is the first major release that affects state connections since the 1.17 release. The changes in between have been to improve the IIS
+      testing capability and have not directly impacted EHR to IIS connections. This release has the following improvements:</p>
+    <ul>
+      <li>A minor change to how the ASIIS connection is built to comply with request from ASIIS to put ASIIS in MSH-5 in configuration files.</li>
+      <li>Added support for WebIZ running on HL7 2.5.1 in Nevada. This required adding new logic to identify error when a vaccination is
+        rejected. The configuration file was also upgraded.</li>
+    </ul>
+    <h2>1.17</h2>
+    <p>Released Sept 17, 2013</p>
+    <p>This release is to fix issues found when testing with the new ASIIS interface through BizTalk.</p>
+    <ul>
+      <li>Masks PV1-10, no value will come through SMM here</li>
+      <li>Fixed issue with ACK not being read properly from ASIIS under a very specific scenario</li>
+      <li>SMM can now fix the ampersand problem that BYIM currently has so that the ampersand is sent correctly to ASIIS</li>F
+    </ul>
+    <h2>1.09</h2>
+    <p>To Be Released</p>
+    <ul>
+      <li>SMM does a FHS/FTS check on all files that begin with an FHS check. This check fails if the last line in the file does not begin with
+        FTS. This is correct, but a problem occurrs when the last line of the file is a comment, which is ignored by SMM during processing, but not
+        during the FTS check. Files that begin with FHS, have an FTS as the last line in the HL7 file but are followed by commented lines are not
+        processed in previous versions of SMM. This has been resolved, comments are now ignored as part of this check.</li>
+      <li>The SMM installer does not put the correct root directory in the form for download. This has been fixed in 1.09.</li>
+    </ul>
+    <h2>1.08</h2>
+    <p>Released Apr 17, 2013</p>
+    <p>This release addresses issues that were discovered during integration with NMSIIS. The following improvements were made:</p>
+    <ul>
+      <li>The NM configuration has been fixed so that it now creates the smm.config.txt correctly for NMSIIS. You can go through that process and
+        your current version of SMM will work correctly.</li>
+      <li>The response messages were not being "escaped" properly when returned by NMSIIS and were placed in the rejection file. If this
+        rejection file is reprocessed by SMM, which can happen if the user renames the file so it can be resubmitted, the rejection message will be
+        submitted along with the original message. The reason why this happens is because NMSIIS does not always return a proper HL7 ACK as the SMM
+        expects. This is now not a problem.</li>
+      <li>If the SMM is not able to get a positive response back on the first try, with the first message, it will now delete the working
+        directory. This solves a problem where the file we have queued up to send was not be regenerated with the new credentials in the
+        smm.config.txt. This meant that the only way to resend the file with the right credentials in the MSH segment was to manually delete the
+        working directory. This is now fixed and the user should be able to simply update the smm.config.txt file with the correct credentials and the
+        data will be sent.</li>
+    </ul>
+    <h2>1.07</h2>
+    <p></p>
+    <h2>1.06</h2>
+    <p>Released February 2013.</p>
+    <h2>1.05</h2>
+    <p>Released November 2012 for Beta testing.</p>
+    <h2>1.04</h2>
+    <p>Released in October 2012 and installed at an Indian Health Service site in Tucson AZ.</p>
+  </div>
+</body>
+</html>

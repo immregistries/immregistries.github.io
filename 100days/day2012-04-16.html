@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html>
+<head>
+<title>Open Immunization Software Project</title>
+<link rel="stylesheet" type="text/css" href="../main.css">
+</head>
+<body>
+  <div class="topSash">Open Immunization Software - Spring 2016</div>
+  <div class="menuBar">
+    <a href="../index.html" class="menu">Home</a> <a href="../interfacing/interfacing.html" class="menu">Interfacing</a> <a
+      href="../dataQuality/dataQuality.html" class="menu">Data Quality</a> <a href="../forecasting/forecasting.html" class="menu">Forecasting</a> <a
+      href="../matching/matching.html" class="menu">Matching</a>
+  </div>
+  <div class="mainBody">
+    <h1>Day 5 - 16 April 2012</h1>
+    <p>Worked today on converting Registry Tester from NetBeans over to work in Eclipse and Tomcat. I was able to move all the functionality
+      directly over except for the TLEP web service support. I will add that back in later once the DQA has web service support added. The old
+      NetBeans project will still exist, but I will not be making any more changes and will turn it into a legacy project.</p>
+    <p>The Registry Tester is now in the DQA project and will be called the DQA Tester. It will not be tightly integrated with the DQA but will
+      tasked with first verifying that the DQA is working correctly and second, profiling other immunization registries as part of the IHS profiling
+      project.</p>
+    <p>In addition to this conversion I'm upgrading the connection between the DQA and the DQA tester by:</p>
+    <ul>
+      <li>Adding an automatic feature in DQA that when it creates a new profile it can export a file with the connection information that can be
+        cut and pasted into scripts that the DQA Tester understands. This will make it easy to quickly configure real-time connections to the DQA from
+        the DQA Tester.</li>
+      <li>Adding support in the DQA to create a single XML document that holds all the settings for a given Template and its associated profile.
+        This will allow for porting the template around, once I create an import function in the DQA.</li>
+      <li>Added support for saving in the DQA a sample message that can be used to test the application. This sample message is really a script
+        that is understood by the DQA Tester and can be used to create an endless number of different test cases.</li>
+      <li>Added support in the DQA Tester to read the template XML and run a test against a given connection to verify that it meets the
+        template.</li>
+    </ul>
+    <p>I also worked on a new kind of Template, a little different from what MCIR and ImmTrac are doing. I need a template that indicates errors
+      if fields that should be supported are not sent. This will be used to verify that the IHS RPMS BYIM changes are being done correctly. This new
+      profile is essentially very strict and points out any missing or erroneous values. In practice most systems are not as strict.</p>
+    <p>Tomorrow I will be focusing on integrating the whole process, documenting it and creating a process for easily profiling or testing any
+      interface. There is a lot of work to do, but this is going to be a great resource for my projects and others in the future.</p>
+  </div>
+</body>
+</html>
+
+

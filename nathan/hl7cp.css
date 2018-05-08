@@ -1,0 +1,136 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	background-color: #FFFFFF;
+
+}
+a {
+	text-decoration: none;
+	color: #006633;
+}
+a:hover {
+	text-decoration: underline;
+}
+a:visited {
+	color: #006633;
+}
+pre {
+	color: #006633;
+	background-color: #FFFFCC;
+	width: auto;
+	border: thin dashed #CCCCCC;
+	padding: 3px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+
+
+}
+
+.topMenu {
+	color: #ADCEDE;
+}
+
+a.topMenuLink {
+	text-decoration: none;
+    font-weight: bold;    
+	color: #ADCEDE;
+}
+a:hover.topMenuLink {
+	text-decoration: none;
+    font-weight: bold; 
+    color: #FFFFFF;
+}
+a:visited.topMenuLink {
+	color: #ADCEDE;
+    font-weight: bold;   
+}
+
+.lightText {
+	color: #ADCEDE;
+}
+
+.darkShade {
+	background-color: #006633;
+	color: #ADCEDE;
+}
+
+.importantShade {
+	background-color: #FFFF99;
+	color: #006633;
+}
+
+.lightShade {
+	background-color: #ADCEDE;
+	color: #006633;
+	font-weight: bold;
+}
+
+.sectionHeading {
+	background-color: #FFFFFF;
+	color: #000000;
+	font-weight: bold;
+}
+
+.noShade {
+	background-color: #FFFFFF;
+	color: #000000;
+	font-weight: normal;
+}
+
+.tableTitle {
+	color: #ADCEDE;
+	text-align: left;
+	font-weight: bold;
+	font-size: 14pt;
+}
+
+.tableTitleCentered {
+	color: #ADCEDE;
+	text-align: center;
+	font-weight: bold;
+	font-size: 14pt;
+}
+
+.helpHeading2
+{
+  color: #006633;
+  font-size: 10pt;
+  font-weight: bold;
+}
+
+.helpHeading3
+{
+  color: #006633;
+  font-size: 9pt;
+  font-weight: bold;
+}
+
+.helpText {
+  color: #006633;
+  font-size: 9pt;
+}
+
+.helpDarkShade {
+	background-color: #006633;
+	color: #ADCEDE;
+}
+
+.helpTable {
+	border-width: 1px 1px 1px 1px;
+	border-spacing: 0px;
+	border-style: solid solid solid solid;
+	border-color: rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51);
+	border-collapse: collapse;
+	background-color: rgb(255, 255, 153);
+}
+.helpTableTd {
+	border-width: 1px 1px 1px 1px;
+	padding: 1px 1px 1px 1px;
+	border-style: inset inset inset inset;
+	border-color: rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51) rgb(0, 102, 51);
+	background-color: rgb(255, 255, 153);
+	-moz-border-radius: 0px 0px 0px 0px;
+    color: #006633;
+    font-size: 9pt;
+}
